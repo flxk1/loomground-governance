@@ -1,0 +1,7 @@
+# gate declares no required grade -> step (4) disposition is POLICY (not language-
+# determined), §10. Pure projection vector: pins only that a granted grade round-trips
+# onto the actor node and that the gate carries no grade_required. No verdict pinned.
+actor bot grade L1
+gate  draft  risk low  grant bot
+cord  bot   -> draft
+cord  draft -> master

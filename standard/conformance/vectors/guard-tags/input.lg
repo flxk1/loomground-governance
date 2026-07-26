@@ -1,0 +1,12 @@
+# guard-tags — a tag-guarded reservation (information-flow). A cross_border action
+# is reserved to the DPO only when the token carries the declared, non-id tag
+# `non_eu`. Membership over a declared category, not branching on identity.
+actor a
+human dpo role dpo
+gate g1 risk high grant a
+gate g2 risk high grant a
+reserve cross_border by dpo when tags contains non_eu
+cord a -> g1
+cord a -> g2
+cord g1 -> master
+cord g2 -> master

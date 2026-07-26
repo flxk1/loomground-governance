@@ -1,0 +1,13 @@
+# Python
+__pycache__/
+*.py[cod]
+dist/
+
+# author-facing working docs never ship
+_docs/
+**/PLAN_*.md
+**/PANEL_*.md
+**/QUESTIONS_*.md
+
+# editor / OS
+.DS_Store

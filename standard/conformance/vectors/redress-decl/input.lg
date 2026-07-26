@@ -1,0 +1,8 @@
+# a high-risk automated decision, declared contestable: a fresh re-examination
+# by the appeals role is owed and may overturn it, within a 30-day window.
+actor  bot
+human  appeals  role appeals
+gate   decide  risk high  grant bot
+redress automated_decision by appeals overturn within 30d
+cord bot    -> decide
+cord decide -> master

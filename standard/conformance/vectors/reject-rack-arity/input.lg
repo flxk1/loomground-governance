@@ -1,0 +1,9 @@
+# reject-rack-arity — a rack-use with a missing binding (level unbound) fails
+# the expansion pre-pass; fail-closed at parse (SYNTAX §7).
+rack approval(actor, g, level):
+    actor $actor
+    gate  $g risk $level grant $actor
+    cord  $actor -> $g
+    cord  $g -> master
+end
+rack-use approval(actor=bot7, g=c1)

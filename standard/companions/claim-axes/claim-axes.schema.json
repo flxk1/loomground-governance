@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:loomground:companion:claim-axes:1",
+  "title": "Claim-axes structural evidence record",
+  "description": "The structural_evidence object of an interop candidate under the claim-axes companion profile (COMPANION.md §2).",
+  "type": "object",
+  "properties": {
+    "schema": {
+      "const": "loomground.versum.claim-axes/v1"
+    },
+    "axes": {
+      "type": "object",
+      "description": "Recognized axes in canonical order: predicate, modality, polarity, quantification, domain. The empty object is valid; unknown keys are rejections.",
+      "properties": {
+        "predicate": { "$ref": "#/$defs/axisValue" },
+        "modality": { "$ref": "#/$defs/axisValue" },
+        "polarity": { "$ref": "#/$defs/axisValue" },
+        "quantification": { "$ref": "#/$defs/axisValue" },
+        "domain": { "$ref": "#/$defs/axisValue" }
+      },
+      "additionalProperties": false
+    }
+  },
+  "required": ["schema", "axes"],
+  "additionalProperties": false,
+  "$defs": {
+    "axisValue": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256,
+      "pattern": "\\S"
+    }
+  }
+}

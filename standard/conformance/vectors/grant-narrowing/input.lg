@@ -1,0 +1,11 @@
+# grant-narrowing — a narrowed grant scopes authority to kinds (and risk levels);
+# a token outside the grant's scope is `refused`. Bare authority is full (SYNTAX §3).
+actor a
+gate g1 risk low grant a[deploy]
+gate g2 risk low grant a[deploy]
+gate g3 risk low grant a[deploy:low,medium]
+gate g4 risk low grant a[deploy:low,medium]
+cord g1 -> master
+cord g2 -> master
+cord g3 -> master
+cord g4 -> master

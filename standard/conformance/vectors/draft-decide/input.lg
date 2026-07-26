@@ -1,0 +1,9 @@
+actor  bot7
+human  alice  role legal
+gate   draft   risk low    grant bot7
+gate   decide  risk high   grant bot7
+reserve automated_decision by legal when risk >= high
+cord bot7   -> draft
+cord bot7   -> decide
+cord draft  -> master
+cord decide -> master

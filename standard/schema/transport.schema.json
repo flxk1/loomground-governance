@@ -1,0 +1,61 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:loomground:0.7:transport",
+  "title": "Loomground transport run",
+  "description": "A conformance-vector run: activations, expected verdicts/master decisions, and the ordered verdict-labelled log trace.",
+  "type": "object",
+  "required": ["activations", "expected", "log"],
+  "additionalProperties": false,
+  "properties": {
+    "comment": {"type": "string"},
+    "activations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["actor", "source", "token"],
+        "additionalProperties": false,
+        "properties": {
+          "actor": {"type": "string"},
+          "source": {"type": "string"},
+          "token": {
+            "type": "object",
+            "required": ["id", "kind", "risk", "party", "provenance"],
+            "additionalProperties": true,
+            "properties": {
+              "id": {"type": "string"},
+              "kind": {"type": "string"},
+              "risk": {"enum": ["low", "medium", "high", "critical"]},
+              "party": {"type": "string"},
+              "provenance": {"type": "array", "items": {"type": "string"}},
+              "tags": {"type": "array", "items": {"type": "string"}}
+            }
+          }
+        }
+      }
+    },
+    "expected": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "required": ["verdict"],
+        "additionalProperties": false,
+        "properties": {
+          "verdict": {"enum": ["auto", "human", "refused", "reserved", "prohibited"]},
+          "master": {"enum": ["act", "withhold"]}
+        }
+      }
+    },
+    "log": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["gate", "verdict"],
+        "additionalProperties": false,
+        "properties": {
+          "gate": {"type": "string"},
+          "verdict": {"enum": ["auto", "human", "refused", "reserved", "prohibited"]}
+        }
+      }
+    }
+  }
+}

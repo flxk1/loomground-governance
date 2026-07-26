@@ -1,0 +1,50 @@
+{
+  "nodes": [
+    {
+      "id": "a",
+      "class": "actor"
+    },
+    {
+      "id": "dpo",
+      "class": "human",
+      "role": "dpo"
+    },
+    {
+      "id": "legal",
+      "class": "human",
+      "role": "legal"
+    },
+    {
+      "id": "g",
+      "class": "gate",
+      "risk_floor": "high"
+    },
+    {
+      "id": "master",
+      "class": "master"
+    }
+  ],
+  "cords": [
+    {
+      "from": "a",
+      "to": "g",
+      "type": "authority"
+    },
+    {
+      "from": "g",
+      "to": "master",
+      "type": "egress"
+    }
+  ],
+  "reservations": [
+    {
+      "kind": "automated_decision",
+      "by": "dpo",
+      "when": "risk >= high"
+    },
+    {
+      "kind": "profiling",
+      "by": "legal"
+    }
+  ]
+}

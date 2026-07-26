@@ -1,0 +1,39 @@
+{
+  "nodes": [
+    {
+      "id": "a",
+      "class": "actor"
+    },
+    {
+      "id": "decide",
+      "class": "gate",
+      "risk_floor": "high"
+    },
+    {
+      "id": "master",
+      "class": "master"
+    }
+  ],
+  "cords": [
+    {
+      "from": "a",
+      "to": "decide",
+      "type": "authority"
+    },
+    {
+      "from": "decide",
+      "to": "master",
+      "type": "egress"
+    }
+  ],
+  "reservations": [
+    {
+      "kind": "loans",
+      "by": "2 of {legal, finance}"
+    },
+    {
+      "kind": "audit",
+      "by": "risk and legal"
+    }
+  ]
+}

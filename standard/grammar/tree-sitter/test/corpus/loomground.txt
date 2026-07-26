@@ -1,0 +1,94 @@
+==================
+cord to master
+==================
+cord a -> master
+---
+(source_file
+  (cord
+    from: (endpoint (id))
+    to: (endpoint (master))))
+
+==================
+gate with risk floor and grant
+==================
+gate g risk high grant bot
+---
+(source_file
+  (gate_decl
+    id: (id)
+    risk_floor: (risk)
+    (grant_clause
+      (grant
+        actor: (id)))))
+
+==================
+autonomy grade on actor (granted) and gate (required)
+==================
+actor bot grade L3
+gate decide risk low grade L2 grant bot
+---
+(source_file
+  (actor_decl
+    id: (id)
+    grade: (grade))
+  (gate_decl
+    id: (id)
+    risk_floor: (risk)
+    grade_required: (grade)
+    (grant_clause
+      (grant
+        actor: (id)))))
+
+==================
+reservation with a guard
+==================
+reserve k by r when risk >= high
+---
+(source_file
+  (reserve_decl
+    kind: (id)
+    target: (target (id))
+    (guard (id) (guard_op) (risk))))
+
+==================
+reservation with a tags guard
+==================
+reserve k by r when tags contains non_eu
+---
+(source_file
+  (reserve_decl
+    kind: (id)
+    target: (target (id))
+    (guard (id) (guard_op) (id))))
+
+==================
+guard over id parses (the no-id wall rejects it at apply, not parse)
+==================
+reserve k by r when id = t1
+---
+(source_file
+  (reserve_decl
+    kind: (id)
+    target: (target (id))
+    (guard (id) (guard_op) (id))))
+
+==================
+delegation binding
+==================
+actor x on-behalf-of y
+---
+(source_file
+  (actor_decl
+    id: (id)
+    delegator: (id)))
+
+==================
+redress with overturn and window
+==================
+redress automated_decision by appeals overturn within 30d
+---
+(source_file
+  (redress_decl
+    kind: (id)
+    by: (id)
+    (duration)))

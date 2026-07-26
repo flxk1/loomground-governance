@@ -1,0 +1,49 @@
+{
+  "nodes": [
+    {
+      "id": "bot7",
+      "class": "actor"
+    },
+    {
+      "id": "c1",
+      "class": "gate",
+      "risk_floor": "high"
+    },
+    {
+      "id": "bot9",
+      "class": "actor"
+    },
+    {
+      "id": "c2",
+      "class": "gate",
+      "risk_floor": "critical"
+    },
+    {
+      "id": "master",
+      "class": "master"
+    }
+  ],
+  "cords": [
+    {
+      "from": "bot7",
+      "to": "c1",
+      "type": "authority"
+    },
+    {
+      "from": "bot9",
+      "to": "c2",
+      "type": "authority"
+    },
+    {
+      "from": "c1",
+      "to": "master",
+      "type": "egress"
+    },
+    {
+      "from": "c2",
+      "to": "master",
+      "type": "egress"
+    }
+  ],
+  "reservations": []
+}

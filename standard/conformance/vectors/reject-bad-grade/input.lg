@@ -1,0 +1,6 @@
+# a grade value outside the active ladder is rejected fail-closed at apply, on either
+# carrier position: the actor's granted G (L9) and the source gate's required R (L9).
+actor bot grade L9
+gate  decide  grade L9  grant bot
+cord  bot    -> decide
+cord  decide -> master

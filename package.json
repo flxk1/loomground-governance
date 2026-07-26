@@ -1,0 +1,68 @@
+{
+  "schemaVersion": 1,
+  "name": "loomground-governance",
+  "version": "0.1.0",
+  "description": "Express an AI-governance requirement as a verified Loomground policy-graph patch: draft the .lg patch, litmus-classify each requirement as expressible, policy, or host, and validate with the bundled validation engine. Non-normative companion skill to the Loomground standard.",
+  "author": {
+    "name": "Loomground Contributors"
+  },
+  "keywords": [
+    "loomground",
+    "governance",
+    "policy-graph",
+    "lg",
+    "validation"
+  ],
+  "skills": [
+    {
+      "name": "loomground",
+      "path": "skills/loomground",
+      "provides": [
+        "governance.express"
+      ]
+    }
+  ],
+  "capabilities": {
+    "governance.express": {
+      "mode": "write",
+      "humanConfirmation": true
+    }
+  },
+  "runtime": {
+    "python": ">=3.10",
+    "network": false,
+    "config": [],
+    "requires": [
+      "loomground-governance"
+    ]
+  },
+  "adapters": {
+    "claude": {
+      "marketplaceSource": {
+        "source": "url",
+        "url": "https://github.com/flxk1/loomground-governance.git"
+      }
+    },
+    "codex": {
+      "interface": {
+        "displayName": "Loomground",
+        "shortDescription": "Express governance requirements as verified .lg patches",
+        "longDescription": "Turn a natural-language AI-governance requirement into a verified Loomground policy-graph patch: draft the declarations, classify what is expressible versus a host concern, validate with the bundled validation engine, and report what the patch governs and what was handed off.",
+        "developerName": "Loomground Contributors",
+        "category": "Developer Tools",
+        "capabilities": [
+          "Draft .lg patches",
+          "Litmus classification",
+          "Bundled-engine validation",
+          "Host hand-off report"
+        ],
+        "defaultPrompt": [
+          "Express this oversight requirement as a Loomground patch.",
+          "Is this requirement governable in Loomground?",
+          "Validate this .lg patch."
+        ]
+      }
+    },
+    "generic": {}
+  }
+}

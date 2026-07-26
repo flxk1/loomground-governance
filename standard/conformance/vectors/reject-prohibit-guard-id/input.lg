@@ -1,0 +1,7 @@
+# A prohibition guard over `id` is rejected: governance MUST NOT branch on identity —
+# the no-id wall applies to a prohibition exactly as to a reservation (SPEC §6).
+actor a
+gate decide risk high grant a
+prohibit cross_border when id = t1
+cord a -> decide
+cord decide -> master

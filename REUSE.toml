@@ -1,0 +1,100 @@
+version = 1
+SPDX-PackageName = "loomground-governance"
+SPDX-PackageSupplier = "Organization: Loomground Contributors"
+
+# License + copyright for files that cannot carry an inline SPDX header
+# (JSON has no comment syntax; the .lg vectors are parsed inputs left
+# untouched). The rest of the tree declares SPDX headers inline.
+
+# Normative specification prose. These files also carry the identifier inline;
+# the explicit mapping makes the prose boundary reviewable in one place.
+[[annotations]]
+path = [
+  "standard/spec/*.md",
+  "standard/companions/claim-axes/COMPANION.md",
+]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2026 flxk1"
+SPDX-License-Identifier = "CC-BY-4.0"
+
+[[annotations]]
+path = "standard/conformance/vectors/**"
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2026 flxk1"
+SPDX-License-Identifier = "Apache-2.0"
+
+[[annotations]]
+path = ".gitignore"
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2026 flxk1"
+SPDX-License-Identifier = "Apache-2.0"
+
+[[annotations]]
+path = "NOTICE"
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2026 flxk1"
+SPDX-License-Identifier = "Apache-2.0"
+
+[[annotations]]
+path = "standard/schema/**"
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2026 flxk1"
+SPDX-License-Identifier = "Apache-2.0"
+
+[[annotations]]
+path = "standard/conformance/manifest.json"
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2026 flxk1"
+SPDX-License-Identifier = "Apache-2.0"
+
+[[annotations]]
+path = "standard/vocabulary/**"
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2026 flxk1"
+SPDX-License-Identifier = "Apache-2.0"
+
+[[annotations]]
+path = "standard/language-card.json"
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2026 flxk1"
+SPDX-License-Identifier = "Apache-2.0"
+
+[[annotations]]
+path = "standard/grammar/tree-sitter/**"
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2026 flxk1"
+SPDX-License-Identifier = "Apache-2.0"
+
+[[annotations]]
+path = "llms.txt"
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2026 flxk1"
+SPDX-License-Identifier = "Apache-2.0"
+
+[[annotations]]
+path = "standard/companions/**/*.json"
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2026 flxk1"
+SPDX-License-Identifier = "Apache-2.0"
+
+# Conformance data in JSON Lines (no comment syntax; records are parsed input)
+[[annotations]]
+path = "standard/conformance/grounder/*.jsonl"
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2026 flxk1"
+SPDX-License-Identifier = "Apache-2.0"
+
+# Non-normative companion skill (plugin manifests are JSON; SKILL.md opens
+# with YAML frontmatter that a comment header would break).
+[[annotations]]
+path = ["package.json", ".claude-plugin/plugin.json", "skills/loomground/SKILL.md"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2026 flxk1"
+SPDX-License-Identifier = "Apache-2.0"
+
+# Release automation config (JSON has no comment syntax).
+[[annotations]]
+path = ["release-please-config.json", ".release-please-manifest.json"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2026 flxk1"
+SPDX-License-Identifier = "Apache-2.0"

@@ -1,0 +1,28 @@
+{
+  "comment": "A human delegator confers no authority and removes none: the delegate acts on its own grant -> auto -> act.",
+  "activations": [
+    {
+      "actor": "bot",
+      "source": "g",
+      "token": {
+        "id": "t",
+        "kind": "deploy",
+        "risk": "low",
+        "party": "p",
+        "provenance": []
+      }
+    }
+  ],
+  "expected": {
+    "g": {
+      "verdict": "auto",
+      "master": "act"
+    }
+  },
+  "log": [
+    {
+      "gate": "g",
+      "verdict": "auto"
+    }
+  ]
+}

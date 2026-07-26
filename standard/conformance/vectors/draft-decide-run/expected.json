@@ -1,0 +1,56 @@
+{
+  "nodes": [
+    {
+      "id": "bot7",
+      "class": "actor"
+    },
+    {
+      "id": "alice",
+      "class": "human",
+      "role": "legal"
+    },
+    {
+      "id": "draft",
+      "class": "gate",
+      "risk_floor": "low"
+    },
+    {
+      "id": "decide",
+      "class": "gate",
+      "risk_floor": "high"
+    },
+    {
+      "id": "master",
+      "class": "master"
+    }
+  ],
+  "cords": [
+    {
+      "from": "bot7",
+      "to": "draft",
+      "type": "authority"
+    },
+    {
+      "from": "bot7",
+      "to": "decide",
+      "type": "authority"
+    },
+    {
+      "from": "draft",
+      "to": "master",
+      "type": "egress"
+    },
+    {
+      "from": "decide",
+      "to": "master",
+      "type": "egress"
+    }
+  ],
+  "reservations": [
+    {
+      "kind": "automated_decision",
+      "by": "legal",
+      "when": "risk >= high"
+    }
+  ]
+}

@@ -1,0 +1,3 @@
+# a cord into an undeclared node is ill-formed
+actor a
+cord a -> ghost

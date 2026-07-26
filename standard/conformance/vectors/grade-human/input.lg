@@ -1,0 +1,5 @@
+# granted grade L1 below required grade L3 -> human (withhold, language-determined). `decide` is a source gate.
+actor bot grade L1
+gate  decide  risk low  grade L3  grant bot
+cord  bot    -> decide
+cord  decide -> master

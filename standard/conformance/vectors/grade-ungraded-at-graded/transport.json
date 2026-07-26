@@ -1,0 +1,28 @@
+{
+  "comment": "source gate declares required grade L2 but actor declares no grade -> human (fail-closed).",
+  "activations": [
+    {
+      "actor": "bot",
+      "source": "decide",
+      "token": {
+        "id": "t1",
+        "kind": "act",
+        "risk": "low",
+        "party": "deployer",
+        "provenance": []
+      }
+    }
+  ],
+  "expected": {
+    "decide": {
+      "verdict": "human",
+      "master": "withhold"
+    }
+  },
+  "log": [
+    {
+      "gate": "decide",
+      "verdict": "human"
+    }
+  ]
+}

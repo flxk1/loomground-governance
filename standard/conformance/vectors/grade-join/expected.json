@@ -1,0 +1,57 @@
+{
+  "nodes": [
+    {
+      "id": "bot",
+      "class": "actor",
+      "grade": "L2"
+    },
+    {
+      "id": "peer",
+      "class": "actor",
+      "grade": "L4"
+    },
+    {
+      "id": "screen",
+      "class": "gate",
+      "risk_floor": "low",
+      "grade_required": "L3"
+    },
+    {
+      "id": "commit",
+      "class": "gate",
+      "risk_floor": "low"
+    },
+    {
+      "id": "master",
+      "class": "master"
+    }
+  ],
+  "cords": [
+    {
+      "from": "bot",
+      "to": "screen",
+      "type": "authority"
+    },
+    {
+      "from": "peer",
+      "to": "screen",
+      "type": "authority"
+    },
+    {
+      "from": "bot",
+      "to": "commit",
+      "type": "authority"
+    },
+    {
+      "from": "screen",
+      "to": "commit",
+      "type": "pipe"
+    },
+    {
+      "from": "commit",
+      "to": "master",
+      "type": "egress"
+    }
+  ],
+  "reservations": []
+}

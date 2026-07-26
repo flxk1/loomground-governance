@@ -1,0 +1,31 @@
+{
+  "nodes": [
+    {
+      "id": "a",
+      "class": "actor"
+    },
+    {
+      "id": "g",
+      "class": "gate",
+      "risk_floor": "low",
+      "party": "legal"
+    },
+    {
+      "id": "master",
+      "class": "master"
+    }
+  ],
+  "cords": [
+    {
+      "from": "a",
+      "to": "g",
+      "type": "authority"
+    },
+    {
+      "from": "g",
+      "to": "master",
+      "type": "egress"
+    }
+  ],
+  "reservations": []
+}

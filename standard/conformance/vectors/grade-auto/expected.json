@@ -1,0 +1,32 @@
+{
+  "nodes": [
+    {
+      "id": "bot",
+      "class": "actor",
+      "grade": "L3"
+    },
+    {
+      "id": "decide",
+      "class": "gate",
+      "risk_floor": "low",
+      "grade_required": "L2"
+    },
+    {
+      "id": "master",
+      "class": "master"
+    }
+  ],
+  "cords": [
+    {
+      "from": "bot",
+      "to": "decide",
+      "type": "authority"
+    },
+    {
+      "from": "decide",
+      "to": "master",
+      "type": "egress"
+    }
+  ],
+  "reservations": []
+}

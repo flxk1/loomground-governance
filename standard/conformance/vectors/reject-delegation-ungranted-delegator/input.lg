@@ -1,0 +1,10 @@
+# reject-delegation-ungranted-delegator — the empty-set corner of no-amplification
+# (§6): a delegator holding no grant over a kind at a gate has the empty risk set
+# there, so ANY grant to its delegate at that gate amplifies -> ill-formed at
+# apply. A delegate is never granted where its delegator is not. Both actors are
+# declared, the chain is a single acyclic link, and no grade is declared: only
+# the no-amplification rule can reject.
+actor boss
+actor sub on-behalf-of boss
+gate g risk low grant sub[deploy:low]
+cord g -> master

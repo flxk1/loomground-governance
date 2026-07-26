@@ -1,0 +1,36 @@
+{
+  "nodes": [
+    {
+      "id": "alice",
+      "class": "human",
+      "role": "dpo"
+    },
+    {
+      "id": "bot",
+      "class": "actor",
+      "on_behalf_of": "alice"
+    },
+    {
+      "id": "g",
+      "class": "gate",
+      "risk_floor": "low"
+    },
+    {
+      "id": "master",
+      "class": "master"
+    }
+  ],
+  "cords": [
+    {
+      "from": "bot",
+      "to": "g",
+      "type": "authority"
+    },
+    {
+      "from": "g",
+      "to": "master",
+      "type": "egress"
+    }
+  ],
+  "reservations": []
+}

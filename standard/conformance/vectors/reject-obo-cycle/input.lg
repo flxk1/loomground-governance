@@ -1,0 +1,7 @@
+# reject-obo-cycle — the on-behalf-of relation must be acyclic: a <-> b is a cycle
+# in the principal chain, ill-formed at apply even though no grant amplifies
+# (equal risk sets satisfy the subset check both ways) (§5.1, §6).
+actor a on-behalf-of b
+actor b on-behalf-of a
+gate g risk low grant a[deploy:low] b[deploy:low]
+cord g -> master

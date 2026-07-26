@@ -1,0 +1,9 @@
+# delegator declares NO grade but delegate declares L4 -> amplification-from-nothing
+# -> ill-formed (apply). An ungraded delegator caps the delegate at ungraded.
+actor boss
+actor sub  grade L4  on-behalf-of boss
+gate  decide  grade L1  grant boss sub
+cord  sub    -> decide
+cord  decide -> master
+# (both actors granted equally at decide, so the risk rule passes and only the
+# grade rule can reject)

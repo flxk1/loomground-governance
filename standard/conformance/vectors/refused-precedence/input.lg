@@ -1,0 +1,17 @@
+# refused-precedence — an actor with no authorizing grant yields `refused` (default-deny,
+# specification Verdicts). refused pre-empts reserved (g2), prohibited pre-empts refused (g3),
+# for an unauthorized actor. Pins runtime refused/prohibited, which Conformance names but no
+# other transport produces.
+actor a
+actor b
+gate g1 risk low grant a
+gate g2 risk low grant a
+gate g3 risk low grant a
+reserve sensitive by legal
+prohibit forbidden
+cord a -> g1
+cord a -> g2
+cord a -> g3
+cord g1 -> master
+cord g2 -> master
+cord g3 -> master

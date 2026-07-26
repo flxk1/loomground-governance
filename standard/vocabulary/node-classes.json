@@ -1,0 +1,6 @@
+[
+  {"class": "actor",  "role": "principal that may be granted authority and propose an action", "inlets": [], "outlet": "authority cord to a gate"},
+  {"class": "human",  "role": "person named by a role; a reserved token is referred to it, or it roots a principal chain as delegator", "inlets": [], "outlet": null, "graph_connected": false},
+  {"class": "gate",   "role": "governed checkpoint where an actor acts and a verdict is produced", "inlets": ["activating (pipe or external stimulus)", "configuring (authority)"], "outlet": "pipe or egress"},
+  {"class": "master", "role": "single sink; the release point at which the policy enforcement point attaches", "inlets": ["activating (egress)"], "outlet": null, "cardinality": "exactly one"}
+]

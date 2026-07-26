@@ -1,0 +1,135 @@
+# SPDX-License-Identifier: Apache-2.0
+# Copyright 2026 flxk1
+name: ci
+on:
+  push:
+  pull_request:
+
+jobs:
+  reuse:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262  # v4
+      - name: REUSE / SPDX licensing compliance
+        uses: fsfe/reuse-action@ef1dfe28dda4d13f5d580f0444eb27dda9746e9b  # v5
+
+  language-summary:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262  # v4
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065  # v5
+        with:
+          python-version: "3.x"
+      - name: llms.txt stays in sync with the language
+        run: python3 tools/check_language_summary.py
+
+  lockstep:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262  # v4
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065  # v5
+        with:
+          python-version: "3.x"
+      - name: every feature reaches grammar, schema, and a vector
+        run: python3 tools/check_lockstep.py
+
+  vectors:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262  # v4
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065  # v5
+        with:
+          python-version: "3.x"
+      - name: schemas validate the conformance vectors
+        run: |
+          python3 -m pip install jsonschema==4.26.0
+          python3 tools/check_vectors.py
+
+  companion:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262  # v4
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065  # v5
+        with:
+          python-version: "3.x"
+      - name: the companion skill tracks the language
+        run: python3 tools/check_companion.py
+
+  tree-sitter:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262  # v4
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020  # v4
+        with:
+          node-version: "22"
+      - name: tree-sitter grammar generates and passes its corpus
+        working-directory: standard/grammar/tree-sitter
+        run: |
+          npx -y tree-sitter-cli@0.25.10 generate
+          npx -y tree-sitter-cli@0.25.10 test
+
+  package:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262  # v4
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065  # v5
+        with:
+          python-version: "3.x"
+      - name: dependency licenses and CycloneDX SBOM
+        run: |
+          python3 tools/supply_chain_gate.py --self-test
+          python3 tools/supply_chain_gate.py
+      - name: build and test the Python adoption kit
+        run: |
+          python3 -m pip install . "pytest==9.1.1"
+          python3 -m pytest
+
+  universality:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262  # v4
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065  # v5
+        with:
+          python-version: "3.x"
+      - name: claim-axes is implementable by an independent third party
+        run: |
+          python3 -m pip install "jsonschema==4.26.0"
+          python3 tools/check_reference_isolation.py
+          python3 standard/companions/claim-axes/reference/conformance.py
+
+  neutrality:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262  # v4
+      - name: normative documents are tool- and vendor-neutral
+        run: |
+          if grep -rniE 'claude|anthropic|openai|chatgpt|gpt-[0-9]|gemini|copilot|codex|llama|mistral|langchain|autogen|crewai|pure.?data|rvnd|loomground-ref' \
+               standard/ llms.txt \
+               --exclude-dir=node_modules 2>/dev/null | grep -v 'tree-sitter/src'; then
+            echo "vendor/model/framework/implementation reference found — the standard states criteria, not products"; exit 1
+          fi
+          echo "normative and prose surfaces are neutral"
+
+  commit-discipline:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262  # v4
+        with:
+          fetch-depth: 0
+      - name: commit discipline (new commits only)
+        run: |
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            git fetch -q origin ${{ github.base_ref }}
+            range="origin/${{ github.base_ref }}..HEAD"
+          elif [ "${{ github.event.before }}" != "0000000000000000000000000000000000000000" ] \
+               && git cat-file -e "${{ github.event.before }}" 2>/dev/null; then
+            range="${{ github.event.before }}..${{ github.sha }}"
+          else
+            range="${{ github.sha }} -1"
+          fi
+          bad=0
+          git log --no-merges --format='%s' $range | awk 'length($0)>72 {print "subject >72 chars: " $0; bad=1} END {exit bad}' || bad=1
+          if git log --no-merges --format='%(trailers)' $range | grep -iE '^Co-Authored-By:.*(claude|codex|openai|anthropic|copilot|gemini)'; then
+            echo "AI co-author trailer found — use the assisted line instead (.github/CONTRIBUTING.md)"; bad=1
+          fi
+          exit $bad

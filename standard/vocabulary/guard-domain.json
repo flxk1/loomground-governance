@@ -1,0 +1,6 @@
+{
+  "ranges_over": ["kind", "risk", "party", "tags"],
+  "forbidden": ["id", "provenance (id-bearing; permitted only for the quorum distinctness predicate)", "grade (configuration attribute: granted on actor, required on a source gate; never a token field)", "any computed value"],
+  "operators": {"kind": ["="], "party": ["="], "risk": [">=", "="], "tags": ["contains"]},
+  "note": "A guard states a governance condition over declared token properties; it never computes. `tags` is a set of declared, non-id categories; membership (`contains`) is not computation, mirroring the quorum distinctness already evaluated over provenance. Which tags exist and what they trigger is policy. `grade` is a configuration attribute (granted on actor, required on a source gate), not a token property, and is therefore never guardable — listed explicitly in `forbidden`. This is the wall between an expressive notation and a programming language."
+}

@@ -1,0 +1,5 @@
+{
+  "levels": ["low", "medium", "high", "critical"],
+  "order": "low < medium < high < critical",
+  "note": "an ordered severity level on the token; the scale is illustrative and a deployer choice. Not the AI Act risk-tier classification."
+}

@@ -1,0 +1,17 @@
+# SPDX-License-Identifier: Apache-2.0
+# Copyright 2026 flxk1
+# tags-guard — an information-flow reservation (specification v0.6).
+#
+# A cross-border transfer is reserved to the Data Protection Officer only when the
+# token carries the declared, non-id tag `non_eu` (cf. GDPR Art. 44-49). The tag is
+# a declared data-flow category tested by membership — not a computed value, and not
+# a branch on identity. A token tagged `non_eu` -> reserved -> withheld pending the
+# DPO; an otherwise-identical token without it is unreserved -> auto -> released.
+#
+# Which tags exist and what they trigger is policy, not language (specification §10).
+actor pipeline
+human dpo role dpo
+gate transfer risk high grant pipeline
+reserve cross_border by dpo when tags contains non_eu
+cord pipeline -> transfer
+cord transfer -> master

@@ -1,0 +1,25 @@
+# SPDX-License-Identifier: Apache-2.0
+# Copyright 2026 flxk1
+cff-version: 1.2.0
+title: "Loomground: a declarative language for the governance of AI systems and AI agents"
+message: "If you use Loomground, please cite it."
+type: software
+authors:
+  - name: "Loomground Contributors"
+repository-code: "https://github.com/flxk1/loomground-governance"
+abstract: >
+  Loomground is a declarative language for expressing governance constraints
+  on AI systems and AI agents. A governance program is a patch of
+  typed nodes wired by typed cords, evaluated from its source gates, resolved at
+  one master before any action takes effect, and recorded such that later
+  alteration is detectable. The evaluation of the patch is the control.
+keywords:
+  - AI governance
+  - declarative language
+  - human oversight
+  - provenance
+  - capability security
+license: Apache-2.0
+license-url: "https://www.apache.org/licenses/LICENSE-2.0"
+version: 0.8.2
+date-released: 2026-07-24

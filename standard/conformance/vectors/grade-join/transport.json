@@ -1,0 +1,35 @@
+{
+  "comment": "One activation at source `screen` (proposing actor bot). bot L2 < required L3 -> screen own = human (peer's L4 is NOT read, proving G is the proposing actor's grade). screen pipes to commit (plain terminal, own auto). eff(commit) = own(auto) join eff(screen)(human) = human -> withhold. Pins: a grade-human joins by \u00a77.2 strictest-wins, and grade lives only on the source gate, never on a piped interior/terminal gate.",
+  "activations": [
+    {
+      "actor": "bot",
+      "source": "screen",
+      "token": {
+        "id": "t1",
+        "kind": "act",
+        "risk": "low",
+        "party": "deployer",
+        "provenance": []
+      }
+    }
+  ],
+  "expected": {
+    "screen": {
+      "verdict": "human"
+    },
+    "commit": {
+      "verdict": "human",
+      "master": "withhold"
+    }
+  },
+  "log": [
+    {
+      "gate": "screen",
+      "verdict": "human"
+    },
+    {
+      "gate": "commit",
+      "verdict": "human"
+    }
+  ]
+}

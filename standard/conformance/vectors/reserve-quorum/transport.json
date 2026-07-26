@@ -1,0 +1,28 @@
+{
+  "comment": "A token of a reserved kind -> reserved -> withhold; the quorum target projects verbatim (m-of-n and conjunction).",
+  "activations": [
+    {
+      "actor": "a",
+      "source": "decide",
+      "token": {
+        "id": "t",
+        "kind": "loans",
+        "risk": "high",
+        "party": "p",
+        "provenance": []
+      }
+    }
+  ],
+  "expected": {
+    "decide": {
+      "verdict": "reserved",
+      "master": "withhold"
+    }
+  },
+  "log": [
+    {
+      "gate": "decide",
+      "verdict": "reserved"
+    }
+  ]
+}

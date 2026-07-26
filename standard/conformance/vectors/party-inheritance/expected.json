@@ -1,0 +1,64 @@
+{
+  "nodes": [
+    {
+      "id": "ceo",
+      "class": "actor",
+      "party": "corp"
+    },
+    {
+      "id": "mgr",
+      "class": "actor",
+      "on_behalf_of": "ceo",
+      "party": "corp"
+    },
+    {
+      "id": "sub",
+      "class": "actor",
+      "on_behalf_of": "mgr",
+      "party": "ops"
+    },
+    {
+      "id": "bot",
+      "class": "actor",
+      "on_behalf_of": "sub",
+      "party": "ops"
+    },
+    {
+      "id": "g",
+      "class": "gate",
+      "risk_floor": "low"
+    },
+    {
+      "id": "master",
+      "class": "master"
+    }
+  ],
+  "cords": [
+    {
+      "from": "ceo",
+      "to": "g",
+      "type": "authority"
+    },
+    {
+      "from": "mgr",
+      "to": "g",
+      "type": "authority"
+    },
+    {
+      "from": "sub",
+      "to": "g",
+      "type": "authority"
+    },
+    {
+      "from": "bot",
+      "to": "g",
+      "type": "authority"
+    },
+    {
+      "from": "g",
+      "to": "master",
+      "type": "egress"
+    }
+  ],
+  "reservations": []
+}

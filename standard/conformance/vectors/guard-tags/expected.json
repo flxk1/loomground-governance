@@ -1,0 +1,56 @@
+{
+  "nodes": [
+    {
+      "id": "a",
+      "class": "actor"
+    },
+    {
+      "id": "dpo",
+      "class": "human",
+      "role": "dpo"
+    },
+    {
+      "id": "g1",
+      "class": "gate",
+      "risk_floor": "high"
+    },
+    {
+      "id": "g2",
+      "class": "gate",
+      "risk_floor": "high"
+    },
+    {
+      "id": "master",
+      "class": "master"
+    }
+  ],
+  "cords": [
+    {
+      "from": "a",
+      "to": "g1",
+      "type": "authority"
+    },
+    {
+      "from": "a",
+      "to": "g2",
+      "type": "authority"
+    },
+    {
+      "from": "g1",
+      "to": "master",
+      "type": "egress"
+    },
+    {
+      "from": "g2",
+      "to": "master",
+      "type": "egress"
+    }
+  ],
+  "reservations": [
+    {
+      "kind": "cross_border",
+      "by": "dpo",
+      "when": "tags contains non_eu"
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "comment": "Token kind `audit` matches `reserve audit by ombud`, so step (3) reserved fires and pre-empts the step-(4) grade comparison (granted L1 < required L3 would otherwise be human). The gate is reserved, not human -> withhold.",
+  "activations": [
+    {
+      "actor": "bot",
+      "source": "decide",
+      "token": {
+        "id": "t1",
+        "kind": "audit",
+        "risk": "low",
+        "party": "deployer",
+        "provenance": []
+      }
+    }
+  ],
+  "expected": {
+    "decide": {
+      "verdict": "reserved",
+      "master": "withhold"
+    }
+  },
+  "log": [
+    {
+      "gate": "decide",
+      "verdict": "reserved"
+    }
+  ]
+}

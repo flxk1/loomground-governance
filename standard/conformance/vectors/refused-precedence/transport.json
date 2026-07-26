@@ -1,0 +1,66 @@
+{
+  "comment": "Ungranted actor b at three gates: ordinary->refused; reserved kind->refused (refused>reserved); prohibited kind->prohibited (prohibited>refused).",
+  "activations": [
+    {
+      "actor": "b",
+      "source": "g1",
+      "token": {
+        "id": "t",
+        "kind": "ordinary",
+        "risk": "low",
+        "party": "p",
+        "provenance": []
+      }
+    },
+    {
+      "actor": "b",
+      "source": "g2",
+      "token": {
+        "id": "t",
+        "kind": "sensitive",
+        "risk": "low",
+        "party": "p",
+        "provenance": []
+      }
+    },
+    {
+      "actor": "b",
+      "source": "g3",
+      "token": {
+        "id": "t",
+        "kind": "forbidden",
+        "risk": "low",
+        "party": "p",
+        "provenance": []
+      }
+    }
+  ],
+  "expected": {
+    "g1": {
+      "verdict": "refused",
+      "master": "withhold"
+    },
+    "g2": {
+      "verdict": "refused",
+      "master": "withhold"
+    },
+    "g3": {
+      "verdict": "prohibited",
+      "master": "withhold"
+    }
+  },
+  "log": [
+    {
+      "gate": "g1",
+      "verdict": "refused"
+    },
+    {
+      "gate": "g2",
+      "verdict": "refused"
+    },
+    {
+      "gate": "g3",
+      "verdict": "prohibited"
+    }
+  ]
+}

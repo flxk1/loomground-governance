@@ -1,0 +1,15 @@
+{
+  "name": "loomground-governance",
+  "version": "0.1.0",
+  "description": "Express an AI-governance requirement as a verified Loomground policy-graph patch: draft the .lg patch, litmus-classify each requirement as expressible, policy, or host, and validate with the bundled validation engine. Non-normative companion skill to the Loomground standard.",
+  "author": {
+    "name": "Loomground Contributors"
+  },
+  "keywords": [
+    "loomground",
+    "governance",
+    "policy-graph",
+    "lg",
+    "validation"
+  ]
+}

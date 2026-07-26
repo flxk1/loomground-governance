@@ -1,0 +1,6 @@
+# reject-delegation-risk-amplify — the delegate's granted risk set over a kind exceeds the
+# delegator's; the no-amplification invariant (§6) makes the graph ill-formed at apply.
+actor boss
+actor sub on-behalf-of boss
+gate g risk low grant boss[deploy:low] sub[deploy:low,high]
+cord g -> master

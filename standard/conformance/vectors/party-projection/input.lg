@@ -1,0 +1,7 @@
+# party-projection — `party` on a gate projects as a node attribute.
+# Pure projection vector: pins that the accountability attribute round-trips into
+# the observation (specification §9 canonical form). Which party is policy.
+actor a
+gate  g   risk low  party legal
+cord  a -> g
+cord  g -> master

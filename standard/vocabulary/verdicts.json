@@ -1,0 +1,9 @@
+{
+  "alphabet": ["auto", "human", "refused", "reserved", "prohibited"],
+  "restrictiveness_order": ["auto", "human", "refused", "reserved", "prohibited"],
+  "join": "maximum under restrictiveness_order (the most restrictive of the inputs)",
+  "releases_at_master": {"auto": true, "human": false, "refused": false, "reserved": false, "prohibited": false},
+  "assignment_priority": ["prohibited", "refused", "reserved", "auto-or-human"],
+  "assignment_priority_note": "step (4) auto-or-human is language-determined by the grade comparison where a source gate declares a required grade (specification §7.1); otherwise per policy (§10). grade is a configuration attribute, not a verdict and not guardable.",
+  "inactive": "the status of a non-activated gate; not a member of the alphabet and contributes no term to a join"
+}

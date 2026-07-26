@@ -1,0 +1,6 @@
+# obo-projection — the delegation binding is part of the canonical form: the
+# delegate's actor node projects on_behalf_of naming its delegator (§6, §9).
+actor boss
+actor sub on-behalf-of boss
+gate g risk low grant boss[deploy:low] sub[deploy:low]
+cord g -> master

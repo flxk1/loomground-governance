@@ -1,0 +1,15 @@
+{
+  "comment": "Same gate kind, two tokens. The tag `untrusted_model` fires the guarded prohibition at g1 (prohibited -> withhold); without it the deploy at g2 is unprohibited (auto -> act). A guarded prohibition prohibits exactly the matched subset; membership, not id-branching. `prohibited` is invariant under the actor's grant.",
+  "activations": [
+    {"actor": "a", "source": "g1", "token": {"id": "t1", "kind": "deploy", "risk": "high", "party": "provider", "provenance": [], "tags": ["untrusted_model"]}},
+    {"actor": "a", "source": "g2", "token": {"id": "t2", "kind": "deploy", "risk": "high", "party": "provider", "provenance": [], "tags": ["vetted"]}}
+  ],
+  "expected": {
+    "g1": {"verdict": "prohibited", "master": "withhold"},
+    "g2": {"verdict": "auto", "master": "act"}
+  },
+  "log": [
+    {"gate": "g1", "verdict": "prohibited"},
+    {"gate": "g2", "verdict": "auto"}
+  ]
+}

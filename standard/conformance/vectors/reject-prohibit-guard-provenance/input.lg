@@ -1,0 +1,7 @@
+# A prohibition guard over `provenance` is rejected: provenance entries are ids and a
+# guard MUST NOT range over id (the no-id wall) — on a prohibition as on a reservation.
+actor a
+gate decide risk high grant a
+prohibit cross_border when provenance contains src_x
+cord a -> decide
+cord decide -> master

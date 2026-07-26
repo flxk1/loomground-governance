@@ -1,0 +1,25 @@
+{
+  "note": "Each Loomground construct mapped to the established term or source it adopts (specification, Grounding annex). Citation keys resolve in the specification References.",
+  "map": [
+    {"construct": "object of governance", "term": "AI system; autonomy/heteronomy concepts", "sources": ["AIA Art. 3(1)", "ISO22989"]},
+    {"construct": "actor node", "term": "object-capability subject / principal; XACML subject", "sources": ["OCAP", "XACML"]},
+    {"construct": "master node", "term": "graph-theoretic sink; node at which the policy enforcement point attaches", "sources": ["XACML"]},
+    {"construct": "source gate", "term": "gate fed by a proposing actor's action; a decision request at the policy decision point", "sources": ["XACML"]},
+    {"construct": "authority cord / no ambient authority", "term": "designation-based access; least privilege; complete mediation", "sources": ["OCAP", "PROT", "NIST80053 AC-3/AC-6", "RBAC", "ABAC"]},
+    {"construct": "delegation / attenuation", "term": "on-behalf-of binding; delegation must not amplify granted authority (POLA)", "sources": ["OCAP", "PROT"]},
+    {"construct": "prohibited verdict", "term": "policy-declared Deny invariant under privileges (explicit deny rule)", "sources": ["XACML"]},
+    {"construct": "refused verdict", "term": "denial for want of an authorizing grant; deny-biased Indeterminate; fail-safe defaults", "sources": ["XACML", "NIST80053 AC-3", "PROT"]},
+    {"construct": "party", "term": "accountability role: controller/processor; provider/deployer", "sources": ["GDPR Art. 4(7)/4(8)/24/28/29", "AIA Art. 3(3)/3(4)"]},
+    {"construct": "token risk", "term": "a level of risk per a risk-management process", "sources": ["ISO31073", "ISO31000", "ISO23894", "NIST"]},
+    {"construct": "reserved verdict", "term": "human oversight; human-intervention safeguard", "sources": ["AIA Art. 14", "AIA Art. 26", "GDPR Art. 22(3)"]},
+    {"construct": "quorum", "term": "separation of duties; dual/m-of-n control; distinctness over party", "sources": ["SOD", "CW"]},
+    {"construct": "egress obligation", "term": "transparency obligations attached on egress", "sources": ["AIA Art. 50"]},
+    {"construct": "redress", "term": "right to contest a solely-automated decision; human intervention empowered to overturn; effective remedy; names a post-release recall/interrupt right (the recall execution is host)", "sources": ["GDPR Art. 22(3)", "GDPR Art. 77-79", "AIA Art. 14(4)", "Charter Art. 47"]},
+    {"construct": "log / provenance", "term": "provenance; tamper-evident log (external witnessing); accountability", "sources": ["PROV-DM", "CT", "TS", "GDPR Art. 5(2)"]},
+    {"construct": "tag guard / information-flow constraint", "term": "a release condition over declared data-flow categories (origin, lineage, synthetic, taint), tested by membership; label-based flow control", "sources": ["IFC", "FLUME", "GDPR Art. 44-49", "GDPR Art. 5(1)(b)"]},
+    {"construct": "autonomy grade (ordered axis)", "term": "a level on a degree-of-automation scale; types and levels of human-automation interaction; the level-of-autonomy concept; the axis is a language primitive, the ordered ladder and level meanings are policy (vocabulary/grades.json) — the ordered ladder is grounded in Sheridan78/PSW00, not ISO22989", "sources": ["Sheridan78", "PSW00", "ISO22989"]},
+    {"construct": "grade-gated human disposition", "term": "human-oversight measures; human-in/on-the-loop; insufficient granted grade withholds pending oversight (the existing role-less human, not a new verdict)", "sources": ["AIA Art. 14", "AIA Art. 26"]},
+    {"construct": "grade attenuation under delegation", "term": "granted grade must not be amplified by delegation, pairwise over actor-to-actor links; bounds delegated autonomy only (an ungraded delegator caps the delegate at ungraded — an additional grade-specific fail-closed rule; a human delegator constrains no grant)", "sources": ["OCAP", "PROT"]},
+    {"construct": "principal chain (on-behalf-of, rooted)", "term": "agency: the agent acts on the principal's behalf and subject to the principal's control; chained actor claims (act, may_act); the acyclic chain and its projection are language, rooting it is policy", "sources": ["AGENCY", "RFC8693", "OCAP"]}
+  ]
+}

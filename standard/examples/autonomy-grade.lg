@@ -1,0 +1,14 @@
+# SPDX-License-Identifier: Apache-2.0
+# Copyright 2026 flxk1
+# autonomy-grade — the auto/human disposition decided by the agent's granted grade
+# (specification v0.6). `deploy` is a source gate requiring autonomy grade L3 to act
+# unattended. An agent granted L3 releases automatically; an agent granted only L1
+# (or ungraded) is withheld for human oversight (cf. AI Act Art. 14). The grade is a
+# config attribute of the agent and the checkpoint — not a token field, not guardable.
+#
+# The ladder (L0..L4) and what each level means are policy (vocabulary/grades.json,
+# remappable); the language owns only the order and this gating rule.
+actor agent grade L3
+gate  deploy risk high grade L3 grant agent
+cord  agent  -> deploy
+cord  deploy -> master

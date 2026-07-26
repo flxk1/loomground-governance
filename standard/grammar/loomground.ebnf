@@ -1,0 +1,60 @@
+(* SPDX-License-Identifier: Apache-2.0 *)
+(* SPDX-FileCopyrightText: 2026 flxk1 *)
+(* Loomground concrete textual grammar (the .lg netlist), specification v0.7. *)
+(* ISO/IEC 14977 EBNF. The normative source is the specification companion       *)
+(* (SYNTAX); this file is that grammar extracted for machine consumption.        *)
+(* The `rack` macro (SYNTAX §7) is a textual pre-pass applied BEFORE this base    *)
+(* grammar and is deliberately not part of it; the tree-sitter grammar covers it. *)
+
+program      = { line } ;
+line         = [ statement ] , [ comment ] , newline ;
+statement    = actor decl | human decl | gate decl | cord
+             | reserve decl | prohibit decl | obligation decl | redress decl ;
+
+actor decl   = "actor" , id ,
+               { "party" , id | "on-behalf-of" , id | "grade" , grade-value | "name" , text-to-eol } ;
+human decl   = "human" , id , { "role" , id | "name" , text-to-eol } ;
+gate decl    = "gate" , id , { gate opt } , [ grant clause ] ;
+gate opt     = "risk" , risk-value | "grade" , grade-value | "party" , id | "name" , id ;   (* risk = floor; grade = required threshold, source gate only (apply-checked) *)
+grant clause = "grant" , grant , { grant } ;   (* MUST be last on the line; consumes every remaining token as a grant, e.g. `grant a b` *)
+grant        = id | id , "[" , kind , { "," , kind } , "]"
+             | id , "[" , kind , ":" , risk set , "]" ;
+risk set     = risk-value , { "," , risk-value } ;
+
+cord         = "cord" , endpoint , "->" , endpoint ;
+endpoint     = id | "master" ;
+
+(* --- governance declarations: policy-global, keyed on the token's `kind` (matched by guard); only `obligation` names a gate, via `on id` --- *)
+reserve decl = "reserve" , kind , "by" , target , [ "when" , guard ] ,
+                                  [ "duration" , duration , ":" , on-elapse ] ;
+prohibit decl   = "prohibit" , kind , [ "when" , guard ] ;
+obligation decl = "obligation" , obligation , "on" , id ;
+redress decl    = "redress" , kind , "by" , role , [ "overturn" ] , [ "within" , duration ] ;
+
+target       = role | role , "and" , role
+             | number , "of" , "{" , role , { "," , role } , "}" ;
+guard        = guard-field , guard-op , guard-value ;
+guard-field  = id ;   (* domain {kind, risk, party, tags}; checked at apply *)
+guard-op     = ">=" | "=" | "contains" ;
+guard-value  = risk | id ;
+   (* The no-id wall is an apply-stage check, not a grammar restriction: a guard    *)
+   (* over `id` or `provenance`, or an invalid (field, op) pairing — valid pairings  *)
+   (* are kind/party with "=", risk with ">="|"=", tags with "contains" — parses    *)
+   (* here and is rejected at apply, exactly as a risk-value outside the domain is.  *)
+on-elapse    = "halt" | "proceed" ;
+obligation   = "ai-interaction-disclosure" | "synthetic-content-marking"
+             | "emotion-or-biometric-disclosure" | "deepfake-disclosure"
+             | "data-minimisation" | id ;
+
+risk         = "low" | "medium" | "high" | "critical" ;
+risk-value   = risk | id ;   (* a value outside the risk domain, or a rack $-placeholder, is rejected at apply, not at parse *)
+grade        = "L0" | "L1" | "L2" | "L3" | "L4" ;   (* default ladder literals *)
+grade-value  = grade | id ;   (* any id accepted at parse; a value not a level of the active ladder, or a rack $-placeholder, is rejected at apply. grade is a config attribute, never guardable; a grade on a non-source gate is ill-formed at apply *)
+kind         = id ;   role = id ;   tag = id ;   (* a declared token category; tag vocabulary is policy *)
+duration     = number , ( "m" | "h" | "d" ) ;
+id           = letter , { letter | digit | "-" | "_" } ;
+number       = digit , { digit } ;
+text-to-eol  = { ? any character except newline ? } ;
+comment      = "#" , { ? any character except newline ? } ;
+letter       = "A" .. "Z" | "a" .. "z" ;
+digit        = "0" .. "9" ;

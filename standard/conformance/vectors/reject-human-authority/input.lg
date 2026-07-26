@@ -1,0 +1,4 @@
+# a human may never be an authority source
+human alice
+gate u risk low
+cord alice -> u

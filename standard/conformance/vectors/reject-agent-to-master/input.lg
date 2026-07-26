@@ -1,0 +1,3 @@
+# an actor may not cord directly to the master (must pass through a gate)
+actor a
+cord a -> master

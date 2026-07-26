@@ -1,0 +1,31 @@
+{
+  "nodes": [
+    {
+      "id": "bot",
+      "class": "actor",
+      "grade": "L1"
+    },
+    {
+      "id": "draft",
+      "class": "gate",
+      "risk_floor": "low"
+    },
+    {
+      "id": "master",
+      "class": "master"
+    }
+  ],
+  "cords": [
+    {
+      "from": "bot",
+      "to": "draft",
+      "type": "authority"
+    },
+    {
+      "from": "draft",
+      "to": "master",
+      "type": "egress"
+    }
+  ],
+  "reservations": []
+}

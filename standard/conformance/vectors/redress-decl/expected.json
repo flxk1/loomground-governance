@@ -1,0 +1,43 @@
+{
+  "nodes": [
+    {
+      "id": "bot",
+      "class": "actor"
+    },
+    {
+      "id": "appeals",
+      "class": "human",
+      "role": "appeals"
+    },
+    {
+      "id": "decide",
+      "class": "gate",
+      "risk_floor": "high"
+    },
+    {
+      "id": "master",
+      "class": "master"
+    }
+  ],
+  "cords": [
+    {
+      "from": "bot",
+      "to": "decide",
+      "type": "authority"
+    },
+    {
+      "from": "decide",
+      "to": "master",
+      "type": "egress"
+    }
+  ],
+  "reservations": [],
+  "redress": [
+    {
+      "kind": "automated_decision",
+      "by": "appeals",
+      "overturn": true,
+      "within": "30d"
+    }
+  ]
+}
