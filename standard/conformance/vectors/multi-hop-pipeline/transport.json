@@ -1,0 +1,14 @@
+{
+  "comment": "One activation at source gate A. A's token matches the escalation reservation -> A reserved; the effective verdict joins strictest-wins along the pipe so terminal B is reserved and the master withholds.",
+  "activations": [
+    {"actor": "a", "source": "A", "token": {"id": "t1", "kind": "escalation", "risk": "high", "party": "controller", "provenance": []}}
+  ],
+  "expected": {
+    "A": {"verdict": "reserved"},
+    "B": {"verdict": "reserved", "master": "withhold"}
+  },
+  "log": [
+    {"gate": "A", "verdict": "reserved"},
+    {"gate": "B", "verdict": "reserved"}
+  ]
+}

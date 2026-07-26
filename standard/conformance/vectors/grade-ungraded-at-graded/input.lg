@@ -1,0 +1,5 @@
+# ungraded actor at a source gate requiring grade L2 -> human (fail-closed)
+actor bot
+gate  decide  risk low  grade L2  grant bot
+cord  bot    -> decide
+cord  decide -> master

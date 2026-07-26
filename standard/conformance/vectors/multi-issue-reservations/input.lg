@@ -1,0 +1,9 @@
+# two reservations on distinct kinds coexist; the matching one fires.
+actor  a
+human  dpo    role dpo
+human  legal  role legal
+gate   g  risk high  grant a
+reserve automated_decision by dpo when risk >= high
+reserve profiling by legal
+cord a -> g
+cord g -> master

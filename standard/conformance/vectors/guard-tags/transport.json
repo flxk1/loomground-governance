@@ -1,0 +1,15 @@
+{
+  "comment": "Same gate kind, two tokens. The tag `non_eu` fires the reservation (reserved -> withhold); without it the action is unreserved (auto -> act). Membership, not id-branching.",
+  "activations": [
+    {"actor": "a", "source": "g1", "token": {"id": "t1", "kind": "cross_border", "risk": "high", "party": "controller", "provenance": [], "tags": ["non_eu"]}},
+    {"actor": "a", "source": "g2", "token": {"id": "t2", "kind": "cross_border", "risk": "high", "party": "controller", "provenance": [], "tags": ["eu"]}}
+  ],
+  "expected": {
+    "g1": {"verdict": "reserved", "master": "withhold"},
+    "g2": {"verdict": "auto", "master": "act"}
+  },
+  "log": [
+    {"gate": "g1", "verdict": "reserved"},
+    {"gate": "g2", "verdict": "auto"}
+  ]
+}

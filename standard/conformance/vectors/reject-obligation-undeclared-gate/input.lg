@@ -1,0 +1,7 @@
+# reject-obligation-undeclared-gate — an obligation must attach to a declared
+# gate; `on <undeclared>` is ill-formed at apply, like every other
+# undeclared-node reference (SYNTAX §3).
+actor a
+gate g risk low grant a[deploy:low]
+obligation ai-interaction-disclosure on ghost
+cord g -> master

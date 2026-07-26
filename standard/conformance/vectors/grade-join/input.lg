@@ -1,0 +1,13 @@
+# `screen` is a graded SOURCE gate; it pipes its grade-human into `commit`, a PLAIN
+# terminal (no grade_required — a piped gate is not a source gate, so it cannot carry
+# a required grade). A second grantee `peer` (L4) at screen is NOT read: the grade
+# comparison follows the PROPOSING actor (bot, L2 < required L3 -> human). The join
+# carries human strictest-wins to commit -> withhold.
+actor bot   grade L2
+actor peer  grade L4
+gate  screen  risk low  grade L3  grant bot peer
+gate  commit  risk low  grant bot
+cord  bot    -> screen
+cord  peer   -> screen
+cord  screen -> commit
+cord  commit -> master

@@ -1,0 +1,14 @@
+# prohibit-tags — a kind prohibited only when carrying a declared taint tag.
+# `deploy` is prohibited when the token is tagged `untrusted_model`. Two gates share
+# the one prohibition: the tagged token at g1 is severed (prohibited -> withhold),
+# while an otherwise-identical untagged deploy at g2 is unprohibited and releasable
+# (auto -> act). A guarded prohibition prohibits exactly the matched subset (SPEC §6);
+# membership over a declared category, not branching on identity.
+actor a
+gate g1 risk high grant a
+gate g2 risk high grant a
+prohibit deploy when tags contains untrusted_model
+cord a -> g1
+cord a -> g2
+cord g1 -> master
+cord g2 -> master

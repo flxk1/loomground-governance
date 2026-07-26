@@ -1,0 +1,8 @@
+# obo-chain-attenuation — a three-link principal chain: bot acts for mgr, mgr for
+# ceo; the pairwise no-amplification invariant composes along the acyclic chain
+# (bot's deploy risks ⊆ mgr's ⊆ ceo's at g), so the graph is well-formed (§6).
+actor ceo
+actor mgr on-behalf-of ceo
+actor bot on-behalf-of mgr
+gate g risk low grant ceo[deploy:low,high] mgr[deploy:low,high] bot[deploy:low]
+cord g -> master

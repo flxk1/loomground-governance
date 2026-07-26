@@ -1,0 +1,19 @@
+# draft-decide.lg — worked example (v0.7 grammar)
+# A routine draft gate and a decide gate that reserves a high-risk automated
+# decision to a human role: reserved is never auto. Two terminal gates; the
+# master decides each egress path. Which kinds are reserved is policy.
+# SPDX-License-Identifier: Apache-2.0
+# Copyright 2026 flxk1
+
+actor  bot7
+human  alice  role legal
+
+gate   draft   risk low    grant bot7
+gate   decide  risk high   grant bot7
+
+reserve automated_decision by legal when risk >= high
+
+cord bot7   -> draft      # authority
+cord bot7   -> decide     # authority
+cord draft  -> master     # egress
+cord decide -> master     # egress

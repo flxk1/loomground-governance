@@ -1,0 +1,11 @@
+# A (interior) pipes to B (terminal): A's reserved verdict propagates to B,
+# which alone would be auto, so the master withholds at B's egress.
+actor  a
+human  rev  role review
+gate   A  risk high  grant a
+gate   B  risk low   grant a
+reserve escalation by review
+cord a -> A
+cord a -> B
+cord A -> B
+cord B -> master

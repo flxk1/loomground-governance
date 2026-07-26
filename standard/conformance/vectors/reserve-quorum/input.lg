@@ -1,0 +1,9 @@
+# reserve-quorum — quorum reservation targets project verbatim in canonical form:
+# m-of-n `<m> of {roles}` and conjunction `role and role`. Distinctness of the m parties
+# is an implementation duty (separation of duty), not a language verdict.
+actor a
+gate decide risk high name approvals grant a
+reserve loans by 2 of { legal, finance }
+reserve audit by risk and legal
+cord a -> decide
+cord decide -> master

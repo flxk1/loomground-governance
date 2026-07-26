@@ -1,0 +1,24 @@
+{
+  "$schema": "https://tree-sitter.github.io/tree-sitter/assets/schemas/config.schema.json",
+  "grammars": [
+    {
+      "name": "loomground",
+      "camelcase": "Loomground",
+      "scope": "source.lg",
+      "file-types": [
+        "lg"
+      ],
+      "injection-regex": "^lg$"
+    }
+  ],
+  "metadata": {
+    "version": "0.8.2",
+    "license": "Apache-2.0",
+    "description": "Tree-sitter grammar for the Loomground textual surface (.lg)",
+    "authors": [
+      {
+        "name": "Loomground Contributors"
+      }
+    ]
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "permitted": [
+    {"from": "actor", "to": "gate",   "type": "authority", "inlet": "configuring", "legal_when": "the gate grants that actor"},
+    {"from": "gate",  "to": "gate",   "type": "pipe",      "inlet": "activating",  "legal_when": "the pipe relation is acyclic"},
+    {"from": "gate",  "to": "master", "type": "egress",    "inlet": "activating",  "legal_when": "always; lands only on the master"}
+  ],
+  "note": "Every other endpoint pairing is ill-formed; a human is never a cord endpoint; an actor never connects directly to the master."
+}

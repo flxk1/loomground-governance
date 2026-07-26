@@ -1,0 +1,37 @@
+# SPDX-License-Identifier: Apache-2.0
+# Copyright 2026 flxk1
+[build-system]
+requires = ["hatchling>=1.27"]
+build-backend = "hatchling.build"
+
+[project]
+name = "loomground-governance"
+version = "0.8.2"
+description = "Machine-readable Loomground language artifacts and conformance kit"
+requires-python = ">=3.10"
+license = "Apache-2.0"
+license-files = ["LICENSES/Apache-2.0.txt", "LICENSES/CC-BY-4.0.txt"]
+readme = "README.md"
+authors = [{ name = "Loomground Contributors" }]
+dependencies = []
+
+[project.urls]
+Homepage = "https://github.com/flxk1/loomground-governance"
+Repository = "https://github.com/flxk1/loomground-governance"
+Issues = "https://github.com/flxk1/loomground-governance/issues"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/loomground_governance"]
+
+[tool.hatch.build.targets.wheel.force-include]
+"standard/grammar" = "loomground_governance/artifacts/grammar"
+"standard/schema" = "loomground_governance/artifacts/schema"
+"standard/vocabulary" = "loomground_governance/artifacts/vocabulary"
+"standard/conformance" = "loomground_governance/artifacts/conformance"
+"standard/spec" = "loomground_governance/artifacts/spec"
+"standard/language-card.json" = "loomground_governance/artifacts/language-card.json"
+"llms.txt" = "loomground_governance/artifacts/llms.txt"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]

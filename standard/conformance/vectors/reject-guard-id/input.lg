@@ -1,0 +1,7 @@
+# A guard over `id` is rejected: governance MUST NOT branch on identity.
+actor a
+human dpo role dpo
+gate decide risk high grant a
+reserve cross_border by dpo when id = t1
+cord a -> decide
+cord decide -> master

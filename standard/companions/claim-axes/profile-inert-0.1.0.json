@@ -1,0 +1,16 @@
+{
+  "profile_id": "loomground.versum.claim-axes.inert",
+  "version": "0.1.0",
+  "schema": "loomground.versum.claim-axes/v1",
+  "choices": {
+    "predicate": ["descriptive"],
+    "modality": ["inert"],
+    "polarity": ["annotation"],
+    "quantification": ["inert"],
+    "domain": ["inert"]
+  },
+  "rulings": {
+    "D-prime": "polarity may in a future version map to negation or annotation, never to an auto-minted attack relation"
+  },
+  "widening": "prohibited — later semantics arrive as new profile versions with their own closed sets"
+}

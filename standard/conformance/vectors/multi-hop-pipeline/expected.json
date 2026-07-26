@@ -1,0 +1,55 @@
+{
+  "nodes": [
+    {
+      "id": "a",
+      "class": "actor"
+    },
+    {
+      "id": "rev",
+      "class": "human",
+      "role": "review"
+    },
+    {
+      "id": "A",
+      "class": "gate",
+      "risk_floor": "high"
+    },
+    {
+      "id": "B",
+      "class": "gate",
+      "risk_floor": "low"
+    },
+    {
+      "id": "master",
+      "class": "master"
+    }
+  ],
+  "cords": [
+    {
+      "from": "a",
+      "to": "A",
+      "type": "authority"
+    },
+    {
+      "from": "a",
+      "to": "B",
+      "type": "authority"
+    },
+    {
+      "from": "A",
+      "to": "B",
+      "type": "pipe"
+    },
+    {
+      "from": "B",
+      "to": "master",
+      "type": "egress"
+    }
+  ],
+  "reservations": [
+    {
+      "kind": "escalation",
+      "by": "review"
+    }
+  ]
+}

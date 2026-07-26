@@ -1,0 +1,28 @@
+{
+  "comment": "An auto gate carrying an egress obligation: the obligation is attached (declared), so master acts; the obligation is not projected.",
+  "activations": [
+    {
+      "actor": "a",
+      "source": "g",
+      "token": {
+        "id": "t",
+        "kind": "x",
+        "risk": "low",
+        "party": "p",
+        "provenance": []
+      }
+    }
+  ],
+  "expected": {
+    "g": {
+      "verdict": "auto",
+      "master": "act"
+    }
+  },
+  "log": [
+    {
+      "gate": "g",
+      "verdict": "auto"
+    }
+  ]
+}

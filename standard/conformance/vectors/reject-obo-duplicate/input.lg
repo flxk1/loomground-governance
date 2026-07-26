@@ -1,0 +1,9 @@
+# reject-obo-duplicate — an actor declares at most one delegator: a second
+# on-behalf-of on the same actor declaration is ill-formed at apply (§6). Both
+# named delegators are declared and no grant amplifies; only the at-most-one
+# rule rejects.
+actor boss
+actor chief
+actor sub on-behalf-of boss on-behalf-of chief
+gate g risk low grant boss[deploy:low] chief[deploy:low] sub[deploy:low]
+cord g -> master

@@ -1,0 +1,10 @@
+# A source gate both grade-gated (required L3) and reserved on kind `audit`. Granted L1
+# < L3 would yield grade-human at step (4), but kind `audit` matches the reservation, so
+# step (3) `reserved` fires first and pre-empts the grade comparison (most-restrictive
+# -wins by precedence).
+actor bot grade L1
+human ombud role ombud
+gate  decide  risk low  grade L3  grant bot
+reserve audit by ombud
+cord  bot    -> decide
+cord  decide -> master

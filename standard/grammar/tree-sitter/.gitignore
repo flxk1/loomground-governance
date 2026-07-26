@@ -1,0 +1,8 @@
+src/
+node_modules/
+build/
+bindings/
+target/
+*.wasm
+Cargo.*
+package-lock.json

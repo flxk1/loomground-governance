@@ -1,0 +1,4 @@
+# an unknown risk level is rejected fail-closed
+actor a
+gate u risk extreme grant a
+cord u -> master

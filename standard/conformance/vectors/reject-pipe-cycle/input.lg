@@ -1,0 +1,5 @@
+# a pipe cycle is ill-formed — the pipe relation MUST be acyclic
+gate A risk low
+gate B risk low
+cord A -> B
+cord B -> A

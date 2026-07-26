@@ -1,0 +1,9 @@
+# rack: define once, instantiate twice -> two parallel approval pipelines.
+rack approval(actor, g, level):
+    actor $actor
+    gate  $g risk $level grant $actor
+    cord  $actor -> $g
+    cord  $g -> master
+end
+rack-use approval(actor=bot7, g=c1, level=high)
+rack-use approval(actor=bot9, g=c2, level=critical)

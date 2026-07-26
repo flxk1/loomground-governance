@@ -1,0 +1,9 @@
+# reserve-temporal — a reserved kind with a temporal window projects duration + on_elapse.
+# halt (deny on elapse, the safe default) and proceed (fail-open) both round-trip; the
+# elapse resolution itself is the host's, not a language verdict.
+actor a
+gate decide risk high grant a
+reserve loans by legal duration 30d : halt
+reserve memos by legal duration 7d : proceed
+cord a -> decide
+cord decide -> master

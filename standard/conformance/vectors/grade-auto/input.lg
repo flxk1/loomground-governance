@@ -1,0 +1,5 @@
+# granted grade L3 meets required grade L2 -> auto (language-determined). `decide` is a source gate.
+actor bot grade L3
+gate  decide  risk low  grade L2  grant bot
+cord  bot    -> decide
+cord  decide -> master

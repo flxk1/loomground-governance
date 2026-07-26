@@ -1,0 +1,7 @@
+# obo-human-root — the principal chain terminates at a human: the binding anchors
+# answerability and constrains no grant. The human stays graph-disconnected and
+# confers no authority; bot releases on its own grant (§3, §6).
+human alice role dpo
+actor bot on-behalf-of alice
+gate g risk low grant bot[deploy:low]
+cord g -> master

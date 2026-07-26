@@ -1,0 +1,8 @@
+# reject-obo-undeclared — on-behalf-of must name a declared actor or human;
+# a binding naming an undeclared node is ill-formed at apply (§6). The delegate
+# holds no grant, so no other rule (in particular no-amplification over an
+# empty delegator set) can be the cause: only the declared-delegator rule rejects.
+actor a on-behalf-of ghost
+actor b
+gate g risk low grant b[deploy:low]
+cord g -> master

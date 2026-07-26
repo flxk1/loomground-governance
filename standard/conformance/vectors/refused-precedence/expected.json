@@ -1,0 +1,69 @@
+{
+  "nodes": [
+    {
+      "id": "a",
+      "class": "actor"
+    },
+    {
+      "id": "b",
+      "class": "actor"
+    },
+    {
+      "id": "g1",
+      "class": "gate",
+      "risk_floor": "low"
+    },
+    {
+      "id": "g2",
+      "class": "gate",
+      "risk_floor": "low"
+    },
+    {
+      "id": "g3",
+      "class": "gate",
+      "risk_floor": "low"
+    },
+    {
+      "id": "master",
+      "class": "master"
+    }
+  ],
+  "cords": [
+    {
+      "from": "a",
+      "to": "g1",
+      "type": "authority"
+    },
+    {
+      "from": "a",
+      "to": "g2",
+      "type": "authority"
+    },
+    {
+      "from": "a",
+      "to": "g3",
+      "type": "authority"
+    },
+    {
+      "from": "g1",
+      "to": "master",
+      "type": "egress"
+    },
+    {
+      "from": "g2",
+      "to": "master",
+      "type": "egress"
+    },
+    {
+      "from": "g3",
+      "to": "master",
+      "type": "egress"
+    }
+  ],
+  "reservations": [
+    {
+      "kind": "sensitive",
+      "by": "legal"
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "comment": "Two source gates, two egress paths. A routine token at draft -> auto -> act; an automated_decision/high token at decide -> reserved -> withhold.",
+  "activations": [
+    {"actor": "bot7", "source": "draft",  "token": {"id": "t1", "kind": "routine", "risk": "low", "party": "deployer", "provenance": []}},
+    {"actor": "bot7", "source": "decide", "token": {"id": "t2", "kind": "automated_decision", "risk": "high", "party": "controller", "provenance": []}}
+  ],
+  "expected": {
+    "draft":  {"verdict": "auto",     "master": "act"},
+    "decide": {"verdict": "reserved", "master": "withhold"}
+  },
+  "log": [
+    {"gate": "draft",  "verdict": "auto"},
+    {"gate": "decide", "verdict": "reserved"}
+  ]
+}

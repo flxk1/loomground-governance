@@ -1,0 +1,85 @@
+{
+  "comment": "a[deploy] authorizes deploy (g1) but refuses other kinds (g2); a[deploy:low,medium] authorizes deploy at low/medium (g3) but refuses deploy/high (g4).",
+  "activations": [
+    {
+      "actor": "a",
+      "source": "g1",
+      "token": {
+        "id": "t",
+        "kind": "deploy",
+        "risk": "low",
+        "party": "p",
+        "provenance": []
+      }
+    },
+    {
+      "actor": "a",
+      "source": "g2",
+      "token": {
+        "id": "t",
+        "kind": "audit",
+        "risk": "low",
+        "party": "p",
+        "provenance": []
+      }
+    },
+    {
+      "actor": "a",
+      "source": "g3",
+      "token": {
+        "id": "t",
+        "kind": "deploy",
+        "risk": "medium",
+        "party": "p",
+        "provenance": []
+      }
+    },
+    {
+      "actor": "a",
+      "source": "g4",
+      "token": {
+        "id": "t",
+        "kind": "deploy",
+        "risk": "high",
+        "party": "p",
+        "provenance": []
+      }
+    }
+  ],
+  "expected": {
+    "g1": {
+      "verdict": "auto",
+      "master": "act"
+    },
+    "g2": {
+      "verdict": "refused",
+      "master": "withhold"
+    },
+    "g3": {
+      "verdict": "auto",
+      "master": "act"
+    },
+    "g4": {
+      "verdict": "refused",
+      "master": "withhold"
+    }
+  },
+  "log": [
+    {
+      "gate": "g1",
+      "verdict": "auto"
+    },
+    {
+      "gate": "g2",
+      "verdict": "refused"
+    },
+    {
+      "gate": "g3",
+      "verdict": "auto"
+    },
+    {
+      "gate": "g4",
+      "verdict": "refused"
+    }
+  ]
+}

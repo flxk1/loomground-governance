@@ -1,0 +1,10 @@
+# party-inheritance — party resolution along a three-link principal chain (§6, §9):
+# mgr declares none and resolves through to ceo's corp; sub's declared ops wins
+# over the chain; bot declares none and takes the NEAREST declared party (sub's
+# ops, not ceo's corp). The observation projects each resolved party on its node.
+actor ceo party corp
+actor mgr on-behalf-of ceo
+actor sub on-behalf-of mgr party ops
+actor bot on-behalf-of sub
+gate g risk low grant ceo[deploy:low] mgr[deploy:low] sub[deploy:low] bot[deploy:low]
+cord g -> master

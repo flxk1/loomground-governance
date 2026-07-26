@@ -1,0 +1,4 @@
+# reject-rack-unknown — a rack-use naming an undefined rack fails the expansion
+# pre-pass; expansion is fail-closed and the failure stage is parse, since the
+# pre-pass precedes the base grammar (SYNTAX §7).
+rack-use approval(actor=bot7, g=c1, level=high)

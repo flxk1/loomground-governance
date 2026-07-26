@@ -1,0 +1,2 @@
+# a cord without -> is a grammar error (parse-time rejection)
+cord bot7 master

@@ -1,0 +1,8 @@
+# egress-obligation — an obligation declared on a terminal gate is attached (the
+# in-language condition, specification Master release); it is NOT projected into the
+# observation, and an `auto` gate still releases because the obligation is attached.
+actor a
+gate  g  risk low  grant a
+obligation deepfake-disclosure on g
+cord  a -> g
+cord  g -> master

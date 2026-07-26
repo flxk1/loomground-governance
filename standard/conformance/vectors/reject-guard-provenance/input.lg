@@ -1,0 +1,9 @@
+# A guard over `provenance` is rejected: provenance entries are ids, and a guard
+# MUST NOT range over id (the no-id wall). Provenance is permitted only for the
+# quorum distinctness predicate, never for a general guard.
+actor a
+human dpo role dpo
+gate decide risk high grant a
+reserve cross_border by dpo when provenance contains src_x
+cord a -> decide
+cord decide -> master
