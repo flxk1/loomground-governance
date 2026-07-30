@@ -45,7 +45,7 @@ language without parsing prose:
   the `observation` (a vector's `expected.json`), and transport runs. Validated
   against the vectors.
 - `standard/vocabulary/` — node classes, cords, the verdict lattice, declarations, the guard
-  domain, risk levels, and the grounding map, each as JSON.
+  domain, risk levels, autonomy grades, and the grounding map, each as JSON.
 - `standard/conformance/manifest.json` — a machine index of every vector.
 - `standard/language-card.json` — a compact, agent-facing summary of the whole language.
 - `llms.txt` — the agent/tool entry point: a compact guide to
