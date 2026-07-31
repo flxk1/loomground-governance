@@ -64,7 +64,9 @@ def expand_racks(lines):
         for bl in body:
             s = bl
             for k, v in binds.items():
-                s = re.sub(r"\$" + re.escape(k) + r"\b", v, s)
+                # v is literal text, not a replacement template: a value with
+                # \1, \g<...>, or a trailing backslash must substitute verbatim.
+                s = re.sub(r"\$" + re.escape(k) + r"\b", lambda _m, v=v: v, s)
             s = s.replace("$0", str(n))
             if "$" in s:
                 raise Reject("parse", f"undefined substitution in {bl!r}")
