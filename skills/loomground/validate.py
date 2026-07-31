@@ -35,7 +35,8 @@ def main():
     if L is None:
         sys.exit("Loomground implementation not found. loomground.py ships beside "
                  "this script; put it there or on PYTHONPATH.")
-    src = open(sys.argv[1]).read()
+    with open(sys.argv[1], encoding="utf-8") as f:
+        src = f.read()
     try:
         patch = L.check(L.parse(src))
     except L.Reject as e:
