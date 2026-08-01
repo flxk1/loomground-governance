@@ -2,6 +2,14 @@
 <!-- Copyright 2026 flxk1 -->
 # Changelog
 
+## [0.8.2](https://github.com/flxk1/loomground-governance/compare/loomground-governance-v0.8.1...loomground-governance-v0.8.2) (2026-08-01)
+
+
+### Documentation
+
+* add autonomy grades to the vocabulary file list ([3184991](https://github.com/flxk1/loomground-governance/commit/3184991dfb8f8e8645db86ccfa00ff57a733cb51))
+* add autonomy grades to the vocabulary file list ([183b9fd](https://github.com/flxk1/loomground-governance/commit/183b9fd4f89ddd7d4914c9622f28342441ba9cda))
+
 ## [0.8.2] - 2026-07-26
 
 - Publish the privacy-clean, license-split one-root snapshot.
