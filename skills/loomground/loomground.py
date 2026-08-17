@@ -97,6 +97,7 @@ class Patch:
         self.redress = []        # {"kind","by","overturn","within"}
         self.obo = {}            # delegate -> [delegator, ...] (checked at apply)
         self.mandates = {}       # actor -> [purpose set, ...] (>1 checked at apply)
+        self.transfers = []      # {kind, to, within} (policy-global)
         # populated by check():
         self.cords_typed = []    # projection order: grant conferrals, then written cords
 
@@ -203,6 +204,7 @@ def _statement(p, line):
         while i < len(t):
             if t[i] == "risk": p.nodes[gid]["risk_floor"] = t[i + 1]; i += 2
             elif t[i] == "grade": p.nodes[gid]["grade_required"] = t[i + 1]; i += 2
+            elif t[i] == "consign": p.nodes[gid]["consignee"] = t[i + 1]; i += 2
             elif t[i] == "party": p.nodes[gid]["party"] = t[i + 1]; i += 2
             elif t[i] == "name": p.nodes[gid]["name"] = t[i + 1]; i += 2
             elif t[i] == "grant":                    # MUST be last: consumes the rest
@@ -250,6 +252,11 @@ def _statement(p, line):
         if len(t) != 4 or t[2] != "on":
             raise Reject("parse", "obligation must be `obligation <obligation> on <gate>`")
         p.obligations.append({"obligation": t[1], "on": t[3]})
+    elif kw == "transfer":
+        # transfer <kind> to <consignee> within <purpose set>
+        if len(t) != 6 or t[2] != "to" or t[4] != "within":
+            raise Reject("parse", "transfer needs: <kind> to <consignee> within <purposes>")
+        p.transfers.append({"kind": t[1], "to": t[3], "within": _purpose_set(t[5])})
     elif kw == "redress":
         if len(t) < 4 or t[2] != "by":
             raise Reject("parse", "redress without by")
@@ -400,6 +407,35 @@ def check(p):
                 raise Reject("apply", "cycle in the on-behalf-of relation")
             seen.add(cur)
             cur = p.delegations[cur]
+    # a consignee names where a gate's release goes; only a terminal gate
+    # (one that egresses to the master) has a release to consign.
+    terminal = {f for f, t, ty in p.cords_typed if ty == "egress"}
+    consigning = {}          # consignee -> {gate, ...}
+    for gid, n in p.nodes.items():
+        c = n.get("consignee")
+        if c is None:
+            continue
+        if gid not in terminal:
+            raise Reject("apply", f"consignee on non-terminal gate {gid}")
+        consigning.setdefault(c, set()).add(gid)
+    for tr in p.transfers:
+        if not tr["within"]:
+            raise Reject("apply", f"transfer of {tr['kind']!r} declares no purpose")
+        gates = consigning.get(tr["to"])
+        if not gates:
+            raise Reject("apply", f"transfer to {tr['to']!r}, which no gate consigns to")
+        # transfer attenuation: an actor cannot license onward a purpose it was
+        # not itself given. Lateral, not a delegation - no principal chain here.
+        for gate in sorted(gates):
+            for actor in sorted(p.grants.get(gate, {})):
+                if not _risk_set(p.grants[gate].get(actor), tr["kind"]):
+                    continue          # not granted over this kind at this gate
+                m = p.mandate_of(actor)
+                if m is None or not tr["within"] <= m:
+                    raise Reject(
+                        "apply",
+                        f"transfer widens beyond {actor}'s mandate at {gate}")
+
     # no-amplification, pairwise over actor→actor links only (a human delegator
     # anchors answerability and constrains no grant)
     for delegate, delegator in p.delegations.items():
@@ -448,6 +484,7 @@ def to_patch(p):
             if key in d: e[key] = d[key]
         if nid in p.delegations: e["on_behalf_of"] = p.delegations[nid]
         if p.mandate_of(nid) is not None: e["mandate"] = sorted(p.mandate_of(nid))
+        if "consignee" in p.nodes[nid]: e["consignee"] = p.nodes[nid]["consignee"]
         nodes.append(e)
     grants = []
     for actor, gid in p.grant_order:
@@ -506,6 +543,7 @@ def project(p):
         if "grade_required" in d: e["grade_required"] = d["grade_required"]
         if nid in p.delegations: e["on_behalf_of"] = p.delegations[nid]
         if p.mandate_of(nid) is not None: e["mandate"] = sorted(p.mandate_of(nid))
+        if "consignee" in p.nodes[nid]: e["consignee"] = p.nodes[nid]["consignee"]
         if d["class"] == "actor":
             party = _resolved_party(p, nid)
             if party is not None: e["party"] = party
@@ -524,6 +562,9 @@ def project(p):
             e["duration"] = r["duration"]; e["on_elapse"] = r["on_elapse"]
         res.append(e)
     out = {"nodes": nodes, "cords": cords, "reservations": res}
+    if p.transfers:
+        out["transfers"] = [{"kind": t["kind"], "to": t["to"],
+                             "within": sorted(t["within"])} for t in p.transfers]
     if p.redress:
         out["redress"] = [{"kind": r["kind"], "by": r["by"],
                            "overturn": r["overturn"], "within": r["within"]}

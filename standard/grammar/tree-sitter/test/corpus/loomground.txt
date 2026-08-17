@@ -118,3 +118,23 @@ redress automated_decision by appeals overturn within 30d
     kind: (id)
     by: (id)
     (duration)))
+
+==================
+consignment and transfer
+==================
+gate g risk low consign vendorb
+transfer work_product to vendorb within {review,draft}
+---
+(source_file
+  (gate_decl
+    id: (id)
+    risk_floor: (risk)
+    consignee: (id))
+  (transfer_decl
+    kind: (id)
+    to: (id)
+    within: (purpose_list
+      (purpose
+        (id))
+      (purpose
+        (id)))))
