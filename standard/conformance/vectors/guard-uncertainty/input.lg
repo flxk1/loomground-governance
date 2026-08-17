@@ -1,0 +1,12 @@
+# guard-uncertainty — `uncertainty` is a declared, ordered token property (§4),
+# orthogonal to `risk`: both tokens here are risk low, and only the one resting
+# on a contested basis is referred to a human.
+actor  bot7
+human  alice  role review
+gate   open   risk low  grant bot7
+gate   firm   risk low  grant bot7
+reserve claim by review when uncertainty >= contested
+cord bot7 -> open
+cord bot7 -> firm
+cord open -> master
+cord firm -> master

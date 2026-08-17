@@ -1,0 +1,7 @@
+{
+  "levels": ["reversible", "compensable", "irreversible"],
+  "order": "reversible < compensable < irreversible",
+  "ascending": "concern, exactly as vocabulary/risk.json — the highest level is the one an escalation guard is written to catch, so `reversibility >= irreversible` reads as 'at or beyond irreversible on the active scale'",
+  "note": "an ordered, DECLARED token property: how recoverable the action's effect is once released. Like risk, the scale is illustrative and a deployer choice, and the value is asserted by whoever supplies the token — the language computes it from nothing. Guardable with the operators risk permits (>=, =).",
+  "grounding": "specification §4, §6"
+}

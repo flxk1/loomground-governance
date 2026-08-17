@@ -1,0 +1,18 @@
+{
+  "comment": "hard: irreversible, at the guard -> reserved. soft: compensable, below it -> auto. bare: declares no reversibility at all -> auto, because an absent ordered property satisfies no >= guard. That third case is the load-bearing one: the language never defaults an undeclared level to anything, it simply does not match, so silence is not treated as safety and not treated as danger.",
+  "activations": [
+    {"actor": "bot7", "source": "hard", "token": {"id": "t1", "kind": "deploy", "risk": "low", "party": "deployer", "provenance": [], "reversibility": "irreversible"}},
+    {"actor": "bot7", "source": "soft", "token": {"id": "t2", "kind": "deploy", "risk": "low", "party": "deployer", "provenance": [], "reversibility": "compensable"}},
+    {"actor": "bot7", "source": "bare", "token": {"id": "t3", "kind": "deploy", "risk": "low", "party": "deployer", "provenance": []}}
+  ],
+  "expected": {
+    "hard": {"verdict": "reserved", "master": "withhold"},
+    "soft": {"verdict": "auto", "master": "act"},
+    "bare": {"verdict": "auto", "master": "act"}
+  },
+  "log": [
+    {"gate": "hard", "verdict": "reserved"},
+    {"gate": "soft", "verdict": "auto"},
+    {"gate": "bare", "verdict": "auto"}
+  ]
+}

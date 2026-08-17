@@ -1,0 +1,8 @@
+# reject-guard-pairing-reversibility — `contains` is the membership operator for
+# `tags` alone. An ordered property admits only `>=` and `=`; an invalid
+# (field, op) pairing parses and is rejected at apply (§6).
+actor bot7
+gate  act risk low grant bot7
+reserve deploy by safety when reversibility contains irreversible
+cord bot7 -> act
+cord act  -> master

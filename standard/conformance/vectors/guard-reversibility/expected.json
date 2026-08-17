@@ -1,0 +1,71 @@
+{
+  "nodes": [
+    {
+      "id": "bot7",
+      "class": "actor"
+    },
+    {
+      "id": "alice",
+      "class": "human",
+      "role": "safety"
+    },
+    {
+      "id": "hard",
+      "class": "gate",
+      "risk_floor": "low"
+    },
+    {
+      "id": "soft",
+      "class": "gate",
+      "risk_floor": "low"
+    },
+    {
+      "id": "bare",
+      "class": "gate",
+      "risk_floor": "low"
+    },
+    {
+      "id": "master",
+      "class": "master"
+    }
+  ],
+  "cords": [
+    {
+      "from": "bot7",
+      "to": "hard",
+      "type": "authority"
+    },
+    {
+      "from": "bot7",
+      "to": "soft",
+      "type": "authority"
+    },
+    {
+      "from": "bot7",
+      "to": "bare",
+      "type": "authority"
+    },
+    {
+      "from": "hard",
+      "to": "master",
+      "type": "egress"
+    },
+    {
+      "from": "soft",
+      "to": "master",
+      "type": "egress"
+    },
+    {
+      "from": "bare",
+      "to": "master",
+      "type": "egress"
+    }
+  ],
+  "reservations": [
+    {
+      "kind": "deploy",
+      "by": "safety",
+      "when": "reversibility >= irreversible"
+    }
+  ]
+}

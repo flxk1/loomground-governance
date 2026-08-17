@@ -37,12 +37,13 @@ redress decl    = "redress" , kind , "by" , role , [ "overturn" ] , [ "within" ,
 target       = role | role , "and" , role
              | number , "of" , "{" , role , { "," , role } , "}" ;
 guard        = guard-field , guard-op , guard-value ;
-guard-field  = id ;   (* domain {kind, risk, party, tags}; checked at apply *)
+guard-field  = id ;   (* domain {kind, risk, reversibility, uncertainty, party, tags}; checked at apply *)
 guard-op     = ">=" | "=" | "contains" ;
 guard-value  = risk | id ;
    (* The no-id wall is an apply-stage check, not a grammar restriction: a guard    *)
    (* over `id` or `provenance`, or an invalid (field, op) pairing — valid pairings  *)
-   (* are kind/party with "=", risk with ">="|"=", tags with "contains" — parses    *)
+   (* are kind/party with "=", risk/reversibility/uncertainty with ">="|"=", tags   *)
+   (* with "contains" — parses                                                      *)
    (* here and is rejected at apply, exactly as a risk-value outside the domain is.  *)
 on-elapse    = "halt" | "proceed" ;
 obligation   = "ai-interaction-disclosure" | "synthetic-content-marking"

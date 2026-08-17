@@ -20,7 +20,16 @@ FULL_RISK = frozenset(RISK)
 GRADES = {"L0": 0, "L1": 1, "L2": 2, "L3": 3, "L4": 4}
 # restrictiveness chain: auto ⊑ human ⊑ refused ⊑ reserved ⊑ prohibited
 VERDICT = {"auto": 0, "human": 1, "refused": 2, "reserved": 3, "prohibited": 4}
-GUARD_OPS = {"kind": {"="}, "party": {"="}, "risk": {">=", "="}, "tags": {"contains"}}
+# ordered declared token properties (vocabulary/{reversibility,uncertainty}.json).
+# Ascending in concern, like RISK: a ">=" guard catches the severe end.
+REVERSIBILITY = {"reversible": 0, "compensable": 1, "irreversible": 2}
+UNCERTAINTY = {"settled": 0, "contested": 1, "unknown": 2}
+# every ordered guardable property, by field name — the language compares declared
+# values and derives none of them
+ORDERED = {"risk": RISK, "reversibility": REVERSIBILITY, "uncertainty": UNCERTAINTY}
+GUARD_OPS = {"kind": {"="}, "party": {"="}, "risk": {">=", "="},
+             "reversibility": {">=", "="}, "uncertainty": {">=", "="},
+             "tags": {"contains"}}
 
 
 class Reject(Exception):
@@ -281,11 +290,16 @@ def _check_guard(g):
     if g is None:
         return
     if g["field"] not in GUARD_OPS:
-        raise Reject("apply", f"guard over {g['field']!r} (domain is kind/risk/party/tags)")
+        raise Reject(
+            "apply",
+            f"guard over {g['field']!r} "
+            "(domain is kind/risk/reversibility/uncertainty/party/tags)")
     if g["op"] not in GUARD_OPS[g["field"]]:
         raise Reject("apply", f"guard pairing {g['field']} {g['op']} is invalid")
-    if g["field"] == "risk" and g["val"] not in RISK:
-        raise Reject("apply", f"guard risk {g['val']!r} outside the domain")
+    scale = ORDERED.get(g["field"])
+    if scale is not None and g["val"] not in scale:
+        raise Reject(
+            "apply", f"guard {g['field']} {g['val']!r} outside the domain")
 
 
 def _risk_set(spec, kind):
@@ -527,6 +541,16 @@ def _guard_holds(g, token, floored):
         return token.get("party") == g["val"]
     if g["field"] == "risk":
         return floored >= RISK[g["val"]] if g["op"] == ">=" else floored == RISK[g["val"]]
+    if g["field"] in ("reversibility", "uncertainty"):
+        # No gate floor: a gate raises a token's effective risk and nothing else
+        # (specification, The token). An absent property satisfies no ordered
+        # guard — fail-closed, never a defaulted level.
+        scale = ORDERED[g["field"]]
+        have = scale.get(token.get(g["field"]))
+        if have is None:
+            return False
+        want = scale[g["val"]]
+        return have >= want if g["op"] == ">=" else have == want
     if g["field"] == "tags":
         return g["val"] in token.get("tags", [])
     return False
@@ -622,6 +646,9 @@ def validate_token(tok):
     prov = tok.get("provenance")
     if not isinstance(prov, list) or not all(isinstance(x, str) for x in prov):
         return False
+    for field, scale in (("reversibility", REVERSIBILITY), ("uncertainty", UNCERTAINTY)):
+        if field in tok and tok[field] not in scale:
+            return False
     if "tags" in tok:
         tags = tok["tags"]
         if not isinstance(tags, list) or not all(isinstance(x, str) for x in tags):

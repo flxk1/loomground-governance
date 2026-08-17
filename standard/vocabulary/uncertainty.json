@@ -1,0 +1,7 @@
+{
+  "levels": ["settled", "contested", "unknown"],
+  "order": "settled < contested < unknown",
+  "ascending": "concern, exactly as vocabulary/risk.json — `uncertainty >= contested` catches everything from contested upward",
+  "note": "an ordered, DECLARED token property: how settled the basis for the action is, orthogonal to whether the action is on the merits correct. Like risk, the scale is a deployer choice, and the value is asserted by whoever supplies the token — the language derives it from nothing and infers it from no other field. Guardable with the operators risk permits (>=, =).",
+  "grounding": "specification §4, §6"
+}
