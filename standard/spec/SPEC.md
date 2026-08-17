@@ -46,6 +46,8 @@ Every other endpoint pairing is ill-formed.
 | risk | Ordered severity level [ISO31073] |
 | party | The party currently responsible; a subject identity [ABAC] |
 | provenance | The ordered prior nodes and parties traversed |
+| reversibility | Optional ordered level: how recoverable the effect is once released |
+| uncertainty | Optional ordered level: how settled the basis for the action is |
 | tags | Optional set of declared, non-id categories tested by membership |
 
 **Declarations (§6)**
@@ -89,6 +91,10 @@ A policy graph is built from four node classes; the abstract syntax admits no ot
 A single data type flows along a cord: the token, with fields as in §2.
 
 A guard or declaration that distinguishes tool invocations does so on `kind`. The `risk` field is an ordered severity level [ISO31073] assigned within a risk-management process [ISO31000]; the scale (illustratively `low < medium < high < critical`) is a deployer choice ([AIA] Art. 3(4)). Risk is a property of the token, not of a gate. A gate MAY declare a minimum risk level; a token there is treated as having at least that level — the declared-maximum of the token's `risk` and the gate's floor, a selection between declared values, not a computed quantity.
+
+The `reversibility` and `uncertainty` fields are ordered levels carried on the same terms as `risk`: **declared, not derived.** `reversibility` states how recoverable the action's effect is once released; `uncertainty` states how settled the basis for it is, which is orthogonal to whether the action is on the merits correct. Their scales (illustratively `reversible < compensable < irreversible` and `settled < contested < unknown`) are deployer choices, recorded in `vocabulary/reversibility.json` and `vocabulary/uncertainty.json`, and both order ascending in concern so a `>=` guard catches the severe end exactly as it does for risk. Neither has a gate floor: a gate may raise a token's effective `risk` (above), and raises nothing else.
+
+The language computes neither. Whoever supplies the token asserts them, as it asserts `risk` and `party`, and a conforming implementation infers them from no other field. **This is what lets an autonomy level vary with circumstance without the notation acquiring the power to compute one:** a host may derive a value by any means it likes and hand it in as a declared property, and the language then only compares declared values (§6, the guard domain). The wall the guard domain describes is a constraint on the *notation*, not on the host.
 
 The `party` field denotes the party currently responsible — the in-language governance-responsibility attribute. Where a guard ranges over `party` (§6) it denotes the party the token carries at the evaluating gate. **The language does not authenticate party assignments; binding a `party` to an authenticated identity is outside this specification, and the party-guard and the separation-of-duty distinctness check (§6 Quorum) carry their intended security property only relative to such an external binding.**
 
@@ -143,6 +149,8 @@ Which kinds are reserved or prohibited is policy, not language (§10).
 A granted grade is the actor's standing autonomy. A required grade is the threshold for unattended action at a checkpoint. A gate with a required grade MUST be a source gate; a required grade on a piped gate is ill-formed at apply. At an ungraded gate, an actor's granted grade has no effect.
 
 `grade` is configuration, not a token field. It is not guardable: guards range only over {`kind`, `risk`, `party`, `tags`}. `risk` is per-action token data; `grade` is per-actor/per-gate configuration.
+
+**Re-grading is a fresh activation.** A granted or required grade is configuration and does not change during an evaluation; there is no runtime mutation of either. Where a deployment varies autonomy with circumstance, it does so by activating a gate again with a different token — whose `risk`, `reversibility` and `uncertainty` may differ (§4) — or against a graph whose configuration was itself re-authored. Each such change is therefore an ordinary activation with an ordinary log entry (§7.4), and an observation stays a projection of the graph rather than of its history. An implementation that mutated a grade mid-evaluation would make the same graph yield different observations at different moments, and is non-conforming.
 
 The default ladder is `L0 < L1 < L2 < L3 < L4`, recorded in `vocabulary/grades.json`. A deployer MAY replace that ladder. The active ladder MUST declare a total order over its levels, and each declared grade in a graph MUST be a member of that active ladder; otherwise the graph is ill-formed.
 

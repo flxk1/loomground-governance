@@ -1,0 +1,15 @@
+# guard-reversibility — `reversibility` is a declared, ordered token property
+# guardable on the terms `risk` already has (§4, §6). One gate per case so each
+# verdict is discriminated in the observation as well as the log.
+actor  bot7
+human  alice  role safety
+gate   hard   risk low  grant bot7
+gate   soft   risk low  grant bot7
+gate   bare   risk low  grant bot7
+reserve deploy by safety when reversibility >= irreversible
+cord bot7 -> hard
+cord bot7 -> soft
+cord bot7 -> bare
+cord hard -> master
+cord soft -> master
+cord bare -> master
