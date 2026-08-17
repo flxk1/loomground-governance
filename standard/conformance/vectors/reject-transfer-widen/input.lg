@@ -1,0 +1,7 @@
+# reject-transfer-widen — the transfer licenses `advise`, which is not in the
+# consigning actor's mandate. An actor cannot hand on a purpose it was not
+# itself given (§6); ill-formed at apply.
+actor counsel mandate review
+gate  release risk low consign vendorb grant counsel[work_product:low]
+transfer work_product to vendorb within {review,advise}
+cord release -> master

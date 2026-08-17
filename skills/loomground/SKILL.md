@@ -14,7 +14,7 @@ schedules, persists, or communicates. Your job is to express what is declarable 
 Read `llms.txt` (the self-contained guide) and `language-card.json` from the
 Loomground standard. They give the whole vocabulary: 4 nodes (`actor`, `human`,
 `gate`, `master`), 3 cords (authority, pipe, egress), the token
-`{id, kind, risk, party, provenance, tags?}`, 5 verdicts, and the 10 declarations.
+`{id, kind, risk, party, provenance, reversibility?, uncertainty?, tags?}`, 5 verdicts, and the 11 declarations.
 
 ## Step 1 — Classify each requirement (the litmus)
 For every requirement in the request, decide:

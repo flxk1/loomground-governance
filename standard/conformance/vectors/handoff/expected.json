@@ -1,0 +1,71 @@
+{
+  "nodes": [
+    {
+      "id": "counsel",
+      "class": "actor",
+      "mandate": [
+        "advise",
+        "draft",
+        "review"
+      ]
+    },
+    {
+      "id": "partner",
+      "class": "human",
+      "role": "supervising-partner"
+    },
+    {
+      "id": "assemble",
+      "class": "gate",
+      "risk_floor": "low"
+    },
+    {
+      "id": "release",
+      "class": "gate",
+      "risk_floor": "high",
+      "consignee": "vendorb"
+    },
+    {
+      "id": "master",
+      "class": "master"
+    }
+  ],
+  "cords": [
+    {
+      "from": "counsel",
+      "to": "assemble",
+      "type": "authority"
+    },
+    {
+      "from": "counsel",
+      "to": "release",
+      "type": "authority"
+    },
+    {
+      "from": "assemble",
+      "to": "release",
+      "type": "pipe"
+    },
+    {
+      "from": "release",
+      "to": "master",
+      "type": "egress"
+    }
+  ],
+  "reservations": [
+    {
+      "kind": "work_product",
+      "by": "supervising-partner",
+      "when": "reversibility >= irreversible"
+    }
+  ],
+  "transfers": [
+    {
+      "kind": "work_product",
+      "to": "vendorb",
+      "within": [
+        "review"
+      ]
+    }
+  ]
+}

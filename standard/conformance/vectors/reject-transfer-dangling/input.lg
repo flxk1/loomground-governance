@@ -1,0 +1,6 @@
+# reject-transfer-dangling — the transfer names a consignee no gate consigns to,
+# so it bounds nothing. Ill-formed at apply rather than silently inert (§6).
+actor counsel mandate review
+gate  release risk low grant counsel[work_product:low]
+transfer work_product to vendorb within review
+cord release -> master
