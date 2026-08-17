@@ -97,6 +97,7 @@ DECLARATION_PROBES: dict[str, list[str]] = {
     "redress":           [r"(?m)^\s*redress\b"],
     "party":             [r"\bparty\b"],
     "delegation":        [r"\bon-behalf-of\b"],
+    "mandate":           [r"\bmandate\b"],
     "autonomy-grade":    [r"\bgrade\b"],
 }
 

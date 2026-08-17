@@ -57,7 +57,10 @@ statement    = actor decl | human decl | gate decl | cord
              | reserve decl | prohibit decl | obligation decl | redress decl ;
 
 actor decl   = "actor" , id ,
-               { "party" , id | "on-behalf-of" , id | "grade" , grade-value | "name" , text-to-eol } ;
+               { "party" , id | "on-behalf-of" , id | "grade" , grade-value
+               | "mandate" , purpose set | "name" , text-to-eol } ;
+purpose set  = purpose | "{" , purpose , { "," , purpose } , "}" ;
+purpose      = id ;
 human decl   = "human" , id , { "role" , id | "name" , text-to-eol } ;
 gate decl    = "gate" , id , { gate opt } , [ grant clause ] ;
 gate opt     = "risk" , risk-value | "grade" , grade-value | "party" , id | "name" , id ;   (* risk = floor; grade = required threshold, source gate only (apply-checked) *)
@@ -189,6 +192,19 @@ Notes on the grammar, each tied to the abstract language:
   stays graph-disconnected. A delegate that declares no `party` bears its delegator's
   party, resolved along the (acyclic) chain to the nearest declared party; this
   resolved party is what the observation projects on the delegate's node.
+- An `actor` declaration MAY carry `mandate <purpose>` or `mandate { <purpose>, … }`,
+  the set of declared purposes the actor is authorised to pursue. A single purpose
+  MAY be written without braces. The set is declared, never computed; `mandate` is
+  configuration on an actor, is not a token field, and is never guardable — guards
+  range only over {`kind`, `risk`, `party`, `tags`}. An actor declares at most one
+  `mandate`; a second on the same actor is ill-formed. A delegation binding between
+  two actors MUST satisfy the mandate-attenuation invariant (the specification,
+  Governance declarations): the delegate's mandate MUST be a subset of its
+  delegator's, and a delegator declaring no mandate has the empty set, so its
+  delegate MUST also declare none. A binding that widens a mandate is ill-formed at
+  apply and has no effect. Attenuation composes pairwise along the acyclic principal
+  chain and needs no separate rule. Where the delegator is a `human`, the binding
+  constrains no mandate, exactly as it constrains no grant.
 - `master` is a reserved endpoint name denoting the single egress node — the unique
   sink at which the policy enforcement point attaches (the specification, Nodes). It
   is never declared; a policy graph contains exactly one master.

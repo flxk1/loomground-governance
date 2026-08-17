@@ -83,6 +83,32 @@ actor x on-behalf-of y
     delegator: (id)))
 
 ==================
+mandate, single purpose
+==================
+actor x mandate deploy
+---
+(source_file
+  (actor_decl
+    id: (id)
+    mandate: (purpose
+      (id))))
+
+==================
+mandate set with delegation
+==================
+actor sub on-behalf-of boss mandate {deploy,rollback}
+---
+(source_file
+  (actor_decl
+    id: (id)
+    delegator: (id)
+    mandate: (purpose_list
+      (purpose
+        (id))
+      (purpose
+        (id)))))
+
+==================
 redress with overturn and window
 ==================
 redress automated_decision by appeals overturn within 30d

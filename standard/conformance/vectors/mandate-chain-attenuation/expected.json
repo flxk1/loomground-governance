@@ -1,0 +1,37 @@
+{
+  "nodes": [
+    {
+      "id": "board",
+      "class": "actor",
+      "mandate": ["deploy", "procure", "rollback"]
+    },
+    {
+      "id": "lead",
+      "class": "actor",
+      "on_behalf_of": "board",
+      "mandate": ["deploy", "rollback"]
+    },
+    {
+      "id": "agent",
+      "class": "actor",
+      "on_behalf_of": "lead",
+      "mandate": ["deploy"]
+    },
+    {
+      "id": "g",
+      "class": "gate",
+      "risk_floor": "low"
+    },
+    {
+      "id": "master",
+      "class": "master"
+    }
+  ],
+  "cords": [
+    { "from": "board", "to": "g", "type": "authority" },
+    { "from": "lead", "to": "g", "type": "authority" },
+    { "from": "agent", "to": "g", "type": "authority" },
+    { "from": "g", "to": "master", "type": "egress" }
+  ],
+  "reservations": []
+}
