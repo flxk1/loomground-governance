@@ -12,7 +12,10 @@ statement    = actor decl | human decl | gate decl | cord
              | reserve decl | prohibit decl | obligation decl | redress decl ;
 
 actor decl   = "actor" , id ,
-               { "party" , id | "on-behalf-of" , id | "grade" , grade-value | "name" , text-to-eol } ;
+               { "party" , id | "on-behalf-of" , id | "grade" , grade-value
+               | "mandate" , purpose set | "name" , text-to-eol } ;
+purpose set  = purpose | "{" , purpose , { "," , purpose } , "}" ;   (* the purposes an actor is authorised to pursue; attenuates along the principal chain (§6). Declarative: a set of declared ids, never computed, and never a token field or guard domain *)
+purpose      = id ;
 human decl   = "human" , id , { "role" , id | "name" , text-to-eol } ;
 gate decl    = "gate" , id , { gate opt } , [ grant clause ] ;
 gate opt     = "risk" , risk-value | "grade" , grade-value | "party" , id | "name" , id ;   (* risk = floor; grade = required threshold, source gate only (apply-checked) *)

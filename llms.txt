@@ -13,9 +13,9 @@
 - **Token** (the only data): `{ id, kind, risk, party, provenance, tags? }`. `risk` = `low < medium < high < critical`. `tags` = optional set of declared categories.
 - **Verdicts** (join strictest-wins along pipes): `auto` releases · `human` withholds (oversight) · `refused` (no authorizing grant) · `reserved` (referred to a role) · `prohibited` (severed, overrides any grant). Master releases iff effective verdict is `auto` and every egress obligation is attached.
 - **Autonomy grade** — config attribute, not a token field, not guardable: `grade` on an actor = *granted*; on a source gate = *required*. Ordered ladder (`standard/vocabulary/grades.json`, default `L0 < L1 < L2 < L3 < L4`, policy/remappable). At a source gate requiring `R`: `auto` iff granted `G >= R`, else `human`; ungraded actor → `human`; no `R` → `auto` (declare a required grade to withhold).
-- **Well-formed iff:** every cord permitted · pipes acyclic · exactly one master · every gate reaches the master · a grade-required gate is a source gate · on-behalf-of names a declared actor or human, at most one per actor, acyclic (the principal chain) · delegation never amplifies on actor→actor links (`risk` subset — an ungranted delegator has the empty set, so a delegate is never granted where its delegator is not; `grade(delegate) <= grade(delegator)`; an ungraded delegator caps the delegate at ungraded); a human delegator constrains no grant. Forward-only.
+- **Well-formed iff:** every cord permitted · pipes acyclic · exactly one master · every gate reaches the master · a grade-required gate is a source gate · on-behalf-of names a declared actor or human, at most one per actor, acyclic (the principal chain) · delegation never amplifies on actor→actor links (`risk` subset — an ungranted delegator has the empty set, so a delegate is never granted where its delegator is not; `grade(delegate) <= grade(delegator)`; an ungraded delegator caps the delegate at ungraded) · delegation never widens a mandate on actor→actor links (`mandate(delegate)` ⊆ `mandate(delegator)`; a delegator declaring none caps the delegate at none), at most one mandate per actor; a human delegator constrains neither grant nor mandate. Forward-only.
 
-## Declarations (9)
+## Declarations (10)
 
 ```
 reserve <kind> by <target> [when <guard>] [duration <d>:<halt|proceed>]   # -> reserved
@@ -25,6 +25,7 @@ redress <kind> by <role> [overturn] [within <duration>]                  # relea
 party <id>             # accountability attribute, on an actor or gate
 grade <Lk>             # autonomy, on an actor (granted) / source gate (required)
 actor <id> on-behalf-of <delegator>   # delegation: delegator is a declared actor or human; the acyclic chain projects in the observation; actor-to-actor links never amplify; a partyless delegate bears its delegator's party
+actor <id> mandate <p> | mandate {<p>,...}   # mandate: the purposes the actor is authorised to pursue. A delegate's mandate MUST be a subset of its delegator's; a delegator declaring none caps its delegate at none, so delegation narrows purpose, never widens it. Configuration like grade — not a token field, never guardable. A grant says WHAT, a mandate says WHAT FOR; it confers no authority and judges no conduct
 ```
 - `target` = `<role>` | `<role> and <role>` | `<m> of { roles }`  — **quorum**: distinct parties (separation of duty).
 - **temporal**: the `duration` + on-elapse (`halt`|`proceed`) on a reserved action.

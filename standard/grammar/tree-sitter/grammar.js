@@ -43,8 +43,15 @@ module.exports = grammar({
       seq("party", field("party", $.id)),
       seq("on-behalf-of", field("delegator", $.id)),
       seq("grade", field("grade", $._grade_value)),
+      seq("mandate", field("mandate", $._purpose_set)),
       seq("name", $.text_to_eol),
     ))),
+
+    // the purposes an actor is authorised to pursue; a single purpose may be
+    // written without braces. Attenuates along the principal chain (SPEC).
+    _purpose_set: $ => choice($.purpose, $.purpose_list),
+    purpose_list: $ => seq("{", $.purpose, repeat(seq(",", $.purpose)), "}"),
+    purpose: $ => $.id,
 
     human_decl: $ => seq("human", field("id", $.id), repeat(choice(
       seq("role", field("role", $.id)),
