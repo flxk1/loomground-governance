@@ -1,0 +1,47 @@
+{
+  "comment": "One actor, maximally privileged at both gates: granted, and granted L3 meets each gate's required L3, so step (4) would dispose `auto`. At g1 the kind `audit` matches the reservation and step (3) pre-empts it -> reserved. At g2 the same actor with the same grade proposes an unreserved kind -> auto. The pair isolates the property: `reserved` is evaluated on the token's kind, independent of which actor presents it (specification 7.1), so no grant reaches the human referral.",
+  "activations": [
+    {
+      "actor": "bot",
+      "source": "g1",
+      "token": {
+        "id": "t1",
+        "kind": "audit",
+        "risk": "low",
+        "party": "deployer",
+        "provenance": []
+      }
+    },
+    {
+      "actor": "bot",
+      "source": "g2",
+      "token": {
+        "id": "t2",
+        "kind": "ordinary",
+        "risk": "low",
+        "party": "deployer",
+        "provenance": []
+      }
+    }
+  ],
+  "expected": {
+    "g1": {
+      "verdict": "reserved",
+      "master": "withhold"
+    },
+    "g2": {
+      "verdict": "auto",
+      "master": "act"
+    }
+  },
+  "log": [
+    {
+      "gate": "g1",
+      "verdict": "reserved"
+    },
+    {
+      "gate": "g2",
+      "verdict": "auto"
+    }
+  ]
+}

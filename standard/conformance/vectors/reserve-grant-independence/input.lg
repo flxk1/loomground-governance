@@ -1,0 +1,18 @@
+# reserve-grant-independence — nothing an actor can be granted lets it past a human
+# referral. `bot` is granted at both gates and its granted L3 meets each gate's required
+# L3, so step (4) would dispose `auto`. At g1 the token's kind `audit` matches the
+# reservation, and step (3) fires regardless: `reserved` is evaluated on the kind,
+# independent of which actor presents it (specification §7.1). g2 is the control — the
+# same maximally-privileged actor, the same grade, an unreserved kind: `auto`.
+#
+# This is corrigibility as the language states it. The human referral is not an
+# exception a grant can outrank; it is not evaluated against the grant at all.
+actor bot grade L3
+human ombud role ombud
+gate  g1  risk low  grade L3  grant bot
+gate  g2  risk low  grade L3  grant bot
+reserve audit by ombud
+cord  bot -> g1
+cord  bot -> g2
+cord  g1  -> master
+cord  g2  -> master
