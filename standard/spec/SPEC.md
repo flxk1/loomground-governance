@@ -197,6 +197,8 @@ The comparison is a selection between declared ordered values, not a computed va
 
 `prohibited` and `reserved` are properties of the gate evaluated on the token's `kind`, independent of which actor presents it; `refused` concerns only the absence of an authorizing grant. This ordering is pinned as a conformance vector (§9).
 
+**That actor-independence is where this language locates correctability.** A reservation refers the token to a human role without being evaluated against the acting actor at all, so no grant and no grade reaches it: there is no position an actor can be conferred that puts it beyond a human referral. The property therefore holds by construction rather than by a rule forbidding its negation, and it needs no notion of an intervention directed at a named actor — an act carries no target field (§4), and one is not required here. What the language guarantees is that release is withheld (§7.3); whether a runtime then pauses, corrects or terminates the actor is enforcement, and is policy (§10). A maximally granted actor meeting a gate's required grade — for which step (4) would dispose `auto` — still receiving `reserved` is pinned as a conformance vector (§9).
+
 The `auto`/`human` disposition of step (4) is assigned per token. `human` denotes that release is withheld at the master pending human oversight or intervention. A grade-determined `human` is role-less: unlike `reserved`, it names no human role. A non-activated gate bears the status `inactive`, which is not a verdict.
 
 Priority selection (one verdict at one gate) and the join (§7.2, across predecessors) operate on different inputs; their orderings need not agree on the `refused`/`reserved` pair.
