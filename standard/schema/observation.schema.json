@@ -21,6 +21,7 @@
           "grade": {"type": "string", "description": "granted autonomy grade on an actor; membership is checked against the active ladder at apply"},
           "grade_required": {"type": "string", "description": "required autonomy grade threshold on a source gate; membership is checked against the active ladder at apply"},
           "on_behalf_of": {"type": "string", "description": "the actor's delegator (an actor or a human) — one link of the principal chain, projected on the delegate's node"},
+          "mandate": {"type": "array", "items": {"type": "string"}, "uniqueItems": true, "description": "mandate: the set of declared purposes this actor is authorised to pursue. Configuration on an actor, like grade — never a token field and never guardable. A delegate's mandate must be a subset of its delegator's; a delegator declaring none caps its delegate at none; projected in ascending lexicographic order"},
           "party": {"type": "string", "description": "the party currently responsible, projected as a node attribute on an actor or gate; for a partyless delegate, the party resolved along the principal chain"}
         }
       }

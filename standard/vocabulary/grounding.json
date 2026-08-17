@@ -7,6 +7,7 @@
     {"construct": "source gate", "term": "gate fed by a proposing actor's action; a decision request at the policy decision point", "sources": ["XACML"]},
     {"construct": "authority cord / no ambient authority", "term": "designation-based access; least privilege; complete mediation", "sources": ["OCAP", "PROT", "NIST80053 AC-3/AC-6", "RBAC", "ABAC"]},
     {"construct": "delegation / attenuation", "term": "on-behalf-of binding; delegation must not amplify granted authority (POLA)", "sources": ["OCAP", "PROT"]},
+    {"construct": "mandate / purpose attenuation", "term": "the purpose for which authority is conferred; an agent may not confer a purpose it was not itself given (attenuation of scope, not of capability)", "sources": ["AGENCY", "OCAP", "GDPR Art. 5(1)(b)"]},
     {"construct": "prohibited verdict", "term": "policy-declared Deny invariant under privileges (explicit deny rule)", "sources": ["XACML"]},
     {"construct": "refused verdict", "term": "denial for want of an authorizing grant; deny-biased Indeterminate; fail-safe defaults", "sources": ["XACML", "NIST80053 AC-3", "PROT"]},
     {"construct": "party", "term": "accountability role: controller/processor; provider/deployer", "sources": ["GDPR Art. 4(7)/4(8)/24/28/29", "AIA Art. 3(3)/3(4)"]},

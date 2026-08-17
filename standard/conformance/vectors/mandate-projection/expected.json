@@ -1,0 +1,30 @@
+{
+  "nodes": [
+    {
+      "id": "boss",
+      "class": "actor",
+      "mandate": ["deploy", "rollback"]
+    },
+    {
+      "id": "sub",
+      "class": "actor",
+      "on_behalf_of": "boss",
+      "mandate": ["deploy"]
+    },
+    {
+      "id": "g",
+      "class": "gate",
+      "risk_floor": "low"
+    },
+    {
+      "id": "master",
+      "class": "master"
+    }
+  ],
+  "cords": [
+    { "from": "boss", "to": "g", "type": "authority" },
+    { "from": "sub", "to": "g", "type": "authority" },
+    { "from": "g", "to": "master", "type": "egress" }
+  ],
+  "reservations": []
+}
