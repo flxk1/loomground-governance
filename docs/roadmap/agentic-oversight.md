@@ -49,9 +49,11 @@ exercised by conformance vectors. Their sections below are kept as the record of
 what was missing and why, because the reasoning is the durable part; each now opens
 with what landed.
 
-G5 is **open and blocked on a design decision** (see below). G6 remains open. A
-seventh gap, G7, was found by testing the language against a real agent-handoff
-protocol and is **closed**.
+G5 is **closed too, and it was never a language gap** — the invariant was stated
+over the wrong side of the relation, and read from the intervener's side it is
+already §7.1. It cost one vector and a paragraph of specification, no new term.
+G6 remains open. A seventh gap, G7, was found by testing the language against a
+real agent-handoff protocol and is **closed**.
 
 ## The gaps
 
@@ -113,7 +115,7 @@ never an edit to a granted or required grade. Every autonomy change is then an
 ordinary activation with an ordinary log entry, and the observation stays a
 projection of the graph rather than of its history.
 
-### G5 · No interruptibility invariant — OPEN, blocked on design
+### G5 · No interruptibility invariant — CLOSED, and the gap was in the reading
 
 The language can express that an action is reserved to a human, prohibited, or
 subject to a deadline. It cannot express that a principal **retains the ability
@@ -136,7 +138,7 @@ existing invariants.
 action taken outside the governed path. It is a well-formedness property, not a
 behavioural guarantee, and should not be read as one.
 
-**Blocked, and the blocker is real.** The candidate shape above cannot be
+**The blocker was real, and it was diagnostic.** The candidate shape cannot be
 implemented as written. It says no actor may be granted an immunity "against the
 declared intervention kinds" — but a grant in this language is over a `kind` at a
 gate, and a `kind` has no *target*. There is nothing in the graph that makes
@@ -144,12 +146,39 @@ gate, and a `kind` has no *target*. There is nothing in the graph that makes
 Without a target, the invariant has nothing to range over, and any implementation
 would be quietly weaker than the sentence promises.
 
-Two ways out, both design decisions rather than implementation:
-give a grant an optional target, which enlarges the grant model for one case; or
-express interruptibility as a *reachability* property — every actor lies on a path
-to a gate that reserves some intervention kind to a human — which needs no new
-term but says something weaker than immunity. The second is cheaper and honest
-about being weaker. Neither should be picked by an implementer alone.
+**What that argument was actually showing** is that the candidate quantified over
+the wrong side. "No actor holds an immunity" ranges over *addressees*, and an
+addressee-side rule needs the act to name its target. The same property stated on
+the **intervener's** side needs no target at all, because it is a claim about one
+privileged position rather than about every actor: *the human referral is
+unattenuable.*
+
+Stated that way it is not missing. It is §7.1: `reserved` is evaluated on the
+token's `kind`, **independent of which actor presents it**. A reservation is not
+weighed against the acting actor's grant, so no grant outranks it and no grade
+reaches it; there is no position an actor can be conferred that puts it beyond a
+human referral. Correctability holds here by construction, not by a rule
+forbidding its negation — which is why the negation could not be written.
+
+What was genuinely missing was the *statement*. The specification never said this
+was where correctability lived, and no vector isolated it: `grade-reserved-precedence`
+arranges granted L1 against required L3, so the grade path would withhold anyway
+and the vector does not show the reservation is what held. `reserve-grant-independence`
+supplies the isolated case — one maximally privileged actor, granted at both gates
+and meeting each required grade so step (4) would dispose `auto`, reserved at one
+and `auto` at the other. Both are now in place, and **the language needed no new
+term.**
+
+*The `target` field is declined, not deferred.* It would be the first token field
+describing a second party rather than the act, it imports a runtime notion into a
+configuration language, and it would buy an invariant the language already holds.
+
+*What this does and does not guarantee.* The language guarantees release is
+withheld (§7.3). Whether a runtime then pauses, corrects or terminates the actor
+is enforcement, and is policy (§10) — in this family, RVND's Breaker, which
+inverts the default so that running requires continuous permission rather than
+stopping requiring an intervention. The language's refusal to mutate a grade
+mid-evaluation (G4 above) is what leaves that revocation to the runtime.
 
 ### G7 · No term for where a release goes — CLOSED
 
@@ -196,7 +225,7 @@ in the language at all is an open question this slice does not settle.
 | ~~1~~ | ~~G1, G2~~ | **landed** — mandate + attenuation, 5 vectors |
 | ~~2~~ | ~~G3, G4~~ | **landed** — `reversibility`/`uncertainty` + re-grading, 4 vectors |
 | ~~3~~ | ~~G7~~ | **landed** — `consign` + `transfer` + attenuation, 5 vectors |
-| 4 | G5 | blocked: needs a target on grants, or a weaker reachability reading. A decision, not an implementation |
+| ~~4~~ | ~~G5~~ | **landed** — no new term: §7.1 read from the intervener's side, 1 vector |
 | 5 | G6 | open — may resolve to "not language" |
 
 Each step is a compatibility-affecting change and implies a minor version before
@@ -210,9 +239,13 @@ agreement — and `reuse lint` is clean.
 
 Two vectors are load-bearing rather than illustrative:
 
-- a delegation chain that **widens** a mandate is ill-formed and has no effect;
-- a grant of an **immunity** against a declared intervention kind is ill-formed
-  and has no effect.
+- a delegation chain that **widens** a mandate is ill-formed and has no effect
+  (`reject-mandate-widen`);
+- a **maximally granted** actor, meeting the gate's required grade so that step
+  (4) would dispose `auto`, still receives `reserved` (`reserve-grant-independence`).
+  The second was originally written here as "a grant of an immunity against a
+  declared intervention kind is ill-formed" — an ill-formedness rule the language
+  cannot express, standing in for a property it already has. G5 records why.
 
 ## Standing limitation
 
