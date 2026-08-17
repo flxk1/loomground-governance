@@ -1,0 +1,36 @@
+{
+  "comment": "A handoff of privileged work product. The token is irreversible \u2014 once the material is at the other vendor it cannot be recalled \u2014 so the reservation fires and a supervising partner is referred. The verdict is `reserved`, not `auto`: the language withholds, and the human decides. Note what the observation now carries that it could not before: the consignee on the releasing gate, and the purposes the material travels under.",
+  "activations": [
+    {
+      "actor": "counsel",
+      "source": "assemble",
+      "token": {
+        "id": "t1",
+        "kind": "work_product",
+        "risk": "high",
+        "party": "firm",
+        "provenance": [],
+        "reversibility": "irreversible"
+      }
+    }
+  ],
+  "expected": {
+    "assemble": {
+      "verdict": "reserved"
+    },
+    "release": {
+      "verdict": "reserved",
+      "master": "withhold"
+    }
+  },
+  "log": [
+    {
+      "gate": "assemble",
+      "verdict": "reserved"
+    },
+    {
+      "gate": "release",
+      "verdict": "reserved"
+    }
+  ]
+}

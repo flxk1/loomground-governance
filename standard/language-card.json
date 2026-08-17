@@ -7,7 +7,7 @@
   "cords": ["authority (actor -> gate)", "pipe (gate -> gate)", "egress (gate -> master)"],
   "token": ["id", "kind", "risk", "party", "provenance", "reversibility", "uncertainty", "tags"],
   "verdicts": ["auto", "human", "refused", "reserved", "prohibited"],
-  "declarations": ["reservation", "quorum", "prohibition", "temporal", "egress-obligation", "redress", "party", "delegation", "mandate", "autonomy-grade"],
+  "declarations": ["reservation", "quorum", "prohibition", "temporal", "egress-obligation", "redress", "party", "delegation", "mandate", "transfer", "autonomy-grade"],
   "well_formedness": [
     "every cord is a permitted endpoint pairing",
     "the pipe relation is acyclic",
@@ -15,6 +15,7 @@
     "every gate lies on a path to the master",
     "every actor-to-actor delegation link satisfies the no-amplification invariant (risk subset — an ungranted delegator has the empty set, so a delegate is never granted where its delegator is not — and, pairwise, grade(delegate) not above grade(delegator) in the active-ladder order; additionally an ungraded delegator caps the delegate at ungraded); a human delegator anchors answerability and constrains no grant",
     "every actor-to-actor delegation binding satisfies the mandate-attenuation invariant (the delegate's mandate is a subset of its delegator's; a delegator declaring no mandate caps its delegate at none, so delegation narrows purpose and never widens it); an actor declares at most one mandate",
+    "a gate declaring a consignee is terminal; every transfer names a declared consignee with a non-empty purpose set; and a transfer's purposes are a subset of the mandate of every actor granted over that kind at a consigning gate (an unmandated actor licenses nothing onward)",
     "a gate declaring a required grade is a source gate; grade_required on a non-source (piped) gate is ill-formed at apply",
     "the on-behalf-of relation names only declared nodes (actor or human) and is acyclic — the principal chain; it projects in the observation, and a partyless delegate bears its delegator's party"
   ],

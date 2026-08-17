@@ -54,7 +54,8 @@ fixed by the specification, not by this notation.
 program      = { line } ;
 line         = [ statement ] , [ comment ] , newline ;
 statement    = actor decl | human decl | gate decl | cord
-             | reserve decl | prohibit decl | obligation decl | redress decl ;
+             | reserve decl | prohibit decl | obligation decl | redress decl
+             | transfer decl ;
 
 actor decl   = "actor" , id ,
                { "party" , id | "on-behalf-of" , id | "grade" , grade-value
@@ -63,7 +64,8 @@ purpose set  = purpose | "{" , purpose , { "," , purpose } , "}" ;
 purpose      = id ;
 human decl   = "human" , id , { "role" , id | "name" , text-to-eol } ;
 gate decl    = "gate" , id , { gate opt } , [ grant clause ] ;
-gate opt     = "risk" , risk-value | "grade" , grade-value | "party" , id | "name" , id ;   (* risk = floor; grade = required threshold, source gate only (apply-checked) *)
+gate opt     = "risk" , risk-value | "grade" , grade-value | "party" , id
+             | "consign" , id | "name" , id ;   (* risk = floor; grade = required threshold, source gate only (apply-checked) *)
 grant clause = "grant" , grant , { grant } ;   (* MUST be last on the line; consumes every remaining token as a grant, e.g. `grant a b` *)
 grant        = id | id , "[" , kind , { "," , kind } , "]"
              | id , "[" , kind , ":" , risk set , "]" ;
@@ -78,6 +80,7 @@ reserve decl = "reserve" , kind , "by" , target , [ "when" , guard ] ,
 prohibit decl   = "prohibit" , kind , [ "when" , guard ] ;
 obligation decl = "obligation" , obligation , "on" , id ;
 redress decl    = "redress" , kind , "by" , role , [ "overturn" ] , [ "within" , duration ] ;
+transfer decl   = "transfer" , kind , "to" , id , "within" , purpose set ;   (* the consignee is a declared id, not a node: the four node classes are unchanged *)
 
 target       = role | role , "and" , role
              | number , "of" , "{" , role , { "," , role } , "}" ;
