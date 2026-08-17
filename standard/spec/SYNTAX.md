@@ -82,7 +82,7 @@ redress decl    = "redress" , kind , "by" , role , [ "overturn" ] , [ "within" ,
 target       = role | role , "and" , role
              | number , "of" , "{" , role , { "," , role } , "}" ;
 guard        = guard-field , guard-op , guard-value ;
-guard-field  = id ;   (* domain {kind, risk, party, tags}; checked at apply *)
+guard-field  = id ;   (* domain {kind, risk, reversibility, uncertainty, party, tags}; checked at apply *)
 guard-op     = ">=" | "=" | "contains" ;
 guard-value  = risk | id ;
 on-elapse    = "halt" | "proceed" ;
@@ -124,12 +124,16 @@ Notes on the grammar, each tied to the abstract language:
   a property of the token, not the gate. Written `low|medium|high|critical`, but the lexer
   accepts any identifier (`risk-value = risk | id`; a `rack` `$`-placeholder expands, §7);
   a value outside the domain is rejected at **apply**, not parse (`reject-bad-risk`).
-- A guard ranges over exactly the declared token properties `kind`, `risk`, `party`,
-  and `tags`, and MUST NOT range over `id` or denote a computed value (the specification,
-  Governance declarations). `tags` is a set of declared, non-`id` categories tested by
-  membership (`tags contains <tag>`). This restriction and
-  the valid `(field, op)` pairings (`kind`/`party` with `=`, `risk` with `>=`|`=`,
-  `tags` with `contains`) are enforced at **apply**, not at parse: the surface accepts
+- A guard ranges over exactly the declared token properties `kind`, `risk`,
+  `reversibility`, `uncertainty`, `party`, and `tags`, and MUST NOT range over `id` or
+  denote a computed value (the specification, Governance declarations). `tags` is a set
+  of declared, non-`id` categories tested by membership (`tags contains <tag>`).
+  `reversibility` and `uncertainty` are ordered properties admitted on exactly the terms
+  `risk` is: the token asserts them and the language only compares them, so a host may
+  compute a value by any means and hand it in — the restriction binds the notation, not
+  the host. This restriction and
+  the valid `(field, op)` pairings (`kind`/`party` with `=`, `risk`/`reversibility`/
+  `uncertainty` with `>=`|`=`, `tags` with `contains`) are enforced at **apply**, not at parse: the surface accepts
   a generic `<field> <op> <value>` guard, and a guard over `id` or `provenance` (or an
   invalid pairing) parses but is rejected at apply, exactly as a `risk` value outside
   the domain is. The separation-of-duty distinctness of a quorum target is evaluated

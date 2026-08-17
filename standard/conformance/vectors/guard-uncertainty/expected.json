@@ -1,0 +1,56 @@
+{
+  "nodes": [
+    {
+      "id": "bot7",
+      "class": "actor"
+    },
+    {
+      "id": "alice",
+      "class": "human",
+      "role": "review"
+    },
+    {
+      "id": "open",
+      "class": "gate",
+      "risk_floor": "low"
+    },
+    {
+      "id": "firm",
+      "class": "gate",
+      "risk_floor": "low"
+    },
+    {
+      "id": "master",
+      "class": "master"
+    }
+  ],
+  "cords": [
+    {
+      "from": "bot7",
+      "to": "open",
+      "type": "authority"
+    },
+    {
+      "from": "bot7",
+      "to": "firm",
+      "type": "authority"
+    },
+    {
+      "from": "open",
+      "to": "master",
+      "type": "egress"
+    },
+    {
+      "from": "firm",
+      "to": "master",
+      "type": "egress"
+    }
+  ],
+  "reservations": [
+    {
+      "kind": "claim",
+      "by": "review",
+      "when": "uncertainty >= contested"
+    }
+  ]
+}

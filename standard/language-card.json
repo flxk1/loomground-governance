@@ -5,7 +5,7 @@
   "summary": "A declarative language for governance constraints on AI system and AI agent actions. A program is a policy graph evaluated before release; each evaluation is recorded so later alteration is detectable.",
   "nodes": ["actor", "human", "gate", "master"],
   "cords": ["authority (actor -> gate)", "pipe (gate -> gate)", "egress (gate -> master)"],
-  "token": ["id", "kind", "risk", "party", "provenance", "tags"],
+  "token": ["id", "kind", "risk", "party", "provenance", "reversibility", "uncertainty", "tags"],
   "verdicts": ["auto", "human", "refused", "reserved", "prohibited"],
   "declarations": ["reservation", "quorum", "prohibition", "temporal", "egress-obligation", "redress", "party", "delegation", "mandate", "autonomy-grade"],
   "well_formedness": [

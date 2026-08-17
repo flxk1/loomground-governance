@@ -29,7 +29,7 @@ For every requirement in the request, decide:
   inspect payload, or communicate. **Not expressible — do not force it into a
   guard.** Record it as a host hand-off.
 
-A guard may range only over `kind`, `risk`, `party`, and `tags` (declared
+A guard may range only over `kind`, `risk`, `reversibility`, `uncertainty`, `party`, and `tags` (declared
 categories). If you need a computed value, it is a host concern.
 
 ## Step 2 — Draft the patch (`.lg`)
