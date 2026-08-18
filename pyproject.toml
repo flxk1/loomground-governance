@@ -6,7 +6,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "loomground-governance"
-version = "0.8.2"
+version = "0.9.0"
 description = "Machine-readable Loomground language artifacts and conformance kit"
 requires-python = ">=3.10"
 license = "Apache-2.0"

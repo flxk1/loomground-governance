@@ -2,6 +2,24 @@
 <!-- Copyright 2026 flxk1 -->
 # Changelog
 
+## [0.9.0](https://github.com/flxk1/loomground-governance/compare/loomground-governance-v0.8.2...loomground-governance-v0.9.0) (2026-08-18)
+
+
+### Features
+
+* **mandate:** declare the purpose authority is conferred for ([9ee8a6f](https://github.com/flxk1/loomground-governance/commit/9ee8a6fc124a3f3552c822e288e343e127df41a6))
+* **token:** reversibility and uncertainty, declared and ordered ([abcc3cc](https://github.com/flxk1/loomground-governance/commit/abcc3cc26f78fc59185f7a269a2f730a8568c9fb))
+* **transfer:** name where a release goes and what it travels under ([4608d56](https://github.com/flxk1/loomground-governance/commit/4608d5654a0aa83dd2292901c242b3b7ec388489))
+
+
+### Documentation
+
+* decouple release docs from a named consumer (general FOSS repo) ([51b2e3b](https://github.com/flxk1/loomground-governance/commit/51b2e3b854a87cb07d2991ac8a9c2c93b9439fa1))
+* **roadmap:** language gaps for agentic oversight ([e467723](https://github.com/flxk1/loomground-governance/commit/e467723ee701c9dba3d3f2d98ed36dc2ea9a2aac))
+* **roadmap:** language gaps for agentic oversight ([c9b35dc](https://github.com/flxk1/loomground-governance/commit/c9b35dc39bd90114f31622c7df83afc233c1673a))
+* **roadmap:** mark the closed language gaps and record the blocked one ([3d085bd](https://github.com/flxk1/loomground-governance/commit/3d085bd404511c4f993e3a19596891c59445d0ae))
+* **spec:** name where the language locates correctability ([cf26bfa](https://github.com/flxk1/loomground-governance/commit/cf26bfa2078cbd1eb917155e71bf5a2dab706918))
+
 ## [0.8.2](https://github.com/flxk1/loomground-governance/compare/loomground-governance-v0.8.1...loomground-governance-v0.8.2) (2026-08-01)
 
 
