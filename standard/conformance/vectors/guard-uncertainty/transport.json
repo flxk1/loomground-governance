@@ -1,0 +1,15 @@
+{
+  "comment": "Both tokens are risk low, so severity cannot explain the split. open carries uncertainty contested -> reserved; firm carries settled -> auto. Settledness and severity are separate axes and a guard reaches only the one it names.",
+  "activations": [
+    {"actor": "bot7", "source": "open", "token": {"id": "t1", "kind": "claim", "risk": "low", "party": "deployer", "provenance": [], "uncertainty": "contested"}},
+    {"actor": "bot7", "source": "firm", "token": {"id": "t2", "kind": "claim", "risk": "low", "party": "deployer", "provenance": [], "uncertainty": "settled"}}
+  ],
+  "expected": {
+    "open": {"verdict": "reserved", "master": "withhold"},
+    "firm": {"verdict": "auto", "master": "act"}
+  },
+  "log": [
+    {"gate": "open", "verdict": "reserved"},
+    {"gate": "firm", "verdict": "auto"}
+  ]
+}

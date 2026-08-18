@@ -1,0 +1,7 @@
+# reject-mandate-widen — the delegate's mandate is not a subset of its
+# delegator's (`procure` was never conferred); the mandate-attenuation
+# invariant (§6) makes the graph ill-formed at apply.
+actor boss mandate deploy
+actor sub on-behalf-of boss mandate {deploy,procure}
+gate g risk low grant boss[deploy:low] sub[deploy:low]
+cord g -> master

@@ -10,12 +10,12 @@
 
 - **Nodes (4):** `actor` (proposes an action; bears authority only by an explicit grant) · `human` (a role a `reserved` token is referred to, or the root of a principal chain) · `gate` (checkpoint; yields exactly one verdict) · `master` (single egress; the release point).
 - **Cords (3):** `authority` (actor→gate) · `pipe` (gate→gate, acyclic) · `egress` (gate→master). Every other pairing is ill-formed.
-- **Token** (the only data): `{ id, kind, risk, party, provenance, tags? }`. `risk` = `low < medium < high < critical`. `tags` = optional set of declared categories.
+- **Token** (the only data): `{ id, kind, risk, party, provenance, reversibility?, uncertainty?, tags? }`. `risk` = `low < medium < high < critical`. `reversibility` = `reversible < compensable < irreversible`. `uncertainty` = `settled < contested < unknown`. All three order ascending in concern, are DECLARED (the token asserts them; the language derives none), and are remappable policy scales. `tags` = optional set of declared categories.
 - **Verdicts** (join strictest-wins along pipes): `auto` releases · `human` withholds (oversight) · `refused` (no authorizing grant) · `reserved` (referred to a role) · `prohibited` (severed, overrides any grant). Master releases iff effective verdict is `auto` and every egress obligation is attached.
 - **Autonomy grade** — config attribute, not a token field, not guardable: `grade` on an actor = *granted*; on a source gate = *required*. Ordered ladder (`standard/vocabulary/grades.json`, default `L0 < L1 < L2 < L3 < L4`, policy/remappable). At a source gate requiring `R`: `auto` iff granted `G >= R`, else `human`; ungraded actor → `human`; no `R` → `auto` (declare a required grade to withhold).
-- **Well-formed iff:** every cord permitted · pipes acyclic · exactly one master · every gate reaches the master · a grade-required gate is a source gate · on-behalf-of names a declared actor or human, at most one per actor, acyclic (the principal chain) · delegation never amplifies on actor→actor links (`risk` subset — an ungranted delegator has the empty set, so a delegate is never granted where its delegator is not; `grade(delegate) <= grade(delegator)`; an ungraded delegator caps the delegate at ungraded); a human delegator constrains no grant. Forward-only.
+- **Well-formed iff:** every cord permitted · pipes acyclic · exactly one master · every gate reaches the master · a grade-required gate is a source gate · on-behalf-of names a declared actor or human, at most one per actor, acyclic (the principal chain) · delegation never amplifies on actor→actor links (`risk` subset — an ungranted delegator has the empty set, so a delegate is never granted where its delegator is not; `grade(delegate) <= grade(delegator)`; an ungraded delegator caps the delegate at ungraded) · delegation never widens a mandate on actor→actor links (`mandate(delegate)` ⊆ `mandate(delegator)`; a delegator declaring none caps the delegate at none), at most one mandate per actor; a human delegator constrains neither grant nor mandate. Forward-only.
 
-## Declarations (9)
+## Declarations (11)
 
 ```
 reserve <kind> by <target> [when <guard>] [duration <d>:<halt|proceed>]   # -> reserved
@@ -25,12 +25,15 @@ redress <kind> by <role> [overturn] [within <duration>]                  # relea
 party <id>             # accountability attribute, on an actor or gate
 grade <Lk>             # autonomy, on an actor (granted) / source gate (required)
 actor <id> on-behalf-of <delegator>   # delegation: delegator is a declared actor or human; the acyclic chain projects in the observation; actor-to-actor links never amplify; a partyless delegate bears its delegator's party
+gate <id> consign <consignee>                # where THIS gate's release goes; the gate must be terminal. A consignee is a declared id, not a node
+transfer <kind> to <consignee> within {<p>,...}   # transfer: the purposes material is released under. MUST be a subset of the mandate of every actor granted over <kind> at a consigning gate - an unmandated actor licenses nothing onward. Lateral, NOT a delegation: no principal chain is formed. Records and bounds the purposes; whether the consignee honours them is conduct, outside the language
+actor <id> mandate <p> | mandate {<p>,...}   # mandate: the purposes the actor is authorised to pursue. A delegate's mandate MUST be a subset of its delegator's; a delegator declaring none caps its delegate at none, so delegation narrows purpose, never widens it. Configuration like grade — not a token field, never guardable. A grant says WHAT, a mandate says WHAT FOR; it confers no authority and judges no conduct
 ```
 - `target` = `<role>` | `<role> and <role>` | `<m> of { roles }`  — **quorum**: distinct parties (separation of duty).
 - **temporal**: the `duration` + on-elapse (`halt`|`proceed`) on a reserved action.
 
-`guard` = `kind = <k>` | `risk >= <level>` | `party = <id>` | `tags contains <tag>`.
-Declared properties only — never `id`, `provenance`, `grade`, or any computed value (the no-id wall).
+`guard` = `kind = <k>` | `risk >= <level>` | `reversibility >= <level>` | `uncertainty >= <level>` | `party = <id>` | `tags contains <tag>`.
+Declared properties only — never `id`, `provenance`, `grade`, or any computed value (the no-id wall). The wall binds the NOTATION, not the host: a host may compute a value however it likes and hand it in as a declared token property, which is how an autonomy level varies with circumstance without the notation gaining the power to compute one. An ordered property that is absent satisfies no `>=` guard (fail-closed, never defaulted). Only `risk` has a gate floor.
 
 **Rejection stage:** grammar errors and rack-expansion failures (the pre-pass precedes the grammar) reject at **parse**. Everything else — an ill-formed graph (bad cord, a pipe or on-behalf-of cycle, no path to master, a non-source gate with a required grade) *and* an out-of-domain value (a guard over `id`/`provenance`, a `risk` or `grade` outside its scale) — parses, then rejects at **apply**: these are semantic checks, not grammar.
 

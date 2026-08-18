@@ -1,0 +1,7 @@
+# reject-transfer-unmandated — the consigning actor declares no mandate, so it
+# holds the empty set and can license nothing onward (§6). Same rule as
+# delegation, applied to a lateral relation; ill-formed at apply.
+actor counsel
+gate  release risk low consign vendorb grant counsel[work_product:low]
+transfer work_product to vendorb within review
+cord release -> master

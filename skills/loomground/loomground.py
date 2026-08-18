@@ -20,7 +20,16 @@ FULL_RISK = frozenset(RISK)
 GRADES = {"L0": 0, "L1": 1, "L2": 2, "L3": 3, "L4": 4}
 # restrictiveness chain: auto ⊑ human ⊑ refused ⊑ reserved ⊑ prohibited
 VERDICT = {"auto": 0, "human": 1, "refused": 2, "reserved": 3, "prohibited": 4}
-GUARD_OPS = {"kind": {"="}, "party": {"="}, "risk": {">=", "="}, "tags": {"contains"}}
+# ordered declared token properties (vocabulary/{reversibility,uncertainty}.json).
+# Ascending in concern, like RISK: a ">=" guard catches the severe end.
+REVERSIBILITY = {"reversible": 0, "compensable": 1, "irreversible": 2}
+UNCERTAINTY = {"settled": 0, "contested": 1, "unknown": 2}
+# every ordered guardable property, by field name — the language compares declared
+# values and derives none of them
+ORDERED = {"risk": RISK, "reversibility": REVERSIBILITY, "uncertainty": UNCERTAINTY}
+GUARD_OPS = {"kind": {"="}, "party": {"="}, "risk": {">=", "="},
+             "reversibility": {">=", "="}, "uncertainty": {">=", "="},
+             "tags": {"contains"}}
 
 
 class Reject(Exception):
@@ -87,8 +96,18 @@ class Patch:
         self.obligations = []    # {"obligation","on"}
         self.redress = []        # {"kind","by","overturn","within"}
         self.obo = {}            # delegate -> [delegator, ...] (checked at apply)
+        self.mandates = {}       # actor -> [purpose set, ...] (>1 checked at apply)
+        self.transfers = []      # {kind, to, within} (policy-global)
         # populated by check():
         self.cords_typed = []    # projection order: grant conferrals, then written cords
+
+    def mandate_of(self, aid):
+        """The actor's declared mandate, or None when it declares none. None is
+        NOT the empty set for projection (an undeclared mandate is not projected),
+        but the attenuation check treats an undeclared delegator as holding
+        nothing to confer."""
+        ms = self.mandates.get(aid)
+        return ms[0] if ms else None
 
 
 def _guard(tokens):
@@ -148,6 +167,16 @@ def parse(text):
     return p
 
 
+def _purpose_set(tok):
+    """`deploy` or `{deploy,rollback}` -> a set of purposes. A single purpose may
+    be written without braces (SYNTAX); the set is declared, never computed."""
+    body = tok[1:-1] if tok.startswith("{") and tok.endswith("}") else tok
+    out = {q for q in (q.strip() for q in body.split(",")) if q}
+    if not out:
+        raise Reject("parse", f"empty mandate {tok!r}")
+    return out
+
+
 def _statement(p, line):
     if not line.strip():
         return
@@ -159,6 +188,8 @@ def _statement(p, line):
             if t[i] == "party": p.nodes[t[1]]["party"] = t[i + 1]; i += 2
             elif t[i] == "on-behalf-of": p.obo.setdefault(t[1], []).append(t[i + 1]); i += 2
             elif t[i] == "grade": p.nodes[t[1]]["grade"] = t[i + 1]; i += 2
+            elif t[i] == "mandate":
+                p.mandates.setdefault(t[1], []).append(_purpose_set(t[i + 1])); i += 2
             elif t[i] == "name": break               # name is text-to-eol
             else: raise Reject("parse", f"bad actor clause {t[i]!r}")
     elif kw == "human":
@@ -173,6 +204,7 @@ def _statement(p, line):
         while i < len(t):
             if t[i] == "risk": p.nodes[gid]["risk_floor"] = t[i + 1]; i += 2
             elif t[i] == "grade": p.nodes[gid]["grade_required"] = t[i + 1]; i += 2
+            elif t[i] == "consign": p.nodes[gid]["consignee"] = t[i + 1]; i += 2
             elif t[i] == "party": p.nodes[gid]["party"] = t[i + 1]; i += 2
             elif t[i] == "name": p.nodes[gid]["name"] = t[i + 1]; i += 2
             elif t[i] == "grant":                    # MUST be last: consumes the rest
@@ -220,6 +252,11 @@ def _statement(p, line):
         if len(t) != 4 or t[2] != "on":
             raise Reject("parse", "obligation must be `obligation <obligation> on <gate>`")
         p.obligations.append({"obligation": t[1], "on": t[3]})
+    elif kw == "transfer":
+        # transfer <kind> to <consignee> within <purpose set>
+        if len(t) != 6 or t[2] != "to" or t[4] != "within":
+            raise Reject("parse", "transfer needs: <kind> to <consignee> within <purposes>")
+        p.transfers.append({"kind": t[1], "to": t[3], "within": _purpose_set(t[5])})
     elif kw == "redress":
         if len(t) < 4 or t[2] != "by":
             raise Reject("parse", "redress without by")
@@ -260,11 +297,16 @@ def _check_guard(g):
     if g is None:
         return
     if g["field"] not in GUARD_OPS:
-        raise Reject("apply", f"guard over {g['field']!r} (domain is kind/risk/party/tags)")
+        raise Reject(
+            "apply",
+            f"guard over {g['field']!r} "
+            "(domain is kind/risk/reversibility/uncertainty/party/tags)")
     if g["op"] not in GUARD_OPS[g["field"]]:
         raise Reject("apply", f"guard pairing {g['field']} {g['op']} is invalid")
-    if g["field"] == "risk" and g["val"] not in RISK:
-        raise Reject("apply", f"guard risk {g['val']!r} outside the domain")
+    scale = ORDERED.get(g["field"])
+    if scale is not None and g["val"] not in scale:
+        raise Reject(
+            "apply", f"guard {g['field']} {g['val']!r} outside the domain")
 
 
 def _risk_set(spec, kind):
@@ -348,6 +390,9 @@ def check(p):
         if d["class"] == "gate" and g not in reaches:
             raise Reject("apply", f"gate {g} on no path to master")
     # on-behalf-of: at most one delegator, declared actor-or-human targets, acyclic
+    for aid, ms in p.mandates.items():
+        if len(ms) > 1:
+            raise Reject("apply", f"{aid} declares more than one mandate")
     for delegate, delegators in p.obo.items():
         if len(delegators) > 1:
             raise Reject("apply", f"{delegate} declares more than one delegator")
@@ -362,6 +407,35 @@ def check(p):
                 raise Reject("apply", "cycle in the on-behalf-of relation")
             seen.add(cur)
             cur = p.delegations[cur]
+    # a consignee names where a gate's release goes; only a terminal gate
+    # (one that egresses to the master) has a release to consign.
+    terminal = {f for f, t, ty in p.cords_typed if ty == "egress"}
+    consigning = {}          # consignee -> {gate, ...}
+    for gid, n in p.nodes.items():
+        c = n.get("consignee")
+        if c is None:
+            continue
+        if gid not in terminal:
+            raise Reject("apply", f"consignee on non-terminal gate {gid}")
+        consigning.setdefault(c, set()).add(gid)
+    for tr in p.transfers:
+        if not tr["within"]:
+            raise Reject("apply", f"transfer of {tr['kind']!r} declares no purpose")
+        gates = consigning.get(tr["to"])
+        if not gates:
+            raise Reject("apply", f"transfer to {tr['to']!r}, which no gate consigns to")
+        # transfer attenuation: an actor cannot license onward a purpose it was
+        # not itself given. Lateral, not a delegation - no principal chain here.
+        for gate in sorted(gates):
+            for actor in sorted(p.grants.get(gate, {})):
+                if not _risk_set(p.grants[gate].get(actor), tr["kind"]):
+                    continue          # not granted over this kind at this gate
+                m = p.mandate_of(actor)
+                if m is None or not tr["within"] <= m:
+                    raise Reject(
+                        "apply",
+                        f"transfer widens beyond {actor}'s mandate at {gate}")
+
     # no-amplification, pairwise over actor→actor links only (a human delegator
     # anchors answerability and constrains no grant)
     for delegate, delegator in p.delegations.items():
@@ -370,6 +444,12 @@ def check(p):
         dg, lg = p.nodes[delegate].get("grade"), p.nodes[delegator].get("grade")
         if dg is not None and (lg is None or GRADES[dg] > GRADES[lg]):
             raise Reject("apply", f"delegation grade amplifies: {delegate} above {delegator}")
+        # mandate attenuation: a delegate's mandate is a subset of its delegator's,
+        # and a delegator declaring none holds the empty set, so its delegate must
+        # declare none either — an actor cannot confer a purpose it was not given.
+        dm, lm = p.mandate_of(delegate), p.mandate_of(delegator)
+        if dm is not None and (lm is None or not dm <= lm):
+            raise Reject("apply", f"delegation widens mandate: {delegate} beyond {delegator}")
         for gate, gr in p.grants.items():
             ds = gr.get(delegate)
             if ds is None:
@@ -403,6 +483,8 @@ def to_patch(p):
         for key in ("role", "party", "risk_floor", "grade", "grade_required", "name"):
             if key in d: e[key] = d[key]
         if nid in p.delegations: e["on_behalf_of"] = p.delegations[nid]
+        if p.mandate_of(nid) is not None: e["mandate"] = sorted(p.mandate_of(nid))
+        if "consignee" in p.nodes[nid]: e["consignee"] = p.nodes[nid]["consignee"]
         nodes.append(e)
     grants = []
     for actor, gid in p.grant_order:
@@ -460,6 +542,8 @@ def project(p):
         if "grade" in d: e["grade"] = d["grade"]
         if "grade_required" in d: e["grade_required"] = d["grade_required"]
         if nid in p.delegations: e["on_behalf_of"] = p.delegations[nid]
+        if p.mandate_of(nid) is not None: e["mandate"] = sorted(p.mandate_of(nid))
+        if "consignee" in p.nodes[nid]: e["consignee"] = p.nodes[nid]["consignee"]
         if d["class"] == "actor":
             party = _resolved_party(p, nid)
             if party is not None: e["party"] = party
@@ -478,6 +562,9 @@ def project(p):
             e["duration"] = r["duration"]; e["on_elapse"] = r["on_elapse"]
         res.append(e)
     out = {"nodes": nodes, "cords": cords, "reservations": res}
+    if p.transfers:
+        out["transfers"] = [{"kind": t["kind"], "to": t["to"],
+                             "within": sorted(t["within"])} for t in p.transfers]
     if p.redress:
         out["redress"] = [{"kind": r["kind"], "by": r["by"],
                            "overturn": r["overturn"], "within": r["within"]}
@@ -495,6 +582,16 @@ def _guard_holds(g, token, floored):
         return token.get("party") == g["val"]
     if g["field"] == "risk":
         return floored >= RISK[g["val"]] if g["op"] == ">=" else floored == RISK[g["val"]]
+    if g["field"] in ("reversibility", "uncertainty"):
+        # No gate floor: a gate raises a token's effective risk and nothing else
+        # (specification, The token). An absent property satisfies no ordered
+        # guard — fail-closed, never a defaulted level.
+        scale = ORDERED[g["field"]]
+        have = scale.get(token.get(g["field"]))
+        if have is None:
+            return False
+        want = scale[g["val"]]
+        return have >= want if g["op"] == ">=" else have == want
     if g["field"] == "tags":
         return g["val"] in token.get("tags", [])
     return False
@@ -590,6 +687,9 @@ def validate_token(tok):
     prov = tok.get("provenance")
     if not isinstance(prov, list) or not all(isinstance(x, str) for x in prov):
         return False
+    for field, scale in (("reversibility", REVERSIBILITY), ("uncertainty", UNCERTAINTY)):
+        if field in tok and tok[field] not in scale:
+            return False
     if "tags" in tok:
         tags = tok["tags"]
         if not isinstance(tags, list) or not all(isinstance(x, str) for x in tags):

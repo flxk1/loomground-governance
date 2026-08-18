@@ -1,0 +1,7 @@
+# reject-mandate-from-nothing — the delegator declares no mandate, so it holds
+# the empty set; an actor cannot confer a purpose it was not itself given, and
+# the delegate's mandate amplifies (§6). Ill-formed at apply.
+actor boss
+actor sub on-behalf-of boss mandate deploy
+gate g risk low grant boss[deploy:low] sub[deploy:low]
+cord g -> master

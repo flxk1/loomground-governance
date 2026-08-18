@@ -1,0 +1,7 @@
+# mandate-projection — a mandate is part of the canonical form: the actor node
+# projects `mandate` as a set in ascending lexicographic order (§6, §9). The
+# delegate's set is a subset of its delegator's, so the graph is well-formed.
+actor boss mandate {rollback,deploy}
+actor sub on-behalf-of boss mandate deploy
+gate g risk low grant boss[deploy:low] sub[deploy:low]
+cord g -> master

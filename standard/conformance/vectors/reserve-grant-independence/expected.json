@@ -1,0 +1,58 @@
+{
+  "nodes": [
+    {
+      "id": "bot",
+      "class": "actor",
+      "grade": "L3"
+    },
+    {
+      "id": "ombud",
+      "class": "human",
+      "role": "ombud"
+    },
+    {
+      "id": "g1",
+      "class": "gate",
+      "risk_floor": "low",
+      "grade_required": "L3"
+    },
+    {
+      "id": "g2",
+      "class": "gate",
+      "risk_floor": "low",
+      "grade_required": "L3"
+    },
+    {
+      "id": "master",
+      "class": "master"
+    }
+  ],
+  "cords": [
+    {
+      "from": "bot",
+      "to": "g1",
+      "type": "authority"
+    },
+    {
+      "from": "bot",
+      "to": "g2",
+      "type": "authority"
+    },
+    {
+      "from": "g1",
+      "to": "master",
+      "type": "egress"
+    },
+    {
+      "from": "g2",
+      "to": "master",
+      "type": "egress"
+    }
+  ],
+  "reservations": [
+    {
+      "kind": "audit",
+      "by": "ombud"
+    }
+  ]
+}

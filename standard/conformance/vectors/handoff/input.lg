@@ -1,0 +1,15 @@
+# handoff — the worked example the language could not express before: material
+# leaves one governed domain for another. `consign` names WHERE the release
+# goes; `transfer` names the purposes it travels under; the reservation keeps a
+# person in the loop. Counsel is mandated to review, draft and advise; the
+# receiving platform gets review only, so the handoff narrows purpose.
+actor  counsel  mandate {review,draft,advise}
+human  partner  role supervising-partner
+gate   assemble risk low                   grant counsel[work_product:low,high]
+gate   release  risk high consign vendorb  grant counsel[work_product:low,high]
+reserve work_product by supervising-partner when reversibility >= irreversible
+transfer work_product to vendorb within review
+cord counsel  -> assemble
+cord counsel  -> release
+cord assemble -> release
+cord release  -> master

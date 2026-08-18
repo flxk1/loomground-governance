@@ -1,0 +1,6 @@
+# reject-mandate-duplicate — an actor declares at most one mandate; a second on
+# the same actor is ill-formed at apply (§6), mirroring on-behalf-of.
+actor boss mandate {deploy,rollback}
+actor sub on-behalf-of boss mandate deploy mandate rollback
+gate g risk low grant boss[deploy:low] sub[deploy:low]
+cord g -> master
