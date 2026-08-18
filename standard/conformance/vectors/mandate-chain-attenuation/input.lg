@@ -1,0 +1,8 @@
+# mandate-chain-attenuation — attenuation composes pairwise along the acyclic
+# principal chain and needs no separate rule (§6): each link narrows, so the
+# three-hop chain is well-formed and every mandate projects.
+actor board mandate {deploy,procure,rollback}
+actor lead on-behalf-of board mandate {deploy,rollback}
+actor agent on-behalf-of lead mandate deploy
+gate g risk low grant board[deploy:low] lead[deploy:low] agent[deploy:low]
+cord g -> master

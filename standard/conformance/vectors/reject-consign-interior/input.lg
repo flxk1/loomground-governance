@@ -1,0 +1,8 @@
+# reject-consign-interior — only a terminal gate has a release to consign; a
+# consignee on an interior (piped) gate is ill-formed at apply, exactly as a
+# required grade on a non-source gate is (§6, §7.1).
+actor counsel mandate review
+gate  draft   risk low consign vendorb grant counsel[work_product:low]
+gate  release risk low                 grant counsel[work_product:low]
+cord draft   -> release
+cord release -> master

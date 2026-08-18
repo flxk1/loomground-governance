@@ -11,6 +11,8 @@
     "risk": {"enum": ["low", "medium", "high", "critical"], "description": "ordered severity level"},
     "party": {"type": "string", "description": "the party currently responsible (a subject identity)"},
     "provenance": {"type": "array", "items": {"type": "string"}, "description": "ordered prior nodes and parties traversed"},
+    "reversibility": {"enum": ["reversible", "compensable", "irreversible"], "description": "ordered declared property: how recoverable the effect is once released. Asserted by whoever supplies the token; never derived"},
+    "uncertainty": {"enum": ["settled", "contested", "unknown"], "description": "ordered declared property: how settled the basis for the action is, orthogonal to merit. Asserted by whoever supplies the token; never inferred"},
     "tags": {"type": "array", "items": {"type": "string"}, "description": "declared, non-id categories a guard may test by membership (origin, lineage, synthetic, taint); the tag vocabulary is policy"}
   },
   "additionalProperties": true

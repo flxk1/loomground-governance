@@ -9,13 +9,18 @@
 program      = { line } ;
 line         = [ statement ] , [ comment ] , newline ;
 statement    = actor decl | human decl | gate decl | cord
-             | reserve decl | prohibit decl | obligation decl | redress decl ;
+             | reserve decl | prohibit decl | obligation decl | redress decl
+             | transfer decl ;
 
 actor decl   = "actor" , id ,
-               { "party" , id | "on-behalf-of" , id | "grade" , grade-value | "name" , text-to-eol } ;
+               { "party" , id | "on-behalf-of" , id | "grade" , grade-value
+               | "mandate" , purpose set | "name" , text-to-eol } ;
+purpose set  = purpose | "{" , purpose , { "," , purpose } , "}" ;   (* the purposes an actor is authorised to pursue; attenuates along the principal chain (§6). Declarative: a set of declared ids, never computed, and never a token field or guard domain *)
+purpose      = id ;
 human decl   = "human" , id , { "role" , id | "name" , text-to-eol } ;
 gate decl    = "gate" , id , { gate opt } , [ grant clause ] ;
-gate opt     = "risk" , risk-value | "grade" , grade-value | "party" , id | "name" , id ;   (* risk = floor; grade = required threshold, source gate only (apply-checked) *)
+gate opt     = "risk" , risk-value | "grade" , grade-value | "party" , id
+             | "consign" , id | "name" , id ;   (* risk = floor; grade = required threshold, source gate only (apply-checked) *)
 grant clause = "grant" , grant , { grant } ;   (* MUST be last on the line; consumes every remaining token as a grant, e.g. `grant a b` *)
 grant        = id | id , "[" , kind , { "," , kind } , "]"
              | id , "[" , kind , ":" , risk set , "]" ;
@@ -30,16 +35,18 @@ reserve decl = "reserve" , kind , "by" , target , [ "when" , guard ] ,
 prohibit decl   = "prohibit" , kind , [ "when" , guard ] ;
 obligation decl = "obligation" , obligation , "on" , id ;
 redress decl    = "redress" , kind , "by" , role , [ "overturn" ] , [ "within" , duration ] ;
+transfer decl   = "transfer" , kind , "to" , id , "within" , purpose set ;   (* the consignee is a declared id, not a node: the four node classes are unchanged *)
 
 target       = role | role , "and" , role
              | number , "of" , "{" , role , { "," , role } , "}" ;
 guard        = guard-field , guard-op , guard-value ;
-guard-field  = id ;   (* domain {kind, risk, party, tags}; checked at apply *)
+guard-field  = id ;   (* domain {kind, risk, reversibility, uncertainty, party, tags}; checked at apply *)
 guard-op     = ">=" | "=" | "contains" ;
 guard-value  = risk | id ;
    (* The no-id wall is an apply-stage check, not a grammar restriction: a guard    *)
    (* over `id` or `provenance`, or an invalid (field, op) pairing — valid pairings  *)
-   (* are kind/party with "=", risk with ">="|"=", tags with "contains" — parses    *)
+   (* are kind/party with "=", risk/reversibility/uncertainty with ">="|"=", tags   *)
+   (* with "contains" — parses                                                      *)
    (* here and is rejected at apply, exactly as a risk-value outside the domain is.  *)
 on-elapse    = "halt" | "proceed" ;
 obligation   = "ai-interaction-disclosure" | "synthetic-content-marking"

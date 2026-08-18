@@ -54,13 +54,18 @@ fixed by the specification, not by this notation.
 program      = { line } ;
 line         = [ statement ] , [ comment ] , newline ;
 statement    = actor decl | human decl | gate decl | cord
-             | reserve decl | prohibit decl | obligation decl | redress decl ;
+             | reserve decl | prohibit decl | obligation decl | redress decl
+             | transfer decl ;
 
 actor decl   = "actor" , id ,
-               { "party" , id | "on-behalf-of" , id | "grade" , grade-value | "name" , text-to-eol } ;
+               { "party" , id | "on-behalf-of" , id | "grade" , grade-value
+               | "mandate" , purpose set | "name" , text-to-eol } ;
+purpose set  = purpose | "{" , purpose , { "," , purpose } , "}" ;
+purpose      = id ;
 human decl   = "human" , id , { "role" , id | "name" , text-to-eol } ;
 gate decl    = "gate" , id , { gate opt } , [ grant clause ] ;
-gate opt     = "risk" , risk-value | "grade" , grade-value | "party" , id | "name" , id ;   (* risk = floor; grade = required threshold, source gate only (apply-checked) *)
+gate opt     = "risk" , risk-value | "grade" , grade-value | "party" , id
+             | "consign" , id | "name" , id ;   (* risk = floor; grade = required threshold, source gate only (apply-checked) *)
 grant clause = "grant" , grant , { grant } ;   (* MUST be last on the line; consumes every remaining token as a grant, e.g. `grant a b` *)
 grant        = id | id , "[" , kind , { "," , kind } , "]"
              | id , "[" , kind , ":" , risk set , "]" ;
@@ -75,11 +80,12 @@ reserve decl = "reserve" , kind , "by" , target , [ "when" , guard ] ,
 prohibit decl   = "prohibit" , kind , [ "when" , guard ] ;
 obligation decl = "obligation" , obligation , "on" , id ;
 redress decl    = "redress" , kind , "by" , role , [ "overturn" ] , [ "within" , duration ] ;
+transfer decl   = "transfer" , kind , "to" , id , "within" , purpose set ;   (* the consignee is a declared id, not a node: the four node classes are unchanged *)
 
 target       = role | role , "and" , role
              | number , "of" , "{" , role , { "," , role } , "}" ;
 guard        = guard-field , guard-op , guard-value ;
-guard-field  = id ;   (* domain {kind, risk, party, tags}; checked at apply *)
+guard-field  = id ;   (* domain {kind, risk, reversibility, uncertainty, party, tags}; checked at apply *)
 guard-op     = ">=" | "=" | "contains" ;
 guard-value  = risk | id ;
 on-elapse    = "halt" | "proceed" ;
@@ -121,12 +127,16 @@ Notes on the grammar, each tied to the abstract language:
   a property of the token, not the gate. Written `low|medium|high|critical`, but the lexer
   accepts any identifier (`risk-value = risk | id`; a `rack` `$`-placeholder expands, §7);
   a value outside the domain is rejected at **apply**, not parse (`reject-bad-risk`).
-- A guard ranges over exactly the declared token properties `kind`, `risk`, `party`,
-  and `tags`, and MUST NOT range over `id` or denote a computed value (the specification,
-  Governance declarations). `tags` is a set of declared, non-`id` categories tested by
-  membership (`tags contains <tag>`). This restriction and
-  the valid `(field, op)` pairings (`kind`/`party` with `=`, `risk` with `>=`|`=`,
-  `tags` with `contains`) are enforced at **apply**, not at parse: the surface accepts
+- A guard ranges over exactly the declared token properties `kind`, `risk`,
+  `reversibility`, `uncertainty`, `party`, and `tags`, and MUST NOT range over `id` or
+  denote a computed value (the specification, Governance declarations). `tags` is a set
+  of declared, non-`id` categories tested by membership (`tags contains <tag>`).
+  `reversibility` and `uncertainty` are ordered properties admitted on exactly the terms
+  `risk` is: the token asserts them and the language only compares them, so a host may
+  compute a value by any means and hand it in — the restriction binds the notation, not
+  the host. This restriction and
+  the valid `(field, op)` pairings (`kind`/`party` with `=`, `risk`/`reversibility`/
+  `uncertainty` with `>=`|`=`, `tags` with `contains`) are enforced at **apply**, not at parse: the surface accepts
   a generic `<field> <op> <value>` guard, and a guard over `id` or `provenance` (or an
   invalid pairing) parses but is rejected at apply, exactly as a `risk` value outside
   the domain is. The separation-of-duty distinctness of a quorum target is evaluated
@@ -189,6 +199,19 @@ Notes on the grammar, each tied to the abstract language:
   stays graph-disconnected. A delegate that declares no `party` bears its delegator's
   party, resolved along the (acyclic) chain to the nearest declared party; this
   resolved party is what the observation projects on the delegate's node.
+- An `actor` declaration MAY carry `mandate <purpose>` or `mandate { <purpose>, … }`,
+  the set of declared purposes the actor is authorised to pursue. A single purpose
+  MAY be written without braces. The set is declared, never computed; `mandate` is
+  configuration on an actor, is not a token field, and is never guardable — guards
+  range only over {`kind`, `risk`, `party`, `tags`}. An actor declares at most one
+  `mandate`; a second on the same actor is ill-formed. A delegation binding between
+  two actors MUST satisfy the mandate-attenuation invariant (the specification,
+  Governance declarations): the delegate's mandate MUST be a subset of its
+  delegator's, and a delegator declaring no mandate has the empty set, so its
+  delegate MUST also declare none. A binding that widens a mandate is ill-formed at
+  apply and has no effect. Attenuation composes pairwise along the acyclic principal
+  chain and needs no separate rule. Where the delegator is a `human`, the binding
+  constrains no mandate, exactly as it constrains no grant.
 - `master` is a reserved endpoint name denoting the single egress node — the unique
   sink at which the policy enforcement point attaches (the specification, Nodes). It
   is never declared; a policy graph contains exactly one master.
