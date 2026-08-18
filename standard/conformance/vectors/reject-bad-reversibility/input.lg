@@ -1,0 +1,8 @@
+# reject-bad-reversibility — a guard value outside the active reversibility
+# scale parses and is rejected at apply, exactly as an out-of-domain risk is
+# (§4). The domain is checked, never widened to admit the value.
+actor bot7
+gate  act risk low grant bot7
+reserve deploy by safety when reversibility >= permanent
+cord bot7 -> act
+cord act  -> master
