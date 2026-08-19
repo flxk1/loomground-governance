@@ -1,6 +1,6 @@
 {
   "language": "Loomground",
-  "version": "0.8.2",
+  "version": "0.8.3",
   "status": "stable",
   "summary": "A declarative language for governance constraints on AI system and AI agent actions. A program is a policy graph evaluated before release; each evaluation is recorded so later alteration is detectable.",
   "nodes": ["actor", "human", "gate", "master"],
@@ -18,7 +18,7 @@
     "the on-behalf-of relation names only declared nodes (actor or human) and is acyclic — the principal chain; it projects in the observation, and a partyless delegate bears its delegator's party"
   ],
   "evaluation": "One transport evaluates the whole graph; every activated gate gets a verdict; effective verdicts propagate strictest-wins along pipes; the master releases a terminal gate's action iff its effective verdict is auto and every egress obligation is attached.",
-  "litmus": "A regulation names it as a declaration -> language. A deployment chooses its values -> policy. A runtime does it -> host. A guard ranges only over declared token properties, never a computed value, and never over grade (a config attribute: granted on actor, required on a source gate). The autonomy ladder and its order are policy (vocabulary/grades.json, default L0..L4, remappable); the language requires an active total order and owns the §7.1 comparison/gating rule evaluated at the source gate, including the auto disposition of a gate that declares no required grade.",
+  "litmus": "A regulation names it as a declaration -> language. A deployment chooses its values -> policy. A runtime does it -> host. A guard ranges only over declared token properties, never a computed value, and never over grade (a config attribute: granted on actor, required on a source gate). The autonomy ladder and its order are policy (vocabulary/grades.json, default L0..L6, remappable); the language requires an active total order and owns the §7.1 comparison/gating rule evaluated at the source gate, including the auto disposition of a gate that declares no required grade.",
   "out_of_scope": ["execution", "scheduling", "storage", "presentation", "communication", "time measurement", "obligation discharge", "party authentication"],
   "artifacts": {
     "grammar": "grammar/loomground.ebnf",
