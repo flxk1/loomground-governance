@@ -1,9 +1,9 @@
 {
-  "levels": ["L0", "L1", "L2", "L3", "L4"],
-  "order": "L0 < L1 < L2 < L3 < L4",
+  "levels": ["L0", "L1", "L2", "L3", "L4", "L5", "L6"],
+  "order": "L0 < L1 < L2 < L3 < L4 < L5 < L6",
   "granted_on": "actor",
   "required_on": "source gate",
   "constraints": "`order` MUST be a total order over `levels`, resolved at apply; grade is a configuration attribute, not a token field and not guardable",
   "ownership": "policy supplies the levels, their meanings, and their order (remappable, like vocabulary/risk.json); the language owns only the comparison rule",
-  "grounding": "specification §6, §7.1, §11"
+  "grounding": "level-of-automation concepts after ISO/IEC 22989:2022 §5.13 (autonomy, heteronomy and automation), expressed in this language's own terms; specification §6, §7.1, §11"
 }
