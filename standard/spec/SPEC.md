@@ -143,7 +143,7 @@ A granted grade is the actor's standing autonomy. A required grade is the thresh
 
 `grade` is configuration, not a token field. It is not guardable: guards range only over {`kind`, `risk`, `party`, `tags`}. `risk` is per-action token data; `grade` is per-actor/per-gate configuration.
 
-The default ladder is `L0 < L1 < L2 < L3 < L4`, recorded in `vocabulary/grades.json`. A deployer MAY replace that ladder. The active ladder MUST declare a total order over its levels, and each declared grade in a graph MUST be a member of that active ladder; otherwise the graph is ill-formed.
+The default ladder is `L0 < L1 < L2 < L3 < L4 < L5 < L6`, recorded in `vocabulary/grades.json`. A deployer MAY replace that ladder. The active ladder MUST declare a total order over its levels, and each declared grade in a graph MUST be a member of that active ladder; otherwise the graph is ill-formed.
 
 **Delegation binding (on-behalf-of).** An authority cord (§5.1) MAY declare that the actor (the *delegate*) acts on behalf of a *delegator* — another actor, or a human, named in the graph. This is a declarative designation over declared nodes; it adds no node class and no cord, riding the existing authority cord as an attribute. A binding naming an undeclared node, or a node that is neither an actor nor a human, is ill-formed; an actor declares at most one delegator, and a second binding on the same actor is ill-formed. The on-behalf-of relation MUST be acyclic (§5.1); the chain it forms — delegate to delegator, to that delegator's delegator — is the **principal chain**: the in-language statement of on whose behalf an actor acts [AGENCY; RFC8693].
 
