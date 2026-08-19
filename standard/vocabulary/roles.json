@@ -1,0 +1,27 @@
+{
+  "describes": "Canonical governance roles and the surface variants that map to them. Policy supplies the roles and their aliases (remappable per jurisdiction/domain, like vocabulary/risk.json and grades.json); the language owns only the mapping contract. Each role carries a node kind (agent = an actor that executes; human = a party in the loop). A bearer matching no alias is 'unattributed' — never forced into a role.",
+  "kinds": {
+    "agent": "an actor that executes an action",
+    "human": "a party kept in the loop (rights-holder, oversight, or authority)"
+  },
+  "contract": "first match in listed order wins; aliases are case-insensitive regex fragments matched against the raw bearer; specific roles precede general ones",
+  "roles": [
+    {"role": "data protection officer", "kind": "human", "aliases": ["data protection officer", "\\bdpo\\b"]},
+    {"role": "data subject", "kind": "human", "aliases": ["data subject"]},
+    {"role": "controller", "kind": "agent", "aliases": ["controllers?"]},
+    {"role": "processor", "kind": "agent", "aliases": ["processors?"]},
+    {"role": "supervisory authority", "kind": "human", "aliases": ["supervisory authorit"]},
+    {"role": "board", "kind": "human", "aliases": ["data protection board", "\\bboard\\b", "secretariat"]},
+    {"role": "commission", "kind": "human", "aliases": ["\\bcommission\\b"]},
+    {"role": "member state", "kind": "human", "aliases": ["member state"]},
+    {"role": "recipient", "kind": "human", "aliases": ["recipients?"]},
+    {"role": "provider", "kind": "agent", "aliases": ["providers?"]},
+    {"role": "third party", "kind": "agent", "aliases": ["third part"]},
+    {"role": "representative", "kind": "agent", "aliases": ["representatives?"]},
+    {"role": "court", "kind": "human", "aliases": ["court", "tribunal"]},
+    {"role": "certification body", "kind": "agent", "aliases": ["certification bod", "accreditation bod", "\\bcertification\\b"]},
+    {"role": "union", "kind": "human", "aliases": ["\\bunion\\b"]},
+    {"role": "person", "kind": "human", "aliases": ["natural person", "legal person", "\\bpersons?\\b", "everyone"]}
+  ],
+  "grounding": "seed set derived from a test-first canonicalization loop over EU GDPR + AI Act bearers (121 raw variants -> 16 roles); extend per domain"
+}

@@ -8,10 +8,11 @@ from .artifacts import (
 )
 from .conformance import ConformanceReport, Vector, iter_vectors, run_conformance
 from .protocol import LoomgroundImplementation
+from .roles import canonical_roles, canonicalize_role
 
 __all__ = [
     "ConformanceReport", "LoomgroundImplementation", "Vector", "artifact_path",
     "conformance_manifest", "grammar", "iter_vectors", "language_card",
     "language_status", "language_version", "load_json", "run_conformance",
-    "schema", "vocabulary",
+    "schema", "vocabulary", "canonical_roles", "canonicalize_role",
 ]
