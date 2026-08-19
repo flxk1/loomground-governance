@@ -2,6 +2,14 @@
 <!-- Copyright 2026 flxk1 -->
 # Changelog
 
+## [0.10.0](https://github.com/flxk1/loomground-governance/compare/loomground-governance-v0.9.0...loomground-governance-v0.10.0) (2026-08-19)
+
+
+### Features
+
+* **grammar:** align autonomy ladder to ISO/IEC 22989 §5.13 (0–6) ([6cdc0a4](https://github.com/flxk1/loomground-governance/commit/6cdc0a4d5ea5941d10d965d55916edd35bf627aa))
+* **grammar:** align autonomy ladder to ISO/IEC 22989 §5.13 (0–6) ([799f0e3](https://github.com/flxk1/loomground-governance/commit/799f0e3724adc3c05201285f37e8fe2f9a0fd4ab))
+
 ## [0.9.0](https://github.com/flxk1/loomground-governance/compare/loomground-governance-v0.8.2...loomground-governance-v0.9.0) (2026-08-18)
 
 
