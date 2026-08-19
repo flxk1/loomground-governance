@@ -4,7 +4,13 @@
     ".": {
       "release-type": "python",
       "package-name": "loomground-governance",
-      "changelog-path": "CHANGELOG.md"
+      "changelog-path": "CHANGELOG.md",
+      "extra-files": [
+        { "type": "json", "path": "standard/language-card.json", "jsonpath": "$.version" },
+        { "type": "json", "path": "standard/conformance/manifest.json", "jsonpath": "$.version" },
+        { "type": "json", "path": "standard/grammar/tree-sitter/tree-sitter.json", "jsonpath": "$.metadata.version" },
+        "tests/test_language_kit.py"
+      ]
     }
   }
 }
