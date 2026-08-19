@@ -1,6 +1,6 @@
 {
   "language": "Loomground",
-  "version": "0.9.0",
+  "version": "0.10.0",
   "status": "stable",
   "summary": "A declarative language for governance constraints on AI system and AI agent actions. A program is a policy graph evaluated before release; each evaluation is recorded so later alteration is detectable.",
   "nodes": ["actor", "human", "gate", "master"],
