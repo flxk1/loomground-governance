@@ -7,7 +7,7 @@ from loomground_governance import (
 
 
 def test_authoritative_artifacts_are_available_from_the_package():
-    assert language_version() == "0.10.0"  # x-release-please-version
+    assert language_version() == "0.11.0"  # x-release-please-version
     assert language_status() == "stable"
     assert "program" in grammar()
     assert vocabulary("verdicts")["restrictiveness_order"][0] == "auto"

@@ -1,5 +1,5 @@
 {
-  "version": "0.10.0",
+  "version": "0.11.0",
   "describes": "Conformance vectors that define a conforming implementation (specification, Conformance).",
   "kinds": {
     "patch": "input.lg + expected.json [+ transport.json]",
@@ -181,50 +181,399 @@
       ],
       "stage": "apply"
     },
-    {"name": "grade-auto", "kind": "patch", "files": ["expected.json", "input.lg", "transport.json"]},
-    {"name": "grade-human", "kind": "patch", "files": ["expected.json", "input.lg", "transport.json"]},
-    {"name": "grade-ungraded-at-graded", "kind": "patch", "files": ["expected.json", "input.lg", "transport.json"]},
-    {"name": "grade-graded-at-ungraded", "kind": "patch", "files": ["expected.json", "input.lg"]},
-    {"name": "grade-join", "kind": "patch", "files": ["expected.json", "input.lg", "transport.json"]},
-    {"name": "grade-reserved-precedence", "kind": "patch", "files": ["expected.json", "input.lg", "transport.json"]},
-    {"name": "reserve-grant-independence", "kind": "patch", "files": ["expected.json", "input.lg", "transport.json"]},
-    {"name": "party-projection", "kind": "patch", "files": ["expected.json", "input.lg"]},
-    {"name": "egress-obligation", "kind": "patch", "files": ["expected.json", "input.lg", "transport.json"]},
-    {"name": "refused-precedence", "kind": "patch", "files": ["expected.json", "input.lg", "transport.json"]},
-    {"name": "grant-narrowing", "kind": "patch", "files": ["expected.json", "input.lg", "transport.json"]},
-    {"name": "reserve-quorum", "kind": "patch", "files": ["expected.json", "input.lg", "transport.json"]},
-    {"name": "reserve-temporal", "kind": "patch", "files": ["expected.json", "input.lg", "transport.json"]},
-    {"name": "reject-bad-grade", "kind": "negative", "files": ["input.lg", "reject.json"], "stage": "apply"},
-    {"name": "reject-delegation-grade-amplify", "kind": "negative", "files": ["input.lg", "reject.json"], "stage": "apply"},
-    {"name": "reject-delegation-grade-from-nothing", "kind": "negative", "files": ["input.lg", "reject.json"], "stage": "apply"},
-    {"name": "reject-delegation-risk-amplify", "kind": "negative", "files": ["input.lg", "reject.json"], "stage": "apply"},
-    {"name": "obo-projection", "kind": "patch", "files": ["expected.json", "input.lg"]},
-    {"name": "obo-chain-attenuation", "kind": "patch", "files": ["expected.json", "input.lg"]},
-    {"name": "obo-human-root", "kind": "patch", "files": ["expected.json", "input.lg", "transport.json"]},
-    {"name": "party-inheritance", "kind": "patch", "files": ["expected.json", "input.lg"]},
-    {"name": "handoff", "kind": "patch", "files": ["expected.json", "input.lg", "transport.json"]},
-    {"name": "reject-transfer-widen", "kind": "negative", "files": ["input.lg", "reject.json"], "stage": "apply"},
-    {"name": "reject-transfer-unmandated", "kind": "negative", "files": ["input.lg", "reject.json"], "stage": "apply"},
-    {"name": "reject-consign-interior", "kind": "negative", "files": ["input.lg", "reject.json"], "stage": "apply"},
-    {"name": "reject-transfer-dangling", "kind": "negative", "files": ["input.lg", "reject.json"], "stage": "apply"},
-    {"name": "guard-reversibility", "kind": "patch", "files": ["expected.json", "input.lg", "transport.json"]},
-    {"name": "guard-uncertainty", "kind": "patch", "files": ["expected.json", "input.lg", "transport.json"]},
-    {"name": "reject-bad-reversibility", "kind": "negative", "files": ["input.lg", "reject.json"], "stage": "apply"},
-    {"name": "reject-guard-pairing-reversibility", "kind": "negative", "files": ["input.lg", "reject.json"], "stage": "apply"},
-    {"name": "mandate-projection", "kind": "patch", "files": ["expected.json", "input.lg"]},
-    {"name": "mandate-chain-attenuation", "kind": "patch", "files": ["expected.json", "input.lg"]},
-    {"name": "reject-mandate-widen", "kind": "negative", "files": ["input.lg", "reject.json"], "stage": "apply"},
-    {"name": "reject-mandate-from-nothing", "kind": "negative", "files": ["input.lg", "reject.json"], "stage": "apply"},
-    {"name": "reject-mandate-duplicate", "kind": "negative", "files": ["input.lg", "reject.json"], "stage": "apply"},
-    {"name": "reject-obo-cycle", "kind": "negative", "files": ["input.lg", "reject.json"], "stage": "apply"},
-    {"name": "reject-obo-undeclared", "kind": "negative", "files": ["input.lg", "reject.json"], "stage": "apply"},
-    {"name": "reject-obo-duplicate", "kind": "negative", "files": ["input.lg", "reject.json"], "stage": "apply"},
-    {"name": "reject-delegation-ungranted-delegator", "kind": "negative", "files": ["input.lg", "reject.json"], "stage": "apply"},
-    {"name": "reject-rack-unknown", "kind": "negative", "files": ["input.lg", "reject.json"], "stage": "parse"},
-    {"name": "reject-rack-arity", "kind": "negative", "files": ["input.lg", "reject.json"], "stage": "parse"},
-    {"name": "reject-obligation-undeclared-gate", "kind": "negative", "files": ["input.lg", "reject.json"], "stage": "apply"},
-    {"name": "risk-enum-values", "kind": "token", "files": ["tokens.json"]},
-    {"name": "guard-risk-ordering", "kind": "patch", "files": ["expected.json", "input.lg"]},
-    {"name": "guard-kind-match", "kind": "patch", "files": ["expected.json", "input.lg"]}
+    {
+      "name": "grade-auto",
+      "kind": "patch",
+      "files": [
+        "expected.json",
+        "input.lg",
+        "transport.json"
+      ]
+    },
+    {
+      "name": "grade-human",
+      "kind": "patch",
+      "files": [
+        "expected.json",
+        "input.lg",
+        "transport.json"
+      ]
+    },
+    {
+      "name": "grade-ungraded-at-graded",
+      "kind": "patch",
+      "files": [
+        "expected.json",
+        "input.lg",
+        "transport.json"
+      ]
+    },
+    {
+      "name": "grade-graded-at-ungraded",
+      "kind": "patch",
+      "files": [
+        "expected.json",
+        "input.lg"
+      ]
+    },
+    {
+      "name": "grade-join",
+      "kind": "patch",
+      "files": [
+        "expected.json",
+        "input.lg",
+        "transport.json"
+      ]
+    },
+    {
+      "name": "grade-reserved-precedence",
+      "kind": "patch",
+      "files": [
+        "expected.json",
+        "input.lg",
+        "transport.json"
+      ]
+    },
+    {
+      "name": "reserve-grant-independence",
+      "kind": "patch",
+      "files": [
+        "expected.json",
+        "input.lg",
+        "transport.json"
+      ]
+    },
+    {
+      "name": "party-projection",
+      "kind": "patch",
+      "files": [
+        "expected.json",
+        "input.lg"
+      ]
+    },
+    {
+      "name": "egress-obligation",
+      "kind": "patch",
+      "files": [
+        "expected.json",
+        "input.lg",
+        "transport.json"
+      ]
+    },
+    {
+      "name": "refused-precedence",
+      "kind": "patch",
+      "files": [
+        "expected.json",
+        "input.lg",
+        "transport.json"
+      ]
+    },
+    {
+      "name": "grant-narrowing",
+      "kind": "patch",
+      "files": [
+        "expected.json",
+        "input.lg",
+        "transport.json"
+      ]
+    },
+    {
+      "name": "reserve-quorum",
+      "kind": "patch",
+      "files": [
+        "expected.json",
+        "input.lg",
+        "transport.json"
+      ]
+    },
+    {
+      "name": "reserve-temporal",
+      "kind": "patch",
+      "files": [
+        "expected.json",
+        "input.lg",
+        "transport.json"
+      ]
+    },
+    {
+      "name": "reject-bad-grade",
+      "kind": "negative",
+      "files": [
+        "input.lg",
+        "reject.json"
+      ],
+      "stage": "apply"
+    },
+    {
+      "name": "reject-delegation-grade-amplify",
+      "kind": "negative",
+      "files": [
+        "input.lg",
+        "reject.json"
+      ],
+      "stage": "apply"
+    },
+    {
+      "name": "reject-delegation-grade-from-nothing",
+      "kind": "negative",
+      "files": [
+        "input.lg",
+        "reject.json"
+      ],
+      "stage": "apply"
+    },
+    {
+      "name": "reject-delegation-risk-amplify",
+      "kind": "negative",
+      "files": [
+        "input.lg",
+        "reject.json"
+      ],
+      "stage": "apply"
+    },
+    {
+      "name": "obo-projection",
+      "kind": "patch",
+      "files": [
+        "expected.json",
+        "input.lg"
+      ]
+    },
+    {
+      "name": "obo-chain-attenuation",
+      "kind": "patch",
+      "files": [
+        "expected.json",
+        "input.lg"
+      ]
+    },
+    {
+      "name": "obo-human-root",
+      "kind": "patch",
+      "files": [
+        "expected.json",
+        "input.lg",
+        "transport.json"
+      ]
+    },
+    {
+      "name": "party-inheritance",
+      "kind": "patch",
+      "files": [
+        "expected.json",
+        "input.lg"
+      ]
+    },
+    {
+      "name": "handoff",
+      "kind": "patch",
+      "files": [
+        "expected.json",
+        "input.lg",
+        "transport.json"
+      ]
+    },
+    {
+      "name": "reject-transfer-widen",
+      "kind": "negative",
+      "files": [
+        "input.lg",
+        "reject.json"
+      ],
+      "stage": "apply"
+    },
+    {
+      "name": "reject-transfer-unmandated",
+      "kind": "negative",
+      "files": [
+        "input.lg",
+        "reject.json"
+      ],
+      "stage": "apply"
+    },
+    {
+      "name": "reject-consign-interior",
+      "kind": "negative",
+      "files": [
+        "input.lg",
+        "reject.json"
+      ],
+      "stage": "apply"
+    },
+    {
+      "name": "reject-transfer-dangling",
+      "kind": "negative",
+      "files": [
+        "input.lg",
+        "reject.json"
+      ],
+      "stage": "apply"
+    },
+    {
+      "name": "guard-reversibility",
+      "kind": "patch",
+      "files": [
+        "expected.json",
+        "input.lg",
+        "transport.json"
+      ]
+    },
+    {
+      "name": "guard-uncertainty",
+      "kind": "patch",
+      "files": [
+        "expected.json",
+        "input.lg",
+        "transport.json"
+      ]
+    },
+    {
+      "name": "reject-bad-reversibility",
+      "kind": "negative",
+      "files": [
+        "input.lg",
+        "reject.json"
+      ],
+      "stage": "apply"
+    },
+    {
+      "name": "reject-guard-pairing-reversibility",
+      "kind": "negative",
+      "files": [
+        "input.lg",
+        "reject.json"
+      ],
+      "stage": "apply"
+    },
+    {
+      "name": "mandate-projection",
+      "kind": "patch",
+      "files": [
+        "expected.json",
+        "input.lg"
+      ]
+    },
+    {
+      "name": "mandate-chain-attenuation",
+      "kind": "patch",
+      "files": [
+        "expected.json",
+        "input.lg"
+      ]
+    },
+    {
+      "name": "reject-mandate-widen",
+      "kind": "negative",
+      "files": [
+        "input.lg",
+        "reject.json"
+      ],
+      "stage": "apply"
+    },
+    {
+      "name": "reject-mandate-from-nothing",
+      "kind": "negative",
+      "files": [
+        "input.lg",
+        "reject.json"
+      ],
+      "stage": "apply"
+    },
+    {
+      "name": "reject-mandate-duplicate",
+      "kind": "negative",
+      "files": [
+        "input.lg",
+        "reject.json"
+      ],
+      "stage": "apply"
+    },
+    {
+      "name": "reject-obo-cycle",
+      "kind": "negative",
+      "files": [
+        "input.lg",
+        "reject.json"
+      ],
+      "stage": "apply"
+    },
+    {
+      "name": "reject-obo-undeclared",
+      "kind": "negative",
+      "files": [
+        "input.lg",
+        "reject.json"
+      ],
+      "stage": "apply"
+    },
+    {
+      "name": "reject-obo-duplicate",
+      "kind": "negative",
+      "files": [
+        "input.lg",
+        "reject.json"
+      ],
+      "stage": "apply"
+    },
+    {
+      "name": "reject-delegation-ungranted-delegator",
+      "kind": "negative",
+      "files": [
+        "input.lg",
+        "reject.json"
+      ],
+      "stage": "apply"
+    },
+    {
+      "name": "reject-rack-unknown",
+      "kind": "negative",
+      "files": [
+        "input.lg",
+        "reject.json"
+      ],
+      "stage": "parse"
+    },
+    {
+      "name": "reject-rack-arity",
+      "kind": "negative",
+      "files": [
+        "input.lg",
+        "reject.json"
+      ],
+      "stage": "parse"
+    },
+    {
+      "name": "reject-obligation-undeclared-gate",
+      "kind": "negative",
+      "files": [
+        "input.lg",
+        "reject.json"
+      ],
+      "stage": "apply"
+    },
+    {
+      "name": "risk-enum-values",
+      "kind": "token",
+      "files": [
+        "tokens.json"
+      ]
+    },
+    {
+      "name": "guard-risk-ordering",
+      "kind": "patch",
+      "files": [
+        "expected.json",
+        "input.lg"
+      ]
+    },
+    {
+      "name": "guard-kind-match",
+      "kind": "patch",
+      "files": [
+        "expected.json",
+        "input.lg"
+      ]
+    }
   ]
 }
