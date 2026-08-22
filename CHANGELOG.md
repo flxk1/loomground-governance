@@ -2,6 +2,23 @@
 <!-- Copyright 2026 flxk1 -->
 # Changelog
 
+## [0.11.0](https://github.com/flxk1/loomground-governance/compare/loomground-governance-v0.10.0...loomground-governance-v0.11.0) (2026-08-22)
+
+
+### Features
+
+* **roles:** recover role canonicalization + vocabulary ([55aab13](https://github.com/flxk1/loomground-governance/commit/55aab138f3876e43b3ba9f169bda7de793622afb))
+* **roles:** recover role canonicalization + vocabulary ([96b8797](https://github.com/flxk1/loomground-governance/commit/96b8797ef6710e6c7281a78bbbc8b5ff2594d25b))
+* **schema:** token schema for governed-risk model (PROM-001) ([e1b339c](https://github.com/flxk1/loomground-governance/commit/e1b339cd6237b60647a26349b02ed7d478d5defa))
+* **spec:** observed-kind and governed risk (PROM-001) ([f2439a1](https://github.com/flxk1/loomground-governance/commit/f2439a15a420a3727289eca7824e8de4f65af390))
+* **spec:** token integrity — observed kind, gate-computed risk (PROM-001, slice 1/5) ([f7ff301](https://github.com/flxk1/loomground-governance/commit/f7ff301d6d737d17af470cddee7556892e08fbac))
+
+
+### Bug Fixes
+
+* **release:** sync language artifacts to pyproject 0.10.0 ([4662971](https://github.com/flxk1/loomground-governance/commit/466297162d14baca6977bd4d6a28fb93ed848abb))
+* **release:** sync language artifacts to pyproject 0.10.0 ([f8b20f8](https://github.com/flxk1/loomground-governance/commit/f8b20f895b75fefc44dfdc8b19ef4098e7d32782))
+
 ## [0.10.0](https://github.com/flxk1/loomground-governance/compare/loomground-governance-v0.9.0...loomground-governance-v0.10.0) (2026-08-19)
 
 
