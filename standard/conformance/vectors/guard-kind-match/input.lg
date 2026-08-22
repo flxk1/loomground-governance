@@ -1,0 +1,8 @@
+# guard-kind-match — a reservation's guard ranges over the host-observed
+# `kind` and matches the declared kind (specification, The token; §6).
+actor a
+human legal role legal
+gate  g grant a
+reserve action by legal when kind = action
+cord a -> g
+cord g -> master
