@@ -222,6 +222,9 @@
     {"name": "reject-delegation-ungranted-delegator", "kind": "negative", "files": ["input.lg", "reject.json"], "stage": "apply"},
     {"name": "reject-rack-unknown", "kind": "negative", "files": ["input.lg", "reject.json"], "stage": "parse"},
     {"name": "reject-rack-arity", "kind": "negative", "files": ["input.lg", "reject.json"], "stage": "parse"},
-    {"name": "reject-obligation-undeclared-gate", "kind": "negative", "files": ["input.lg", "reject.json"], "stage": "apply"}
+    {"name": "reject-obligation-undeclared-gate", "kind": "negative", "files": ["input.lg", "reject.json"], "stage": "apply"},
+    {"name": "risk-enum-values", "kind": "token", "files": ["tokens.json"]},
+    {"name": "guard-risk-ordering", "kind": "patch", "files": ["expected.json", "input.lg"]},
+    {"name": "guard-kind-match", "kind": "patch", "files": ["expected.json", "input.lg"]}
   ]
 }

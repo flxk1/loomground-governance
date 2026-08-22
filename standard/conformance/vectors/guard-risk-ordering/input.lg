@@ -1,0 +1,9 @@
+# guard-risk-ordering — the same `risk >= high` guard catches a critical-risk
+# subject and lets a low-risk subject through, pinning that the ordering
+# low<medium<high<critical is load-bearing (specification, The token; §6).
+actor a
+human legal role legal
+gate  g grant a
+reserve incident by legal when risk >= high
+cord a -> g
+cord g -> master
