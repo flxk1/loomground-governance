@@ -1,13 +1,49 @@
 {
   "language": "Loomground",
-  "version": "0.10.0",
+  "version": "0.11.0",
   "status": "stable",
   "summary": "A declarative language for governance constraints on AI system and AI agent actions. A program is a policy graph evaluated before release; each evaluation is recorded so later alteration is detectable.",
-  "nodes": ["actor", "human", "gate", "master"],
-  "cords": ["authority (actor -> gate)", "pipe (gate -> gate)", "egress (gate -> master)"],
-  "token": ["id", "kind", "risk", "party", "provenance", "reversibility", "uncertainty", "tags"],
-  "verdicts": ["auto", "human", "refused", "reserved", "prohibited"],
-  "declarations": ["reservation", "quorum", "prohibition", "temporal", "egress-obligation", "redress", "party", "delegation", "mandate", "transfer", "autonomy-grade"],
+  "nodes": [
+    "actor",
+    "human",
+    "gate",
+    "master"
+  ],
+  "cords": [
+    "authority (actor -> gate)",
+    "pipe (gate -> gate)",
+    "egress (gate -> master)"
+  ],
+  "token": [
+    "id",
+    "kind",
+    "risk",
+    "party",
+    "provenance",
+    "reversibility",
+    "uncertainty",
+    "tags"
+  ],
+  "verdicts": [
+    "auto",
+    "human",
+    "refused",
+    "reserved",
+    "prohibited"
+  ],
+  "declarations": [
+    "reservation",
+    "quorum",
+    "prohibition",
+    "temporal",
+    "egress-obligation",
+    "redress",
+    "party",
+    "delegation",
+    "mandate",
+    "transfer",
+    "autonomy-grade"
+  ],
   "well_formedness": [
     "every cord is a permitted endpoint pairing",
     "the pipe relation is acyclic",
@@ -21,10 +57,24 @@
   ],
   "evaluation": "One transport evaluates the whole graph; every activated gate gets a verdict; effective verdicts propagate strictest-wins along pipes; the master releases a terminal gate's action iff its effective verdict is auto and every egress obligation is attached.",
   "litmus": "A regulation names it as a declaration -> language. A deployment chooses its values -> policy. A runtime does it -> host. A guard ranges only over declared token properties, never a computed value, and never over grade (a config attribute: granted on actor, required on a source gate). The autonomy ladder and its order are policy (vocabulary/grades.json, default L0..L6, remappable); the language requires an active total order and owns the §7.1 comparison/gating rule evaluated at the source gate, including the auto disposition of a gate that declares no required grade.",
-  "out_of_scope": ["execution", "scheduling", "storage", "presentation", "communication", "time measurement", "obligation discharge", "party authentication"],
+  "out_of_scope": [
+    "execution",
+    "scheduling",
+    "storage",
+    "presentation",
+    "communication",
+    "time measurement",
+    "obligation discharge",
+    "party authentication"
+  ],
   "artifacts": {
     "grammar": "grammar/loomground.ebnf",
-    "schema": {"token": "schema/token.schema.json", "patch": "schema/patch.schema.json", "observation": "schema/observation.schema.json", "transport": "schema/transport.schema.json"},
+    "schema": {
+      "token": "schema/token.schema.json",
+      "patch": "schema/patch.schema.json",
+      "observation": "schema/observation.schema.json",
+      "transport": "schema/transport.schema.json"
+    },
     "vocabulary": "vocabulary/",
     "conformance": "conformance/manifest.json",
     "specification": "spec/SPEC.md",
