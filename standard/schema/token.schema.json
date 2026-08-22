@@ -7,8 +7,8 @@
   "required": ["id", "kind", "risk", "party", "provenance"],
   "properties": {
     "id": {"type": "string", "description": "identity; guards never range over it"},
-    "kind": {"type": "string", "description": "class of the subject or action; matched against declarations"},
-    "risk": {"enum": ["low", "medium", "high", "critical"], "description": "ordered severity level"},
+    "kind": {"type": "string", "description": "class of the subject or action, matched against declarations; host-observed at the tool-call/effect boundary — derived from the operation actually performed as the host sees it, never asserted or declared by the acting actor"},
+    "risk": {"enum": ["low", "medium", "high", "critical"], "description": "ordered severity level; gate-computed from a governed, versioned, signed policy table, then carried on the token. A self-declared value is advisory only, admitted solely as a monotonic ratchet — it may raise the computed tier, never lower it, and is never itself authoritative"},
     "party": {"type": "string", "description": "the party currently responsible (a subject identity)"},
     "provenance": {"type": "array", "items": {"type": "string"}, "description": "ordered prior nodes and parties traversed"},
     "reversibility": {"enum": ["reversible", "compensable", "irreversible"], "description": "ordered declared property: how recoverable the effect is once released. Asserted by whoever supplies the token; never derived"},

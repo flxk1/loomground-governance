@@ -1,0 +1,40 @@
+{
+  "nodes": [
+    {
+      "id": "a",
+      "class": "actor"
+    },
+    {
+      "id": "legal",
+      "class": "human",
+      "role": "legal"
+    },
+    {
+      "id": "g",
+      "class": "gate"
+    },
+    {
+      "id": "master",
+      "class": "master"
+    }
+  ],
+  "cords": [
+    {
+      "from": "a",
+      "to": "g",
+      "type": "authority"
+    },
+    {
+      "from": "g",
+      "to": "master",
+      "type": "egress"
+    }
+  ],
+  "reservations": [
+    {
+      "kind": "action",
+      "by": "legal",
+      "when": "kind = action"
+    }
+  ]
+}
