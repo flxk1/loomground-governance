@@ -70,7 +70,7 @@ The tree is REUSE-compliant (checked in CI).
 
 ## Status
 
-Pre-1.0, specification v0.8.2 (stable).
+Pre-1.0, specification v0.11.0 (stable).
 This repository carries only the language:
 specification, grammar, schemas, vocabulary, and conformance vectors. Reference
 implementations are out of scope. An implementation conforms by reproducing the
@@ -90,8 +90,7 @@ The language card, conformance manifest, and Python package share one PEP 440
 version. Maturity is a separate machine-readable `status`; draft builds use
 alpha releases rather than mutable `.dev` versions. Before 1.0, a minor version
 may change compatibility and a patch version is backward-compatible. Dependent
-tools may now declare `loomground-governance>=0.8,<0.9`; `>=0.7,<0.8` remains
-valid for consumers not yet migrated to v0.8.
+tools may now declare `loomground-governance>=0.11,<0.12` (each pre-1.0 minor is its own compatibility band, so pin to the current minor).
 
 ## Provenance
 
