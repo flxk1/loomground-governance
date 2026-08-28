@@ -11,3 +11,6 @@ _docs/
 
 # editor / OS
 .DS_Store
+
+# ctrl orchestration scratch ledger — never part of the package
+work/
