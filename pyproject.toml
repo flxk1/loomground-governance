@@ -7,7 +7,7 @@ build-backend = "hatchling.build"
 [project]
 name = "loomground-governance"
 version = "0.11.0"
-description = "Machine-readable Loomground language artifacts and conformance kit"
+description = "Installable distribution of the Loomground governance language: grammar, schemas, vocabulary, conformance vectors, and a data-only Python kit."
 requires-python = ">=3.10"
 license = "Apache-2.0"
 license-files = ["LICENSES/Apache-2.0.txt", "LICENSES/CC-BY-4.0.txt"]
