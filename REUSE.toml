@@ -98,9 +98,3 @@ path = ["release-please-config.json", ".release-please-manifest.json"]
 precedence = "aggregate"
 SPDX-FileCopyrightText = "2026 flxk1"
 SPDX-License-Identifier = "Apache-2.0"
-
-[[annotations]]
-path = ".mailmap"
-precedence = "aggregate"
-SPDX-FileCopyrightText = "2026 flxk1"
-SPDX-License-Identifier = "Apache-2.0"
