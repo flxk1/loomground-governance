@@ -2,7 +2,7 @@
 <!-- Copyright 2026 flxk1 -->
 # loomground-governance
 
-Installable distribution of the Loomground governance language: grammar, schemas, vocabulary, conformance vectors, and a data-only Python kit.
+The governance-language plane: the Loomground standard as a package, with roles, protocol, conformance tooling, and the authoring skill.
 
 ## Install
 
@@ -42,17 +42,18 @@ lg.run_conformance(impl)     # impl: a LoomgroundImplementation
 
 ## Family
 
-Installable governance-language plane and conformance distribution. `standard/` is a lockstep copy of the canonical [`loomground`](https://github.com/flxk1/loomground) language tree on this package's own release axis: one version across `pyproject.toml`, the language card, the conformance manifest, and the tree-sitter metadata (`tools/check_language_summary.py`); every declaration reaches grammar, observation schema, and a vector (`tools/check_lockstep.py`). The kit contains no parser, evaluator, or host adapter.
+The governance-language plane. `standard/` is [`loomground`](https://github.com/flxk1/loomground) **v0.11.0**, pinned in `standard/CANONICAL`; `tools/check_canonical.py` proves byte-equality against that tag in CI. What only a plane has: the `loomground_governance` kit (`artifacts`, `conformance` runner, `protocol`, `roles`), the companions, `check_language_summary` (one version), `check_lockstep` (every declaration reaches grammar, schema, vector), and the `loomground` authoring skill. No parser, evaluator, or host adapter.
 
-- Consumes: `loomground` (the standard).
-- Consumed by: `loomground-solver`, `loomground-versum`, and implementations via `run_conformance`.
+- Consumes: `loomground` v0.11.0 (the standard).
+- Consumed by: `loomground-solver`, `loomground-versum`, implementations via `run_conformance`.
+- Release order: `loomground` first; then re-pin here.
 - Pipeline: `source → loomground-ingest → loomground-versum → loomground-solver → applied or diagnostic planes`; every stage grounds governance here.
 
-Map, positioning, versioning, provenance, licensing: `docs/`.
+Map, versioning, provenance, licensing: `docs/`.
 
 ## Status
 
-0.11.0 (stable) · 65 conformance vectors · 14 claim-axes vectors · 12 tests · 11 CI jobs · Python ≥ 3.10. §9 independence criterion open: `standard/conformance/README.md`.
+0.11.0 (stable) · standard = loomground v0.11.0 · 65 conformance vectors · 14 claim-axes vectors · 12 tests · 12 CI jobs · Python ≥ 3.10. §9 independence criterion open: `standard/conformance/README.md`.
 
 ## License
 
