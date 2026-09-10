@@ -98,3 +98,10 @@ path = ["release-please-config.json", ".release-please-manifest.json"]
 precedence = "aggregate"
 SPDX-FileCopyrightText = "2026 flxk1"
 SPDX-License-Identifier = "Apache-2.0"
+
+# Pin file: one line, no comment syntax worth a header
+[[annotations]]
+path = "standard/CANONICAL"
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2026 flxk1"
+SPDX-License-Identifier = "Apache-2.0"
