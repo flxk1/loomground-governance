@@ -1,5 +1,5 @@
 {
-  "version": "0.11.0",
+  "version": "0.11.1",
   "describes": "Conformance vectors that define a conforming implementation (specification, Conformance).",
   "kinds": {
     "patch": "input.lg + expected.json [+ transport.json]",
