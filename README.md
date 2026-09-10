@@ -26,6 +26,21 @@ lg.run_conformance(impl)     # impl: a LoomgroundImplementation
 
 - `skills/loomground/` — agent procedure.
 
+## Language
+
+`.lg`, one statement per line. Nodes `actor` · `human … role` · `gate … risk … grant` · `master`; cords `a -> b` (authority, pipe, egress); declarations `reserve <kind> by <role> when <guard>`, `prohibit`, `redress`, quorum `2 of {roles}`, `mandate`, `transfer … to … within`. Verdicts `auto < human < refused < reserved < prohibited`.
+
+```
+actor  bot7
+human  alice  role dpo
+gate   decide  risk high  grant bot7
+reserve automated_decision by dpo when risk >= high
+cord   bot7   -> decide
+cord   decide -> master
+```
+
+An activation of `decide` at risk high yields `reserved`; the master withholds until alice decides. Full card: `docs/language-card.md`. Normative text: `standard/spec/`.
+
 ## Interface
 
 | Path | Content |
