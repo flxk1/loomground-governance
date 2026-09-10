@@ -11,5 +11,11 @@
     "policy-graph",
     "lg",
     "validation"
-  ]
+  ],
+  "mcpServers": {
+    "loomground": {
+      "command": "loomground-mcp",
+      "args": ["serve", "--transport", "stdio"]
+    }
+  }
 }
