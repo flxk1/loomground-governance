@@ -1,6 +1,7 @@
 ---
 name: loomground
 description: Express an AI-governance requirement as a verified Loomground policy-graph patch. Use when the user wants to encode a governance rule (human oversight, reservation, prohibition, separation of duty / quorum, redress or contestation, delegation, disclosure obligation) as a .lg patch; validate or fix an existing patch; or judge whether a requirement is expressible in Loomground versus belonging to a host. The procedure drafts the patch, applies the litmus to classify each requirement as expressible, policy, or host, validates the result against the schemas and the bundled validation engine, and reports what the patch governs and what was handed off to a host. Triggers on "express this as Loomground", "write a .lg patch", "is this governable in Loomground", "validate this patch", "governance as a policy graph".
+allowed-tools: solver_evaluate solver_verify
 ---
 
 # Loomground skill — draft, validate, classify
@@ -47,7 +48,15 @@ cord decide -> master
 Keep it forward-only: one master, acyclic pipes, every gate on a path to the master.
 
 ## Step 3 — Validate (the bundled engine is the checker)
-Write the patch to a file and run `python3 validate.py PATCH.lg`. It uses the
+Primary path: call `solver_evaluate` with
+`{"patch_lg": "<the .lg text>", "transport_json": {"activations": [...]}}`
+(`transport_json` optional). An ill-formed patch comes back as an `ok: false`
+envelope naming the parse/apply reason; a well-formed one returns `status`, the
+accepted / undecided / rejected sets, and the trace. To re-check a produced
+reasoning result, call `solver_verify` with
+`{"request_json": <reasoning.interop 1.0 request>}`.
+
+Shell fallback: write the patch to a file and run `python3 validate.py PATCH.lg`. It uses the
 validation engine bundled with this skill (`loomground.py`, a non-normative
 implementation that reproduces the conformance vectors) to parse and check the
 patch and prints either `WELL-FORMED` with the projection, or
