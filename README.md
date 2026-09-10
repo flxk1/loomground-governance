@@ -4,6 +4,10 @@
 
 The governance-language plane: the Loomground standard as a package, with roles, protocol, conformance tooling, and the authoring skill.
 
+## Problem
+
+Programs need the language as data, and copies drift from the spec. The spec as an installable package, lockstep-checked, plus the reference validator.
+
 ## Install
 
 ```
@@ -14,8 +18,6 @@ Pin: `loomground-governance>=0.11,<0.12`.
 
 ## Usage
 
-- `standard/spec/SPEC.md` — normative; `standard/spec/SYNTAX.md` — grammar.
-- Python:
 
 ```python
 import loomground_governance as lg
@@ -24,13 +26,18 @@ lg.vocabulary("verdicts")    # standard/vocabulary/verdicts.json
 lg.run_conformance(impl)     # impl: a LoomgroundImplementation
 ```
 
-- `skills/loomground/` — agent procedure.
+
+## Example
+
+```
+in : import loomground_governance as lg; lg.language_version(); lg.vocabulary("verdicts")["alphabet"]
+out: language_version: 0.11.0
+     verdicts: ['auto', 'human', 'refused', 'reserved', 'prohibited']
+```
 
 ## Language
 
-`.lg`, one statement per line. Nodes `actor` · `human … role` · `gate … risk … grant` · `master`; cords `a -> b` (authority, pipe, egress); declarations `reserve <kind> by <role> when <guard>`, `prohibit`, `redress`, quorum `2 of {roles}`, `mandate`, `transfer … to … within`. Verdicts `auto < human < refused < reserved < prohibited`.
-
-```
+`.lg`, one statement per line. Nodes `actor` · `human … role` · `gate … risk … grant` · `master`; cords `a -> b` (authority, pipe, egress); declarations `reserve <kind> by <role> when <guard>`, `prohibit`, `redress`, quorum `2 of {roles}`, `mandate`, `transfer … to … within`. ```
 actor  bot7
 human  alice  role dpo
 gate   decide  risk high  grant bot7
@@ -50,9 +57,9 @@ An activation of `decide` at risk high yields `reserved`; the master withholds u
 | `standard/schema/` | JSON Schemas: token, patch, observation, transport |
 | `standard/vocabulary/` | node classes, cords, verdicts, declarations, guards, grades, roles, grounding |
 | `standard/conformance/` | 65 vectors, `manifest.json` |
-| `standard/companions/claim-axes/` | profile `claim-axes/1`, 14 vectors |
+| `standard/companions/claim-axes/` | 14 vectors |
 | `standard/language-card.json`, `llms.txt` | language as data; agent entry |
-| `src/loomground_governance/` | `LoomgroundImplementation` protocol, `run_conformance`, `canonicalize_role`, artifact loaders |
+| `src/loomground_governance/` | `LoomgroundImplementation`, `run_conformance`, `canonicalize_role`, loaders |
 | `tools/check_*.py` | CI gates |
 
 ## Family
