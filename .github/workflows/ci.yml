@@ -33,6 +33,17 @@ jobs:
       - name: every feature reaches grammar, schema, and a vector
         run: python3 tools/check_lockstep.py
 
+  canonical:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: clone loomground at the pinned tag (standard/CANONICAL)
+        run: |
+          TAG=$(awk '{print $2}' standard/CANONICAL)
+          git clone --depth 1 --branch "$TAG" https://github.com/flxk1/loomground.git /tmp/loomground
+      - name: standard/ equals the canonical loomground tree
+        run: python3 tools/check_canonical.py /tmp/loomground
+
   vectors:
     runs-on: ubuntu-latest
     steps:
