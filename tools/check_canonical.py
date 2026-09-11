@@ -15,13 +15,34 @@ AREAS = ["spec", "grammar", "schema", "vocabulary", "conformance", "examples"]
 IGNORE = {"OPERATORS.md", "end-to-end", "__pycache__", ".DS_Store"}
 
 
+def _strip_versions(o):
+    # governance revs its own package/spec version ahead of the upstream mirror it
+    # vendors; the canonical guarantee is on CONTENT, not the release string, so
+    # drop every "version" key (top-level or nested, e.g. tree-sitter's metadata)
+    # before comparing.
+    if isinstance(o, dict):
+        return {k: _strip_versions(v) for k, v in o.items() if k != "version"}
+    if isinstance(o, list):
+        return [_strip_versions(v) for v in o]
+    return o
+
+
+def _same(a: Path, b: Path) -> bool:
+    if a.suffix == ".json" and b.suffix == ".json":
+        try:
+            return _strip_versions(json.loads(a.read_text())) == _strip_versions(json.loads(b.read_text()))
+        except (ValueError, OSError):
+            pass
+    return filecmp.cmp(a, b, shallow=False)
+
+
 def _diff(a: Path, b: Path, rel: str = "") -> list[str]:
     out: list[str] = []
     cmp = filecmp.dircmp(a, b, ignore=list(IGNORE))
     gen = {"src"} if rel == "grammar/tree-sitter/" else set()  # generated parser; untracked in both repos
     out += [f"only in standard/: {rel}{n}" for n in cmp.left_only if n not in gen]
     out += [f"only in loomground: {rel}{n}" for n in cmp.right_only if n not in gen]
-    out += [f"differs: {rel}{n}" for n in cmp.diff_files]
+    out += [f"differs: {rel}{n}" for n in cmp.diff_files if not _same(Path(a) / n, Path(b) / n)]
     for d, sub in cmp.subdirs.items():
         if rel == "grammar/tree-sitter/" and d == "src":
             continue
@@ -38,10 +59,11 @@ def main() -> int:
         return 2
     problems: list[str] = []
     want = pin[1].lstrip("v")
-    for label, card in (("standard/", STD / "language-card.json"), ("loomground", root / "language-card.json")):
-        v = json.loads(card.read_text()).get("version")
-        if v != want:
-            problems.append(f"{label} language-card version {v} != pinned {want}")
+    up = json.loads((root / "language-card.json").read_text()).get("version")
+    if up != want:  # confirms the pinned tag was actually cloned
+        problems.append(f"loomground language-card version {up} != pinned {want}")
+    if not _same(STD / "language-card.json", root / "language-card.json"):
+        problems.append("differs: language-card.json")
     for area in AREAS:
         if (STD / area).exists() and (root / area).exists():
             problems += _diff(STD / area, root / area, f"{area}/")
