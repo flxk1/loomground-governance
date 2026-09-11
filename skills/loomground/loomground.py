@@ -12,12 +12,36 @@ pinned to a version number here, so it cannot go stale the way a hardcoded
 version claim would.
 """
 from __future__ import annotations
+import json
+import os
 import re
 
 RISK = {"low": 0, "medium": 1, "high": 2, "critical": 3}
 FULL_RISK = frozenset(RISK)
-# default autonomy ladder (vocabulary/grades.json); the active ladder is policy
-GRADES = {"L0": 0, "L1": 1, "L2": 2, "L3": 3, "L4": 4}
+# fallback autonomy ladder, used only when vocabulary/grades.json is unreadable;
+# the active ladder is policy (spec §6, §10) and is loaded by _load_grades()
+_DEFAULT_GRADES = {"L0": 0, "L1": 1, "L2": 2, "L3": 3, "L4": 4}
+
+
+def _load_grades():
+    """The active ladder: policy supplies the levels and their order
+    (vocabulary/grades.json `levels`); the language owns only the comparison
+    rule. Falls back to the historical default ladder only when the vocab
+    file is unavailable — a missing/malformed file marks a broken install,
+    not a smaller ladder."""
+    here = os.path.dirname(os.path.abspath(__file__))
+    vocab = os.path.join(here, "..", "..", "standard", "vocabulary", "grades.json")
+    try:
+        with open(vocab, encoding="utf-8") as f:
+            levels = json.load(f)["levels"]
+        return {lvl: i for i, lvl in enumerate(levels)}
+    except (OSError, KeyError, ValueError, TypeError):
+        return dict(_DEFAULT_GRADES)
+
+
+# module-load default; check() re-reads the active ladder at check-time so a
+# policy-swapped grades.json takes effect without restarting the process
+GRADES = _load_grades()
 # restrictiveness chain: auto ⊑ human ⊑ refused ⊑ reserved ⊑ prohibited
 VERDICT = {"auto": 0, "human": 1, "refused": 2, "reserved": 3, "prohibited": 4}
 # ordered declared token properties (vocabulary/{reversibility,uncertainty}.json).
@@ -319,6 +343,8 @@ def _risk_set(spec, kind):
 
 
 def check(p):
+    global GRADES
+    GRADES = _load_grades()  # active ladder, read at check-time (spec §6, §10)
     # declared values in their domains
     for nid, n in p.nodes.items():
         if "risk_floor" in n and n["risk_floor"] not in RISK:
