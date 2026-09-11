@@ -2,6 +2,21 @@
 <!-- Copyright 2026 flxk1 -->
 # Changelog
 
+## [0.11.1](https://github.com/flxk1/loomground-governance/compare/loomground-governance-v0.11.0...loomground-governance-v0.11.1) (2026-09-10)
+
+
+### Bug Fixes
+
+* current version pin, REUSE-cover .mailmap, test run_conformance ([e42c56f](https://github.com/flxk1/loomground-governance/commit/e42c56f32624449be1f58367e39b929c276e914c))
+
+
+### Documentation
+
+* **attribution:** map assistant commits to flxk1 via .mailmap ([705140b](https://github.com/flxk1/loomground-governance/commit/705140b2c09140e6e4e71fdd9cfc83aae6404757))
+* Language section and .lg reference card ([d3177b7](https://github.com/flxk1/loomground-governance/commit/d3177b7dc3b70e54cca02eabfc7681ad10bfdb74))
+* Problem and Example sections ([42fd18b](https://github.com/flxk1/loomground-governance/commit/42fd18b84a6546f7d15c02fb8be87d981ac7d2e5))
+* README to canon (299 words), description, Family ([42f4505](https://github.com/flxk1/loomground-governance/commit/42f45056c1d6406bc74a5b0828384ca432a061ff))
+
 ## [0.11.0](https://github.com/flxk1/loomground-governance/compare/loomground-governance-v0.10.0...loomground-governance-v0.11.0) (2026-08-22)
 
 
