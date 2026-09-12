@@ -2,6 +2,15 @@
 <!-- Copyright 2026 flxk1 -->
 # Changelog
 
+## [0.11.2](https://github.com/flxk1/loomground-governance/compare/loomground-governance-v0.11.1...loomground-governance-v0.11.2) (2026-09-12)
+
+
+### Bug Fixes
+
+* **canonical:** compare standard/ mirror content modulo version ([edd8f7a](https://github.com/flxk1/loomground-governance/commit/edd8f7aa1f903a3410b147c81940911aa8a8d714))
+* **loomground:** validator reads the active L0-L6 grade ladder ([9ef2501](https://github.com/flxk1/loomground-governance/commit/9ef2501af07d682c7d5ada2cb452fc9eba44f099))
+* **loomground:** validator reads the active L0-L6 grade ladder ([acf5d7d](https://github.com/flxk1/loomground-governance/commit/acf5d7d26314acd8bb36353ab1c5d3dd7f578391))
+
 ## [0.11.1](https://github.com/flxk1/loomground-governance/compare/loomground-governance-v0.11.0...loomground-governance-v0.11.1) (2026-09-10)
 
 
