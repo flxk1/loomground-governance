@@ -175,7 +175,7 @@ configuration language, and it would buy an invariant the language already holds
 
 *What this does and does not guarantee.* The language guarantees release is
 withheld (§7.3). Whether a runtime then pauses, corrects or terminates the actor
-is enforcement, and is policy (§10) — in this family, RVND's Breaker, which
+is enforcement, and is policy (§10) — in this family, `loomground-drift`'s Breaker, which
 inverts the default so that running requires continuous permission rather than
 stopping requiring an intervention. The language's refusal to mutate a grade
 mid-evaluation (G4 above) is what leaves that revocation to the runtime.

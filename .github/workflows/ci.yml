@@ -124,7 +124,7 @@ jobs:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262  # v4
       - name: normative documents are tool- and vendor-neutral
         run: |
-          if grep -rniE 'claude|anthropic|openai|chatgpt|gpt-[0-9]|gemini|copilot|codex|llama|mistral|langchain|autogen|crewai|pure.?data|rvnd|loomground-ref' \
+          if grep -rniE 'claude|anthropic|openai|chatgpt|gpt-[0-9]|gemini|copilot|codex|llama|mistral|langchain|autogen|crewai|pure.?data|loomground-ref' \
                standard/ llms.txt \
                --exclude-dir=node_modules 2>/dev/null | grep -v 'tree-sitter/src'; then
             echo "vendor/model/framework/implementation reference found — the standard states criteria, not products"; exit 1

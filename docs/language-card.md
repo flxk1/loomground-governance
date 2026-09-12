@@ -31,5 +31,4 @@ Rendered from `standard/vocabulary/*.json` and `standard/spec/SYNTAX.md` (loomgr
 
 **Values owned by policy, not the language**: the risk scale meanings, the grade ladder meanings, the set of kinds and tags, the roles.
 
-**Grammar** (SYNTAX.md §3, ISO/IEC 14977): ~25 rules; the card links it and shows the six statement forms above; `parse` = any conforming implementation (loomground-ref, RVND).
-
+**Grammar** (SYNTAX.md §3, ISO/IEC 14977): ~25 rules; the card links it and shows the six statement forms above; `parse` = any conforming implementation, including `loomground-ref`.
