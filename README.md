@@ -2,7 +2,7 @@
 <!-- Copyright 2026 flxk1 -->
 # loomground-governance
 
-The governance-language plane: the Loomground standard as a package, with roles, protocol, conformance tooling, and the authoring skill.
+Installable distribution of the Loomground governance language: grammar, schemas, vocabulary, conformance vectors, and a data-only Python kit.
 
 ## Problem
 
