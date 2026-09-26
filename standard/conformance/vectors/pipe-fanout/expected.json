@@ -49,8 +49,8 @@
     },
     {
       "from": "B",
-      "to": "master",
-      "type": "egress"
+      "to": "C",
+      "type": "pipe"
     },
     {
       "from": "C",

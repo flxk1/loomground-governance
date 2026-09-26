@@ -28,7 +28,10 @@ A patch vector's `expected.json` records the **observation** of a policy graph:
 
 A `transport.json` adds a run: `activations` (each `{actor, source, token}`,
 where `actor` is the proposing actor and `source` a source gate) and the `expected` per-gate `verdict` and, for a
-terminal gate, the `master` decision (`act` | `withhold`). It also carries `log` —
+terminal gate, the `master` decision (`act` | `withhold`). An activation MAY carry
+`invalid: true`, declaring that its token deliberately fails token validation and
+so denotes ⊥: it contributes no expected entry and no log entry, and a runner MUST
+fail the vector if a token so marked in fact validates. It also carries `log` —
 the **ordered log trace**, one `{gate, verdict}` entry per activated gate in
 evaluation order, concatenated across activations in activation order (the
 specification, Record and Conformance). A runner MUST check it: a missing or
