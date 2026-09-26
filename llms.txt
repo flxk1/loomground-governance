@@ -63,6 +63,20 @@ cord decide -> master      # egress
 
 - Structure: `standard/schema/{token,patch,observation,transport}.schema.json`.
 - Conformance: reproduce every vector in `standard/conformance/` (indexed by `standard/conformance/manifest.json`). Semantics are deterministic — a given (patch, token) yields a fixed verdict.
+- Executed path: `examples/end-to-end/` — documents in, span-grounded claims, a patch, a verdict, a signed human decision, a verified certificate; `run.py` and its recorded output.
+
+## Family compliance orchestration
+
+`a2a-compliance` supplies the full-family control plan. Its Loomground profile
+assigns the 41 catalogued repositories to eight compliance roles and consumes their
+published tools, skills, contracts and distribution surfaces in this order:
+`evidence → policy/languages → solver → oversight → A2A decision → runtime
+controls → host dispatch → assurance/reconciliation`. Missing required
+capabilities and `OPEN` results route to a human. The plan is inert: it never
+dispatches or performs a host effect. Use MCP tool `a2a_plan`, then
+`a2a_admission_preview` over digest-bound stage receipts; after host dispatch,
+use `a2a_reconcile` over the control and postflight receipts. Use `a2a_ground`
+only for the narrower six-plane derivation. None of these tools dispatches.
 
 ## Machine-readable files
 
