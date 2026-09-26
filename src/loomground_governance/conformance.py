@@ -71,6 +71,9 @@ def _check(implementation: LoomgroundImplementation, vector: Vector) -> None:
         raise AssertionError("canonical observation mismatch")
     if "transport.json" in vector.files:
         transport = vector.json("transport.json")
+        for act in transport.get("activations", []):
+            if act.get("invalid") and implementation.validate_token(act["token"]):
+                raise AssertionError("mislabelled vector: invalid=true but token validates")
         if implementation.evaluate(program, transport) != transport.get("expected", {}):
             raise AssertionError("transport evaluation mismatch")
         if "log" in transport and implementation.evaluate_log(program, transport) != transport["log"]:

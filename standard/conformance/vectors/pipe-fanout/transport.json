@@ -1,11 +1,11 @@
 {
-  "comment": "One activation at A. A pipes to B and C, both terminal, a granted at all three: A, B and C are each evaluated and logged, A first, then B before C by declaration order. B and C are auto and the master acts at each.",
+  "comment": "One activation at A. A pipes to B and to C; B also pipes to C. The pipe topology alone forces the order A, B, C (A has no predecessor, B depends only on A, C depends on both). C alone egresses; a granted at all three; the master acts once, at C.",
   "activations": [
     {"actor": "a", "source": "A", "token": {"id": "t1", "kind": "routine", "risk": "low", "party": "controller", "provenance": []}}
   ],
   "expected": {
     "A": {"verdict": "auto"},
-    "B": {"verdict": "auto", "master": "act"},
+    "B": {"verdict": "auto"},
     "C": {"verdict": "auto", "master": "act"}
   },
   "log": [

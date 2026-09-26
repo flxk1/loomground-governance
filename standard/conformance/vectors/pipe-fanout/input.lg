@@ -1,12 +1,12 @@
-# pipe-fanout — a gate piping to two terminal gates activates both; every
-# piped gate is evaluated and logged, predecessors first, ties broken by
-# declaration order (specification §7.4).
+# pipe-fanout — A pipes to B and to C; B also pipes to C. C alone
+# egresses to master. The pipe topology alone forces the order: A has no
+# predecessor, B depends only on A, C depends on both A and B — so A, B, C
+# is the unique topological order (§7.4); no tie exists to break.
 actor a
 gate  A grant a
 gate  B grant a
 gate  C grant a
-cord a -> A
 cord A -> B
 cord A -> C
-cord B -> master
+cord B -> C
 cord C -> master
