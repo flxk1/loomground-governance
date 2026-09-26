@@ -1,0 +1,14 @@
+{
+  "comment": "One activation at A by a. A: granted, auto. B: reached over the pipe, a holds no grant there, so refused (default-deny); strictest-wins keeps B refused and the master withholds.",
+  "activations": [
+    {"actor": "a", "source": "A", "token": {"id": "t1", "kind": "routine", "risk": "low", "party": "controller", "provenance": []}}
+  ],
+  "expected": {
+    "A": {"verdict": "auto"},
+    "B": {"verdict": "refused", "master": "withhold"}
+  },
+  "log": [
+    {"gate": "A", "verdict": "auto"},
+    {"gate": "B", "verdict": "refused"}
+  ]
+}

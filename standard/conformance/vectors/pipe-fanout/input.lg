@@ -1,0 +1,12 @@
+# pipe-fanout — a gate piping to two terminal gates activates both; every
+# piped gate is evaluated and logged, predecessors first, ties broken by
+# declaration order (specification §7.4).
+actor a
+gate  A grant a
+gate  B grant a
+gate  C grant a
+cord a -> A
+cord A -> B
+cord A -> C
+cord B -> master
+cord C -> master

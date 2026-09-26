@@ -1,0 +1,9 @@
+# transport-invalid-token-only — a single invalid token (risk outside the
+# domain) at a reserved gate denotes ⊥: no activation, so no per-gate result
+# and an empty log (specification, The token, §4).
+actor a
+human cfo role cfo
+gate  g grant a
+reserve payment by cfo
+cord a -> g
+cord g -> master

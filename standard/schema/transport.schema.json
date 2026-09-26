@@ -17,6 +17,12 @@
         "properties": {
           "actor": {"type": "string"},
           "source": {"type": "string"},
+          "invalid": {"type": "boolean"},
+          "token": {"type": "object"}
+        },
+        "if": {"properties": {"invalid": {"const": false}}},
+        "then": {
+          "properties": {
           "token": {
             "type": "object",
             "required": ["id", "kind", "risk", "party", "provenance"],
@@ -29,6 +35,7 @@
               "provenance": {"type": "array", "items": {"type": "string"}},
               "tags": {"type": "array", "items": {"type": "string"}}
             }
+          }
           }
         }
       }

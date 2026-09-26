@@ -1,0 +1,10 @@
+# pipe-authority-downstream — authority is checked at every gate a token
+# reaches over pipes, not only at the source (specification §5.1, §7.1). a is
+# granted at A only; A pipes to terminal B, where a holds no grant, so B is
+# refused and the master withholds.
+actor a
+gate  A grant a
+gate  B
+cord a -> A
+cord A -> B
+cord B -> master

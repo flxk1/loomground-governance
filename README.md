@@ -56,7 +56,7 @@ An activation of `decide` at risk high yields `reserved`; the master withholds u
 | `standard/grammar/` | `loomground.ebnf` (ISO/IEC 14977), `tree-sitter/` |
 | `standard/schema/` | JSON Schemas: token, patch, observation, transport |
 | `standard/vocabulary/` | node classes, cords, verdicts, declarations, guards, grades, roles, grounding |
-| `standard/conformance/` | 65 vectors, `manifest.json` |
+| `standard/conformance/` | 69 vectors, `manifest.json` |
 | `standard/companions/claim-axes/` | 14 vectors |
 | `standard/language-card.json`, `llms.txt` | language as data; agent entry |
 | `src/loomground_governance/` | `LoomgroundImplementation`, `run_conformance`, `canonicalize_role`, loaders |
@@ -75,7 +75,7 @@ Map, versioning, provenance, licensing: `docs/`.
 
 ## Status
 
-0.11.0 (stable) · standard = loomground v0.11.0 · 65 conformance vectors · 14 claim-axes vectors · 12 tests · 12 CI jobs · Python ≥ 3.10. §9 independence criterion open: `standard/conformance/README.md`.
+0.11.0 (stable) · standard = loomground v0.11.0 · 69 conformance vectors · 14 claim-axes vectors · 12 tests · 12 CI jobs · Python ≥ 3.10. §9 independence criterion open: `standard/conformance/README.md`.
 
 ## License
 

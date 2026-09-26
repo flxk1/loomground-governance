@@ -574,6 +574,42 @@
         "expected.json",
         "input.lg"
       ]
+    },
+    {
+      "name": "transport-invalid-token",
+      "kind": "patch",
+      "files": [
+        "expected.json",
+        "input.lg",
+        "transport.json"
+      ]
+    },
+    {
+      "name": "transport-invalid-token-only",
+      "kind": "patch",
+      "files": [
+        "expected.json",
+        "input.lg",
+        "transport.json"
+      ]
+    },
+    {
+      "name": "pipe-authority-downstream",
+      "kind": "patch",
+      "files": [
+        "expected.json",
+        "input.lg",
+        "transport.json"
+      ]
+    },
+    {
+      "name": "pipe-fanout",
+      "kind": "patch",
+      "files": [
+        "expected.json",
+        "input.lg",
+        "transport.json"
+      ]
     }
   ]
 }

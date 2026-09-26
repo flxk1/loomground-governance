@@ -1,0 +1,16 @@
+{
+  "comment": "A valid routine low-risk token at g is auto and the master acts. The four activations marked invalid carry tokens that denote bottom (risk outside the domain; kind, party or provenance missing): none activates g, so the result and the log hold the valid run alone.",
+  "activations": [
+    {"actor": "a", "source": "g", "token": {"id": "t1", "kind": "routine", "risk": "low", "party": "controller", "provenance": []}},
+    {"actor": "a", "source": "g", "invalid": true, "token": {"id": "t2", "kind": "payment", "risk": "catastrophic", "party": "controller", "provenance": []}},
+    {"actor": "a", "source": "g", "invalid": true, "token": {"id": "t3", "risk": "high", "party": "controller", "provenance": []}},
+    {"actor": "a", "source": "g", "invalid": true, "token": {"id": "t4", "kind": "payment", "risk": "high", "provenance": []}},
+    {"actor": "a", "source": "g", "invalid": true, "token": {"id": "t5", "kind": "routine", "risk": "low", "party": "controller"}}
+  ],
+  "expected": {
+    "g": {"verdict": "auto", "master": "act"}
+  },
+  "log": [
+    {"gate": "g", "verdict": "auto"}
+  ]
+}
