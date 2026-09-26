@@ -1,0 +1,8 @@
+{
+  "comment": "One activation whose token bears a risk outside the domain: it denotes bottom, g is never activated, the result is empty and the log is empty.",
+  "activations": [
+    {"actor": "a", "source": "g", "invalid": true, "token": {"id": "t1", "kind": "payment", "risk": "severe", "party": "controller", "provenance": []}}
+  ],
+  "expected": {},
+  "log": []
+}

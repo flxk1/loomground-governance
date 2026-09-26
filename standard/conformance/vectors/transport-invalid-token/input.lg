@@ -1,0 +1,10 @@
+# transport-invalid-token — an invalid token denotes ⊥ (specification, The
+# token, §4): no activation, no verdict, no log entry. A valid routine token is
+# released; tokens bearing a risk outside the domain or lacking kind, party
+# or provenance leave neither a per-gate result nor a log entry behind.
+actor a
+human cfo role cfo
+gate  g grant a
+reserve payment by cfo when risk >= high
+cord a -> g
+cord g -> master
