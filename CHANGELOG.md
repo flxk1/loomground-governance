@@ -2,6 +2,16 @@
 <!-- Copyright 2026 flxk1 -->
 # Changelog
 
+## [0.11.2](https://github.com/flxk1/loomground-governance/compare/loomground-governance-v0.11.1...loomground-governance-v0.11.2) (2026-09-26)
+
+
+### Bug Fixes
+
+* **conformance:** four vectors for defects the suite could not see — an invalid token inside a transport (`transport-invalid-token`, `transport-invalid-token-only`), authority at a downstream gate (`pipe-authority-downstream`), and a gate with two pipe successors (`pipe-fanout`); 65 → 69 vectors ([246c56e](https://github.com/flxk1/loomground-governance/commit/246c56e), [39d7446](https://github.com/flxk1/loomground-governance/commit/39d7446))
+* **schema:** a transport activation may carry `invalid: true`, admitting a deliberately invalid token that denotes ⊥; every other token keeps the strict token schema ([246c56e](https://github.com/flxk1/loomground-governance/commit/246c56e))
+* **conformance kit:** a vector that marks a valid token `invalid: true` fails ([39d7446](https://github.com/flxk1/loomground-governance/commit/39d7446))
+* **companion skill:** the bundled reference evaluator skips invalid tokens instead of evaluating them (SPEC §4) ([246c56e](https://github.com/flxk1/loomground-governance/commit/246c56e))
+
 ## [0.11.1](https://github.com/flxk1/loomground-governance/compare/loomground-governance-v0.11.0...loomground-governance-v0.11.1) (2026-09-10)
 
 
