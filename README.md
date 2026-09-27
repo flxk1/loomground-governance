@@ -11,7 +11,7 @@ Programs need the language as data, and copies drift from the spec. The spec as 
 ## Install
 
 ```
-pip install "loomground-governance @ git+https://github.com/flxk1/loomground-governance@loomground-governance-v0.11.0"
+pip install "loomground-governance @ git+https://github.com/flxk1/loomground-governance@loomground-governance-v0.11.2"
 ```
 
 Pin: `loomground-governance>=0.11,<0.12`.
@@ -21,7 +21,7 @@ Pin: `loomground-governance>=0.11,<0.12`.
 
 ```python
 import loomground_governance as lg
-lg.language_version()        # "0.11.0"
+lg.language_version()        # "0.11.2"
 lg.vocabulary("verdicts")    # standard/vocabulary/verdicts.json
 lg.run_conformance(impl)     # impl: a LoomgroundImplementation
 ```
@@ -31,13 +31,15 @@ lg.run_conformance(impl)     # impl: a LoomgroundImplementation
 
 ```
 in : import loomground_governance as lg; lg.language_version(); lg.vocabulary("verdicts")["alphabet"]
-out: language_version: 0.11.0
+out: language_version: 0.11.2
      verdicts: ['auto', 'human', 'refused', 'reserved', 'prohibited']
 ```
 
 ## Language
 
-`.lg`, one statement per line. Nodes `actor` · `human … role` · `gate … risk … grant` · `master`; cords `a -> b` (authority, pipe, egress); declarations `reserve <kind> by <role> when <guard>`, `prohibit`, `redress`, quorum `2 of {roles}`, `mandate`, `transfer … to … within`. ```
+`.lg`, one statement per line. Nodes `actor` · `human … role` · `gate … risk … grant` · `master`; cords `a -> b` (authority, pipe, egress); declarations `reserve <kind> by <role> when <guard>`, `prohibit`, `redress`, quorum `2 of {roles}`, `mandate`, `transfer … to … within`.
+
+```
 actor  bot7
 human  alice  role dpo
 gate   decide  risk high  grant bot7
@@ -64,9 +66,9 @@ An activation of `decide` at risk high yields `reserved`; the master withholds u
 
 ## Family
 
-The governance-language plane. `standard/` is [`loomground`](https://github.com/flxk1/loomground) **v0.11.0**, pinned in `standard/CANONICAL`; `tools/check_canonical.py` proves byte-equality against that tag in CI. What only a plane has: the `loomground_governance` kit (`artifacts`, `conformance` runner, `protocol`, `roles`), the companions, `check_language_summary` (one version), `check_lockstep` (every declaration reaches grammar, schema, vector), and the `loomground` authoring skill. No parser, evaluator, or host adapter.
+The governance-language plane. `standard/` is [`loomground`](https://github.com/flxk1/loomground) **v0.11.1**, pinned in `standard/CANONICAL`; `tools/check_canonical.py` proves content equality against that tag in CI. What only a plane has: the `loomground_governance` kit (`artifacts`, `conformance` runner, `protocol`, `roles`), the companions, `check_language_summary` (one version), `check_lockstep` (every declaration reaches grammar, schema, vector), and the `loomground` authoring skill. No parser, evaluator, or host adapter.
 
-- Consumes: `loomground` v0.11.0 (the standard).
+- Consumes: `loomground` v0.11.1 (the standard).
 - Consumed by: `loomground-solver`, `loomground-versum`, implementations via `run_conformance`.
 - Release order: `loomground` first; then re-pin here.
 - Pipeline: `source → loomground-ingest → loomground-versum → loomground-solver → applied or diagnostic planes`; every stage grounds governance here.
@@ -75,7 +77,11 @@ Map, versioning, provenance, licensing: `docs/`.
 
 ## Status
 
-0.11.0 (stable) · standard = loomground v0.11.0 · 69 conformance vectors · 14 claim-axes vectors · 12 tests · 12 CI jobs · Python ≥ 3.10. §9 independence criterion open: `standard/conformance/README.md`.
+0.11.2 (stable) · standard = loomground v0.11.1 · 69 conformance vectors · 14 claim-axes vectors · 12 tests · 12 CI jobs · Python ≥ 3.10. §9 independence criterion open: `standard/conformance/README.md`.
+
+## How this is made
+
+The code and documentation are written with Loomground agents running on Claude (Anthropic). The maintainer reads and corrects all of it.
 
 ## License
 

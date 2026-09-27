@@ -2,7 +2,7 @@
 <!-- Copyright 2026 flxk1 -->
 # Loomground `.lg` reference card
 
-Rendered from `standard/vocabulary/*.json` and `standard/spec/SYNTAX.md` (loomground v0.11.0).
+Rendered from `standard/vocabulary/*.json` and `standard/spec/SYNTAX.md` (loomground v0.11.1).
 
 
 **Nodes**
@@ -23,9 +23,9 @@ Rendered from `standard/vocabulary/*.json` and `standard/spec/SYNTAX.md` (loomgr
 | `redress <kind> by <role> [overturn] [within <duration>]` | records the right to re-examination |
 | target = `role` · `role and role` · `<m> of { roles }` | quorum: distinct parties (separation of duty) |
 
-**Guards** range over declared token fields only: `kind`, `risk`, `party`, `tags contains <tag>`; operators on risk `< <= = >= >`. Never over `id`, `provenance`, `grade`, or anything computed.
+**Guards** range over declared token fields only: `kind`, `risk`, `reversibility`, `uncertainty`, `party`, `tags contains <tag>`; operators on `risk`, `reversibility` and `uncertainty` `>= =`. Never over `id`, `provenance`, `grade`, or anything computed.
 
-**Token** (what activates a gate; supplied by the host at runtime): `id`, `kind`, `risk`, `party`, `provenance[]`, `tags[]`.
+**Token** (what activates a gate; supplied by the host at runtime): `id`, `kind`, `risk`, `party`, `provenance[]`, `reversibility`, `uncertainty`, `tags[]`.
 
 **Verdicts**: `auto < human < refused < reserved < prohibited` (join = the most restrictive); the master releases or withholds accordingly.
 

@@ -6,7 +6,7 @@ Moved verbatim from the README (sections "Status", "Versioning").
 
 ## Status
 
-Pre-1.0, specification v0.11.0 (stable).
+Pre-1.0, specification v0.11.2 (stable).
 This repository carries only the language:
 specification, grammar, schemas, vocabulary, and conformance vectors. Reference
 implementations are out of scope. An implementation conforms by reproducing the
