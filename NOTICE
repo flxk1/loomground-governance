@@ -13,7 +13,7 @@ conformance vectors, examples, reference adapters, and repository tooling are
 licensed under the Apache License, Version 2.0 (see
 LICENSES/Apache-2.0.txt).
 
-The code and documentation are written with Loomground agents running on Claude (Anthropic). The maintainer reads and corrects all of it.
+The code and documentation are written with Loomground agents. The maintainer reads and corrects all of it.
 An AI system is a tool, not an author or a contributor: it holds no copyright and
 makes no copyright claim. An assisted commit ends with a plain line naming the
 tool used — "Assisted by <tool> (<vendor>)." — never an authorship or

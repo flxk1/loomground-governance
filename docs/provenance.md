@@ -2,7 +2,7 @@
 <!-- Copyright 2026 flxk1 -->
 # Provenance
 
-The code and documentation are written with Loomground agents running on Claude (Anthropic). The maintainer reads and corrects all of it.
+The code and documentation are written with Loomground agents. The maintainer reads and corrects all of it.
 
 An AI system is acknowledged as a tool, not as an author or co-author; this
 assistance is acknowledged here and in `NOTICE`, not recorded as authorship. An
