@@ -21,7 +21,7 @@ conformance is a criterion (reproduce every vector), not a product list.
   tool actually used:
 
   ```
-  Assisted by <tool> (<vendor>); not an author or copyright holder.
+  Assisted by <tool> (<vendor>).
   ```
 
 ## Gates (run before every commit)
@@ -35,8 +35,9 @@ python3 -m pytest                  # Python adoption-kit contract
 reuse lint                    # SPDX / REUSE compliance
 ```
 
-All new files carry an Apache-2.0 SPDX header (the whole tree is
-single-licensed Apache-2.0; `REUSE.toml` covers files that cannot carry one).
+All new files carry an SPDX header: Apache-2.0, except the CC-BY-4.0 normative
+prose in `standard/spec/` and the claim-axes companion (`REUSE.toml` records the
+boundary and covers files that cannot carry one).
 Do not quote the raw SPDX tag string in prose — the REUSE extractor scans whole
 files and chokes on it.
 
