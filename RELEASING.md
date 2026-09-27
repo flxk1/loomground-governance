@@ -11,8 +11,8 @@ This repository carries three version numbers that look similar but answer diffe
 questions, and none of them should be collapsed into another:
 
 1. **Package/release** — `pyproject.toml`, `standard/language-card.json`, and
-   `standard/conformance/manifest.json` share one number (currently `0.8.2`). This is
-   the version PyPI installs and the version this document's release flow manages.
+   `standard/conformance/manifest.json` share one number (currently `0.11.2`). This is
+   the version this document's release flow manages.
    `tools/check_language_summary.py` gates that the three stay equal, and that
    `standard/grammar/tree-sitter/tree-sitter.json`'s own `metadata.version` matches too.
 2. **Contract/protocol** — the claim-axes version, the profile version, and the
@@ -39,9 +39,8 @@ commits on `main` into a reviewed release pull request:
 - `docs:`, `test:`, `ci:`, and `chore:` do not by themselves trigger a release.
 
 Merging the generated release pull request updates `pyproject.toml` and
-`CHANGELOG.md`, and creates a plain tag of the form `vX.Y.Z` (for example, the
-existing `v0.8.2` tag) — no component prefix, because this repository publishes a
-single package. Configuration lives in `release-please-config.json` and
+`CHANGELOG.md`, and creates a tag of the form `loomground-governance-vX.Y.Z` (for example,
+`loomground-governance-v0.11.2`). Configuration lives in `release-please-config.json` and
 `.release-please-manifest.json`; the workflow is
 `.github/workflows/release-please.yml`.
 
@@ -51,7 +50,8 @@ tag).
 
 ## Publishing (PyPI Trusted Publishing)
 
-Once the release pull request merges and the tag is created, the `publish` job in
+Once the release pull request merges and the tag is created, and the repository
+variable `PYPI_PUBLISHING` is set to `enabled`, the `publish` job in
 `.github/workflows/release-please.yml` builds the source distribution and wheel once
 and publishes them using
 [PyPI Trusted Publishing](https://docs.pypi.org/trusted-publishers/) — an OIDC
