@@ -2,6 +2,15 @@
 <!-- Copyright 2026 flxk1 -->
 # Changelog
 
+## [0.11.3](https://github.com/flxk1/loomground-governance/compare/loomground-governance-v0.11.2...loomground-governance-v0.11.3) (2026-09-28)
+
+
+### Documentation
+
+* correct stale claims; add How this is made ([0217643](https://github.com/flxk1/loomground-governance/commit/021764341481b857c81ffa79dedf47791aa6391d))
+* correct stale statements and add How this is made ([95368b9](https://github.com/flxk1/loomground-governance/commit/95368b9d53d0527d42e8827beeb19d537cc0df8a))
+* How this is made names no model vendor ([47c7848](https://github.com/flxk1/loomground-governance/commit/47c7848d6592ccba67a359c4949f464c2359117e))
+
 ## [0.11.2](https://github.com/flxk1/loomground-governance/compare/loomground-governance-v0.11.1...loomground-governance-v0.11.2) (2026-09-26)
 
 
