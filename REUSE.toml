@@ -105,3 +105,10 @@ path = "standard/CANONICAL"
 precedence = "aggregate"
 SPDX-FileCopyrightText = "2026 flxk1"
 SPDX-License-Identifier = "Apache-2.0"
+
+# The governance plane's relation -> 5D binding (package data; JSON has no comments).
+[[annotations]]
+path = "src/loomground_governance/data/*.json"
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2026 flxk1"
+SPDX-License-Identifier = "Apache-2.0"
