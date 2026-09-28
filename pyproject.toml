@@ -20,6 +20,9 @@ Homepage = "https://github.com/flxk1/loomground-governance"
 Repository = "https://github.com/flxk1/loomground-governance"
 Issues = "https://github.com/flxk1/loomground-governance/issues"
 
+[project.entry-points."loomground.planes"]
+governance = "loomground_governance.plane:plane"
+
 [tool.hatch.build.targets.wheel]
 packages = ["src/loomground_governance"]
 
