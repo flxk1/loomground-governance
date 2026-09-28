@@ -72,6 +72,7 @@ The governance-language plane. `standard/` is [`loomground`](https://github.com/
 - Consumed by: `loomground-solver`, `loomground-versum`, implementations via `run_conformance`.
 - Release order: `loomground` first; then re-pin here.
 - Pipeline: `source → loomground-ingest → loomground-versum → loomground-solver → applied or diagnostic planes`; every stage grounds governance here.
+- loomground-governance is registered as an nD system on the versum index (the `loomground.planes` entry point, id `governance`; see `src/loomground_governance/plane.py`). Each governance relation binds exactly one of the five dimensions (`src/loomground_governance/data/dimension-binding.json`); risk, grade, party and duration are nD axes of the plane, never a sixth dimension.
 
 Map, versioning, provenance, licensing: `docs/`.
 
