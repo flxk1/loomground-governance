@@ -1,0 +1,13 @@
+{
+  "id": "loomground-governance-5d",
+  "version": "1",
+  "describes": "The governance plane's one relation -> 5D binding: each Loomground governance relation names exactly one of the five dimensions (structural, causal, intentional, temporal, relational). Risk, grade, party and duration are nD axes of the plane, never a sixth dimension.",
+  "relations": {
+    "authority": {"dimension": "intentional", "semantic_role": "authorizes"},
+    "pipe": {"dimension": "causal", "semantic_role": "activates"},
+    "egress": {"dimension": "causal", "semantic_role": "releases_to"},
+    "on_behalf_of": {"dimension": "relational", "semantic_role": "delegates_for"},
+    "reservation": {"dimension": "intentional", "semantic_role": "reserves_for"},
+    "redress": {"dimension": "intentional", "semantic_role": "remedy_by"}
+  }
+}
