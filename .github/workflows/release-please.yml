@@ -5,6 +5,8 @@ name: release-please
 on:
   push:
     branches: [main]
+  # Manual re-run when a push to main started no workflow.
+  workflow_dispatch:
 
 permissions:
   contents: write
