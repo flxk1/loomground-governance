@@ -2,10 +2,12 @@
 # Copyright 2026 flxk1
 """Structural sanity of the claim-axes companion (standard/companions/claim-axes).
 
-The vocabulary itself is proven by the two independent implementations that
-vendor these vectors (COMPANION.md, Conformance); this test keeps the canonical
-copy well-formed: the manifest indexes exactly the vector files that exist,
-every vector is a valid/invalid-flagged record, and the profile document only
+The vocabulary itself is exercised by the two implementations that vendor
+these vectors (COMPANION.md §4); their independence from each other is open,
+for the same reason specification §9 is open (both were authored within this
+project — see COMPANION.md §4). This test keeps the canonical copy
+well-formed: the manifest indexes exactly the vector files that exist, every
+vector is a valid/invalid-flagged record, and the profile document only
 declares choices for recognized axes.
 """
 import json
