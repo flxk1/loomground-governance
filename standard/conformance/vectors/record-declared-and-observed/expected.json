@@ -1,0 +1,15 @@
+{
+  "nodes": [
+    {"id": "bot7", "class": "actor"},
+    {"id": "legal", "class": "human", "role": "legal"},
+    {"id": "decide", "class": "gate", "risk_floor": "high"},
+    {"id": "master", "class": "master"}
+  ],
+  "cords": [
+    {"from": "bot7", "to": "decide", "type": "authority"},
+    {"from": "decide", "to": "master", "type": "egress"}
+  ],
+  "reservations": [
+    {"kind": "automated_decision", "by": "legal", "when": "risk >= high"}
+  ]
+}

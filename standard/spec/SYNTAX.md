@@ -4,7 +4,7 @@
 
 ## A companion to the Loomground specification: the textual surface
 
-**Companion — Version 0.8 (draft).**
+**Companion — Version 0.11.2 (stable).**
 
 ## Abstract
 
@@ -42,7 +42,12 @@ fixed by the specification, not by this notation.
   lines and comment-only lines carry no statement.
 - Tokens are separated by runs of spaces or tabs, treated as a single separator.
 - Identifiers are case-sensitive.
-- Declarations are order-independent in meaning. A cord statement SHOULD name only
+- Per-gate verdicts and master decisions are order-independent: a reordering of
+  declarations yields the same verdicts and decisions. Declaration order is still
+  significant in two places: where the pipes admit more than one topological order,
+  log order among the tied gates follows declaration order (the specification,
+  Record §7.4 and Determinism §7.5); and the observation lists nodes and cords in
+  declaration order (the specification, Conformance). A cord statement SHOULD name only
   nodes declared on earlier lines; a writer of the textual surface SHOULD emit node
   declarations before cord statements. A cord that names an undeclared node denotes
   an ill-formed policy graph (the specification, Connections and activation) and has
@@ -203,7 +208,7 @@ Notes on the grammar, each tied to the abstract language:
   the set of declared purposes the actor is authorised to pursue. A single purpose
   MAY be written without braces. The set is declared, never computed; `mandate` is
   configuration on an actor, is not a token field, and is never guardable — guards
-  range only over {`kind`, `risk`, `party`, `tags`}. An actor declares at most one
+  range only over {`kind`, `risk`, `reversibility`, `uncertainty`, `party`, `tags`}. An actor declares at most one
   `mandate`; a second on the same actor is ill-formed. A delegation binding between
   two actors MUST satisfy the mandate-attenuation invariant (the specification,
   Governance declarations): the delegate's mandate MUST be a subset of its

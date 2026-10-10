@@ -1,0 +1,18 @@
+# topo-fanout-fanin-declared-order-variant — the same policy as
+# topo-fanout-fanin-declared-order (A fans out to B and C; both fan in to D;
+# B and C are mutually incomparable in the pipe relation), but C is declared
+# before B. The declaration-order tie-break (SPEC §7.4) therefore fixes a
+# different log: A, C, B, D. Same graph shape, same per-gate verdicts and
+# master decision as the sibling vector; only the evaluation order — and so
+# the log — differs, exactly as the declaration-order rule requires.
+actor a
+gate  A grant a
+gate  C
+gate  B grant a
+gate  D grant a
+cord a -> A
+cord A -> B
+cord A -> C
+cord B -> D
+cord C -> D
+cord D -> master

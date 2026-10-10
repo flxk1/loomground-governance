@@ -1,0 +1,17 @@
+{
+  "comment": "The token declares risk `low`, but decide's floor is `high`; the gate-computed, effective risk is max(low, high) = high (SPEC §4), which matches the reservation's `risk >= high` guard -> reserved, withhold. The log entry carries both the declared token (risk `low`, as presented) and the host-observed facts (the gate-computed risk `high` that actually matched), per SPEC §7.4.",
+  "activations": [
+    {"actor": "bot7", "source": "decide", "token": {"id": "t1", "kind": "automated_decision", "risk": "low", "party": "controller", "provenance": []}}
+  ],
+  "expected": {
+    "decide": {"verdict": "reserved", "master": "withhold"}
+  },
+  "log": [
+    {
+      "gate": "decide",
+      "verdict": "reserved",
+      "token": {"id": "t1", "kind": "automated_decision", "risk": "low", "party": "controller", "provenance": []},
+      "observed": {"kind": "automated_decision", "risk": "high"}
+    }
+  ]
+}

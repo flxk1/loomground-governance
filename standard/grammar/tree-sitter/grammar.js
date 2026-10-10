@@ -99,9 +99,10 @@ module.exports = grammar({
     ),
 
     // A guard parses generically as <field> <op> <value>. The valid field domain
-    // {kind, risk, party, tags} and the valid (field, op) pairing (kind/party with
-    // `=`, risk with `>=`|`=`, tags with `contains`) are enforced at apply — the
-    // no-id wall: a guard over `id` or `provenance`, or an invalid pairing, parses
+    // {kind, risk, reversibility, uncertainty, party, tags} and the valid
+    // (field, op) pairing (kind/party with `=`, risk/reversibility/uncertainty
+    // with `>=`|`=`, tags with `contains`) are enforced at apply — the no-id
+    // wall: a guard over `id` or `provenance`, or an invalid pairing, parses
     // here and is rejected at apply, exactly as an out-of-domain `_risk_value` is.
     guard: $ => seq($.id, $.guard_op, $._risk_value),
     guard_op: _ => choice(">=", "=", "contains"),

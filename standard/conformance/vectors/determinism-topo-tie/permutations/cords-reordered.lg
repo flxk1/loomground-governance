@@ -1,0 +1,19 @@
+# The same policy as ../input.lg with the actor declared after the gates and
+# the cords in reverse order, but the gates themselves in the same relative
+# order (A, B, C, E, D). Verdicts and decision are unchanged (SPEC §7.5,
+# rule 2); the §7.4 tie-break reads only the gates' declaration order, which
+# is unchanged, so the log is the same as against ../input.lg: A, B, C, E, D.
+gate  A grant a
+gate  B grant a
+gate  C
+gate  E grant a
+gate  D grant a
+actor a
+cord D -> master
+cord E -> D
+cord C -> D
+cord B -> D
+cord A -> E
+cord A -> C
+cord A -> B
+cord a -> A

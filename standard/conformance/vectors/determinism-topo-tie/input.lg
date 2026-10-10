@@ -1,0 +1,29 @@
+# determinism-topo-tie — a determinism vector over a pipe graph WITH a
+# topological tie. A fans out to B, C and E; none of B, C, E pipes to
+# another; all three fan in to D, which egresses. The pipe relation admits
+# six topological orders (A, then any order of B, C, E, then D). a holds no
+# grant at C, so C is refused; D's effective verdict is the join of its own
+# auto with B's auto, C's refused and E's auto -> refused; the master
+# withholds. SPEC §7.5 pins three things a runner checks here:
+#   rule 1 — repeating the activation against this file yields the same
+#            verdicts, decision and log every time;
+#   rule 2 — every permutation in transport.json yields the same per-gate
+#            verdicts and master decision as this file;
+#   rule 3 — because the graph has a tie, the log is NOT invariant under
+#            reordering: for each file it is the log the §7.4 declaration-order
+#            tie-break fixes for that file's gate order. Here B, C, E are
+#            declared in that order, so the log runs A, B, C, E, D.
+actor a
+gate  A grant a
+gate  B grant a
+gate  C
+gate  E grant a
+gate  D grant a
+cord a -> A
+cord A -> B
+cord A -> C
+cord A -> E
+cord B -> D
+cord C -> D
+cord E -> D
+cord D -> master

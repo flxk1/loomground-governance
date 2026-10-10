@@ -1,0 +1,15 @@
+# record-declared-and-observed — the proposing actor's token declares risk
+# `low`, but the gate's declared floor is `high` (SPEC §4: a gate's floor is
+# the maximum of the computed risk and the floor, a raise-only step). The
+# reservation guards on the raised, gate-computed risk, so the low-declared
+# token is in fact reserved. SPEC §7.4 requires the log entry to carry both
+# the declared token and the host-observed facts that produced the
+# gate-computed risk, so that redress weighs what was claimed against what
+# was observed rather than a reconciled value (PROM-001) — this vector pins
+# that both appear in the log, not only the final verdict.
+actor bot7
+human legal role legal
+gate  decide risk high grant bot7
+reserve automated_decision by legal when risk >= high
+cord  bot7   -> decide
+cord  decide -> master

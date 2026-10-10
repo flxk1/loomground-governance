@@ -1,3 +1,4 @@
 {
-  "stage": "apply"
+  "stage": "apply",
+  "reason": "CONSIGNEE_NOT_TERMINAL"
 }

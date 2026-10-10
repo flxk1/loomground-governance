@@ -1,0 +1,15 @@
+# prohibit-grade-reservation-precedence — a single gate combines all three
+# step-(1)-(3) checks on the same kind: an unguarded prohibition, a reservation
+# by a human role, and a source gate requiring a grade the actor's maximal
+# granted grade would otherwise satisfy. Priority selection (SPEC §7.1) runs
+# `prohibited` first: it beats a grant, a maximal granted grade (L6 >= the
+# gate's required L2, which step (4) would otherwise dispose `auto`), and a
+# same-kind reservation that would otherwise fire at step (3). No privilege
+# attenuates a prohibition.
+actor bot grade L6
+human legal role legal
+gate  decide risk high grade L2 grant bot
+prohibit deploy
+reserve deploy by legal
+cord  bot    -> decide
+cord  decide -> master

@@ -1,0 +1,12 @@
+{
+  "comment": "A deploy/high token at decide. The actor is granted, holds the maximal L6 grade against the gate's required L2 (step (4) would otherwise dispose auto), and the kind also matches a reservation by legal (step (3) would otherwise dispose reserved). But `deploy` is also unguardedly prohibited, and step (1) runs before both: prohibited, withhold. No grant or grade attenuates it.",
+  "activations": [
+    {"actor": "bot", "source": "decide", "token": {"id": "t1", "kind": "deploy", "risk": "high", "party": "deployer", "provenance": []}}
+  ],
+  "expected": {
+    "decide": {"verdict": "prohibited", "master": "withhold"}
+  },
+  "log": [
+    {"gate": "decide", "verdict": "prohibited"}
+  ]
+}

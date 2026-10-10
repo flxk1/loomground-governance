@@ -1,0 +1,53 @@
+{
+  "comment": "One activation at A over a fan-out/fan-in graph with a three-way topological tie (B, C, E). `repeat`: evaluate against input.lg this many times; every run's per-gate verdicts, master decision and log MUST equal `expected` and `log` (SPEC §7.5, rule 1). Then evaluate once against each `file` in `permutations`: the per-gate verdicts and master decision MUST equal `expected` (rule 2), and the log MUST equal that entry's `log`, which is the one the §7.4 declaration-order tie-break fixes for that file's gate order (rule 3). The verdicts in every log are the same; only the order of the tied gates B, C, E differs, and only where their declaration order differs.",
+  "repeat": 3,
+  "permutations": [
+    {
+      "file": "permutations/cords-reordered.lg",
+      "log": [
+        {"gate": "A", "verdict": "auto"},
+        {"gate": "B", "verdict": "auto"},
+        {"gate": "C", "verdict": "refused"},
+        {"gate": "E", "verdict": "auto"},
+        {"gate": "D", "verdict": "refused"}
+      ]
+    },
+    {
+      "file": "permutations/gates-reversed.lg",
+      "log": [
+        {"gate": "A", "verdict": "auto"},
+        {"gate": "E", "verdict": "auto"},
+        {"gate": "C", "verdict": "refused"},
+        {"gate": "B", "verdict": "auto"},
+        {"gate": "D", "verdict": "refused"}
+      ]
+    },
+    {
+      "file": "permutations/gates-rotated.lg",
+      "log": [
+        {"gate": "A", "verdict": "auto"},
+        {"gate": "C", "verdict": "refused"},
+        {"gate": "E", "verdict": "auto"},
+        {"gate": "B", "verdict": "auto"},
+        {"gate": "D", "verdict": "refused"}
+      ]
+    }
+  ],
+  "activations": [
+    {"actor": "a", "source": "A", "token": {"id": "t1", "kind": "routine", "risk": "low", "party": "controller", "provenance": []}}
+  ],
+  "expected": {
+    "A": {"verdict": "auto"},
+    "B": {"verdict": "auto"},
+    "C": {"verdict": "refused"},
+    "E": {"verdict": "auto"},
+    "D": {"verdict": "refused", "master": "withhold"}
+  },
+  "log": [
+    {"gate": "A", "verdict": "auto"},
+    {"gate": "B", "verdict": "auto"},
+    {"gate": "C", "verdict": "refused"},
+    {"gate": "E", "verdict": "auto"},
+    {"gate": "D", "verdict": "refused"}
+  ]
+}

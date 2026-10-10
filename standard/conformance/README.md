@@ -38,7 +38,72 @@ specification, Record and Conformance). A runner MUST check it: a missing or
 misordered entry is itself a conformance failure, so the mandatory record (not only
 the final verdicts) is tested.
 
-## The three vector kinds
+## The vector-format contract
+
+A runner MUST observe four rules so that passing the suite tests what it
+claims to, not only what a lenient runner happens to check:
+
+1. **Reason, not only stage.** Every negative vector's `reject.json` carries
+   `stage` (`"parse"` | `"apply"`) and `reason`, a code from the closed set in
+   `vocabulary/reject-reasons.json`. A runner MUST check both: an
+   implementation that rejects at the right stage for the wrong cause (e.g.
+   raising on a pipe cycle while calling it a parse error, or rejecting a
+   well-formed graph outright) fails the vector. `reason` is machine-checkable
+   because the set is closed and documented against the specification section
+   that makes each case ill-formed.
+2. **Parse rejection is correct only where declared.** A runner MAY treat an
+   exception raised while parsing as a correct rejection *only* for a vector
+   whose `reject.json` declares `"stage": "parse"`. A vector declaring
+   `"stage": "apply"` requires the input to survive parsing and be rejected
+   specifically at the well-formedness check named by its `reason` — a runner
+   that cannot parse the input at all, or that rejects every input
+   indiscriminately, MUST fail an apply-stage vector even though it "rejects".
+   This closes the gap the paper names: a stub that raises on every input, or
+   that rejects every patch at apply, must not score as conformant.
+3. **Whole-observation equality.** A patch vector's `expected.json` is
+   compared to an implementation's observation by the equality the
+   specification defines (specification, Conformance §9, Equality): the full
+   observation object, same members, equal values, array order significant.
+   A runner MUST NOT reduce the comparison to a subset of named keys; an
+   extra, missing, or misordered member anywhere in `nodes`, `cords`,
+   `reservations`, or `redress` is a conformance failure, not a partial pass.
+   The same whole-object rule applies to each `transport.json` run: every
+   gate named in `expected`, every field of a `log` entry present in the
+   vector (including `token`/`observed` where a vector carries them, below),
+   and the full ordered `log` array.
+4. **Determinism vectors.** A vector of kind `determinism` (`input.lg` +
+   `transport.json`) carries two additional `transport.json` fields: `repeat`
+   (a positive integer) and `permutations`, a list of `{file, log}` entries.
+   Each `file` (a path relative to the vector's directory) denotes the same
+   policy as `input.lg` with its declarations textually reordered; its `log`
+   is the ordered log trace that declaration order fixes. A runner MUST
+   evaluate `activations` against `input.lg` `repeat` times and fail the
+   vector unless every run's per-gate verdicts and master decisions equal
+   `expected` and its log equals `log` (specification §7.5, rule 1). It MUST
+   then evaluate `activations` once against each permutation `file` and fail
+   the vector unless the per-gate verdicts and master decisions equal the
+   same `expected` (rule 2) and the log equals that entry's `log` (rule 3).
+   An entry's `log` equals the top-level `log` wherever the pipes over the
+   activated gates admit a single topological order; where they admit
+   several, it is the log the declaration-order tie-break (specification
+   §7.4) fixes for that file's declaration order, and may differ from the
+   top-level `log`. A determinism vector carries no `expected.json`: because
+   the canonical observation's `nodes`/`cords`/`reservations` order is
+   declaration order (specification §9, Order), reordering declarations
+   changes that order by construction, so only the dynamic result —
+   `expected` and the logs in `transport.json` — is what a determinism
+   vector pins.
+
+The record (§7.4) requirement that a log entry carry both the declared
+token and the host-observed facts is pinned, where a vector exercises it, by
+two optional `transport.json` log-entry fields: `token` (the declared token
+as presented) and `observed` (`{kind, risk}`, the host-observed `kind` and
+gate-computed `risk` that actually produced the verdict). Most vectors omit
+both because the declared and observed values coincide and the distinction
+is moot; `record-declared-and-observed` is the vector that exercises the case
+where they diverge (schema/transport.schema.json).
+
+## The four vector kinds: patch, determinism, token, negative
 
 **Patch vectors** — input `.lg` + `expected.json` (+ optional `transport.json`):
 - `draft-decide` — static projection: a routine gate and a decide gate that
@@ -86,6 +151,44 @@ the final verdicts) is tested.
   `reserved`, and `prohibited` pre-empts `refused`.
 - `grant-narrowing` — a narrowed grant `a[kind]` / `a[kind:risks]` scopes authority; a
   token outside the grant's kind or risk scope is `refused`.
+- `topo-fanout-fanin-declared-order` / `topo-fanout-fanin-declared-order-variant` —
+  a second fan-out/fan-in topology, distinct from `pipe-fanout`'s: two gates that
+  pipe from a common source and both into a common sink, with no edge between
+  them, so the pipe relation genuinely admits two topological orders. The
+  declaration-order tie-break (SPEC §7.4) fixes the log; the `-variant` vector
+  declares the two incomparable gates in the opposite order and so expects the
+  opposite log order, with the same per-gate verdicts and master decision —
+  pinning that the tie-break, not an implementation's internal traversal, is
+  what the log follows. The fan-in gate's `refused` (joined from one
+  incomparable predecessor) over the other's `auto` also exercises restrictions
+  composing over this second topology.
+- `prohibit-grade-reservation-precedence` — one gate combines an unguarded
+  prohibition, a reservation, and a required grade a maximal granted grade
+  would otherwise satisfy, all on the same kind: `prohibited`, withhold. Pins
+  that a prohibition beats a grant, a high grade, and a same-kind reservation
+  together, not merely pairwise (cf. specification §7.1, probe H3a).
+- `record-declared-and-observed` — a token declares `risk low` at a gate whose
+  floor is `high`; the gate-computed risk (`high`) matches a reservation the
+  declared value would not. The log entry carries both the declared token and
+  the host-observed facts (SPEC §7.4) — pinning that the record, not only the
+  final verdict, is auditable.
+
+**Determinism vectors** — `input.lg` + `transport.json` with `repeat` and
+`permutations` (no `expected.json`; see The vector-format contract, above):
+- `determinism-repeat-permute` — the `draft-decide-run` graph; each
+  activation reaches one gate, so there is no topological tie. Repeating the
+  same activations three times, and running them once against a
+  declaration-order permutation of the same policy, MUST reproduce the same
+  per-gate verdicts, master decisions, and log trace every time
+  (specification §7.5, rules 1–3).
+- `determinism-topo-tie` — a fan-out/fan-in graph with a three-way
+  topological tie (A fans out to B, C, E; all three fan in to D). Repeats
+  MUST reproduce the same result (rule 1); three declaration-order
+  permutations MUST reproduce the same per-gate verdicts and master decision
+  (rule 2); the log is the one the declaration-order tie-break fixes for each
+  file — unchanged where only the actor and cords move, `A, E, C, B, D` and
+  `A, C, E, B, D` where the gates are reversed or rotated (rule 3). Pins that
+  log order under reordering follows §7.4, not the original file.
 
 **Token vectors** — `tokens.json`, a list of `{valid, token}` an implementation
 MUST classify identically (see the specification, The token):
@@ -95,7 +198,9 @@ MUST classify identically (see the specification, The token):
   rejected.
 
 **Negative vectors** — input `.lg` + `reject.json`
-(`{"stage": "parse" | "apply"}`) pinning what MUST be rejected, fail-closed:
+(`{"stage": "parse" | "apply", "reason": <code>}`, `reason` a code from the
+closed set in `vocabulary/reject-reasons.json`; see The vector-format
+contract, above) pinning what MUST be rejected, fail-closed, and why:
 - `reject-human-authority`, `reject-agent-to-master`, `reject-pipe-cycle`,
   `reject-unknown-target`, `reject-bad-risk` (apply-time);
 - `reject-guard-id`, `reject-guard-provenance` — the no-id wall on a reservation
@@ -121,23 +226,16 @@ MUST classify identically (see the specification, The token):
 
 ## Status
 
-Aligned to specification v0.8.2 (stable). Every vector — the v0.7.0 suite and the
-three new in the v0.8 cycle (`reject-rack-unknown`, `reject-rack-arity`,
-`reject-obligation-undeclared-gate`) — has been reproduced by two
-implementations, which this repository does not name as products: the
-specification states criteria, not products, and any implementation
-demonstrates conformance the same way — by reproducing every vector. The
-*standard* — this directory's parent, `standard/` — carries no implementation:
-grammar, schemas, vocabulary, and vectors only, no code. One of the two
-implementations is bundled elsewhere in this repository, outside `standard/`,
-as the non-normative companion skill's checker (`skills/loomground/`); it is
-excluded from the §9 count below because it was authored inside this project,
-not independently of it. The other remains a separate, unnamed project.
-(`reject-obligation-undeclared-gate` caught a real accept-and-defer gap in
-each implementation independently before landing — the vectors are doing
-their job.) Each `expected.json` is the observation a conforming
-implementation emits; each negative vector rejects at the stage shown;
-`token-validation` classifies identically.
+Aligned to specification v0.11.2 (stable). This repository — `loomground` — carries
+only the language: `spec/`, `grammar/`, `schema/`, `vocabulary/`, and this
+`conformance/` directory. It contains no implementation of its own; the
+non-normative companion skill under `skills/loomground/` is a generator that
+derives agent-facing guidance from the vocabulary and manifest files
+(`skills/loomground/make_skill.py`) — it evaluates nothing and is not a
+conformance checker. Any implementation, wherever it lives, demonstrates
+conformance the same way: by reproducing every vector. Each `expected.json` is
+the observation a conforming implementation emits; each negative vector
+rejects at the stage shown; `token-validation` classifies identically.
 
 The §9 interoperability criterion — two implementations produced
 independently of each other reproducing every vector — remains **open**.

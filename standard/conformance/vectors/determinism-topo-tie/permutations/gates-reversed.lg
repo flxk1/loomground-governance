@@ -1,0 +1,20 @@
+# The same policy as ../input.lg with the gates declared in reverse order
+# (D, E, C, B, A). Verdicts and decision are unchanged (SPEC §7.5, rule 2).
+# The §7.4 tie-break: A is the only gate with no unlogged activated
+# predecessor, so it is logged first although declared last; then B, C and E
+# are all eligible and E is declared earliest, then C, then B; D last. The
+# log runs A, E, C, B, D (rule 3).
+actor a
+gate  D grant a
+gate  E grant a
+gate  C
+gate  B grant a
+gate  A grant a
+cord a -> A
+cord A -> B
+cord A -> C
+cord A -> E
+cord B -> D
+cord C -> D
+cord E -> D
+cord D -> master

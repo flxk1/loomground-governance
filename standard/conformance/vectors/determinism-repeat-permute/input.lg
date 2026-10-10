@@ -1,0 +1,24 @@
+# determinism-repeat-permute — the draft-decide-run graph (two source gates,
+# two egress paths). This vector pins SPEC §7.5 determinism two ways a runner
+# can check: (1) repeating the same activations against this file MUST yield
+# identical per-gate verdicts, master decisions and log traces every time
+# (`repeat` in transport.json; rule 1); (2) running the same activations
+# against `permutations/reordered.lg` — the same policy with its declarations
+# textually reordered — MUST yield the same per-gate verdicts and master
+# decisions (rule 2). Each activation reaches a single gate, so the pipe
+# relation over the activated gates admits one topological order and the
+# log is also the same (rule 3); contrast determinism-topo-tie, where the
+# log follows the §7.4 tie-break for each declaration order. A determinism
+# vector carries no expected.json: reordering declarations changes the
+# declaration-order-dependent parts of the static observation by
+# construction (SPEC §9, Order), so only the dynamic result
+# (verdict/master/log) is compared — see conformance/README.md.
+actor  bot7
+human  alice  role legal
+gate   draft   risk low    grant bot7
+gate   decide  risk high   grant bot7
+reserve automated_decision by legal when risk >= high
+cord bot7   -> draft
+cord bot7   -> decide
+cord draft  -> master
+cord decide -> master

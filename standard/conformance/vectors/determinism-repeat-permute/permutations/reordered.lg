@@ -1,0 +1,15 @@
+# The same policy as ../input.lg with its declarations reordered: the human
+# before the actor, the reservation before the gates it keys on, the gates
+# swapped, and both groups of cords reversed. A reordering yields the same
+# per-gate verdicts and master decisions (SPEC §7.5, rule 2); each activation
+# reaches one gate, so there is no topological tie and the log trace is also
+# the same as against ../input.lg (rule 3).
+human  alice  role legal
+reserve automated_decision by legal when risk >= high
+actor  bot7
+gate   decide  risk high   grant bot7
+gate   draft   risk low    grant bot7
+cord decide -> master
+cord draft  -> master
+cord bot7   -> decide
+cord bot7   -> draft
