@@ -256,8 +256,8 @@ Each invariant has its home section; this is a checklist, not a restatement.
 7. **No amplification** — a delegation binding satisfies the no-amplification invariant (§6).
 8. **No mandate widening** — a delegation binding satisfies the mandate-attenuation invariant (§6).
 9. **No transfer widening** — a transfer satisfies the transfer-attenuation invariant (§6).
-8. **Complete mediation within an activation** — every act passes a mediating gate at every gate on its path; the relation to any post-intervention activation is not fixed by this language (§5.1, §7.3).
-10. **Token integrity (fail-closed floor)** — `kind` is host-observed and `risk` is gate-computed; an unclassifiable token or a declared-hint-vs-observed mismatch resolves to the strictest tier, and the record carries both the declared token and the host-observed facts (§4, §7.4; PROM-001).
+10. **Complete mediation within an activation** — every act passes a mediating gate at every gate on its path; the relation to any post-intervention activation is not fixed by this language (§5.1, §7.3).
+11. **Token integrity (fail-closed floor)** — `kind` is host-observed and `risk` is gate-computed; an unclassifiable token or a declared-hint-vs-observed mismatch resolves to the strictest tier, and the record carries both the declared token and the host-observed facts (§4, §7.4; PROM-001).
 
 A non-reserved, non-prohibited action at a gate declaring no required grade is `auto`; where a source gate declares a required grade, the `auto`/`human` disposition is fixed by the §7.1 grade comparison (§6, §7.1).
 
