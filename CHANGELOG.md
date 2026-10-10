@@ -2,6 +2,50 @@
 <!-- Copyright 2026 flxk1 -->
 # Changelog
 
+## [0.13.0](https://github.com/flxk1/loomground-governance/compare/loomground-governance-v0.12.0...loomground-governance-v0.13.0) (2026-10-10)
+
+
+### Features
+
+* **grammar:** align autonomy ladder to ISO/IEC 22989 §5.13 (0–6) ([21ace23](https://github.com/flxk1/loomground-governance/commit/21ace23e3c7190b405d6b04b4d3c87754b6fa056))
+* **grammar:** align autonomy ladder to ISO/IEC 22989 §5.13 (0–6) ([084c726](https://github.com/flxk1/loomground-governance/commit/084c726333f5c481e1d0862e03dc46204d2805c6))
+* **mandate:** declare the purpose authority is conferred for ([58d8963](https://github.com/flxk1/loomground-governance/commit/58d8963c62adda6a2b51184b095d585dd0732af0))
+* **roles:** recover role canonicalization + vocabulary ([39f59ca](https://github.com/flxk1/loomground-governance/commit/39f59ca5b5dfe6f0ed6754df9c2607ba047eec35))
+* **roles:** recover role canonicalization + vocabulary ([40bc7a6](https://github.com/flxk1/loomground-governance/commit/40bc7a6d4e8c5af760cd2f90b877c5cbb2bfd5f7))
+* **schema:** token schema for governed-risk model (PROM-001) ([c38196a](https://github.com/flxk1/loomground-governance/commit/c38196a89f422f81566cc17edc9563bea18a4d63))
+* **spec:** observed-kind and governed risk (PROM-001) ([579f155](https://github.com/flxk1/loomground-governance/commit/579f155697b898bab76db4e0e0fcd9b5c545c5bd))
+* **spec:** token integrity — observed kind, gate-computed risk (PROM-001, slice 1/5) ([14794f0](https://github.com/flxk1/loomground-governance/commit/14794f00af6473920e6585f919b4855c9cfe2721))
+* **token:** reversibility and uncertainty, declared and ordered ([5b5eb9c](https://github.com/flxk1/loomground-governance/commit/5b5eb9c852ad303346c771e3b4016c76393682a8))
+* **transfer:** name where a release goes and what it travels under ([ef401e1](https://github.com/flxk1/loomground-governance/commit/ef401e1584c7764097f269d639834c48ebb5eca9))
+
+
+### Bug Fixes
+
+* **canonical:** compare standard/ mirror content modulo version ([2e1d39f](https://github.com/flxk1/loomground-governance/commit/2e1d39fa5253ee9f30614c879d2f2840b433aae4))
+* current version pin, REUSE-cover .mailmap, test run_conformance ([1afdd83](https://github.com/flxk1/loomground-governance/commit/1afdd83f1d021a3d49285e3c00d68a3bf0dd644f))
+* **loomground:** validator reads the active L0-L6 grade ladder ([646893b](https://github.com/flxk1/loomground-governance/commit/646893b5757659a16100af26b738fc47ccf7106b))
+* **loomground:** validator reads the active L0-L6 grade ladder ([27082c5](https://github.com/flxk1/loomground-governance/commit/27082c5cec4e1dc5041f09f0bba2f1a65f9a536b))
+* **release:** sync language artifacts to pyproject 0.10.0 ([00aa06e](https://github.com/flxk1/loomground-governance/commit/00aa06e620284104df4f99ff29076b8204e1cae2))
+* **release:** sync language artifacts to pyproject 0.10.0 ([e7f8028](https://github.com/flxk1/loomground-governance/commit/e7f80282df43d5d356e0402b7a2a9764de28ed6c))
+
+
+### Documentation
+
+* add autonomy grades to the vocabulary file list ([b107f34](https://github.com/flxk1/loomground-governance/commit/b107f343dca3a609affc811c9ffc3fe36f0baf2f))
+* add autonomy grades to the vocabulary file list ([3734cdc](https://github.com/flxk1/loomground-governance/commit/3734cdc6304beababe5677bdb5e17f3979ff16cc))
+* **attribution:** map assistant commits to flxk1 via .mailmap ([0c77430](https://github.com/flxk1/loomground-governance/commit/0c774303ae4793a2aa66a3cc267a4f642c16a9bf))
+* correct stale claims; add How this is made ([0217643](https://github.com/flxk1/loomground-governance/commit/021764341481b857c81ffa79dedf47791aa6391d))
+* correct stale statements and add How this is made ([95368b9](https://github.com/flxk1/loomground-governance/commit/95368b9d53d0527d42e8827beeb19d537cc0df8a))
+* decouple release docs from a named consumer (general FOSS repo) ([f4603ba](https://github.com/flxk1/loomground-governance/commit/f4603baa70d087d2eb7396fc0e9e42e0b01c3dbd))
+* How this is made names no model vendor ([47c7848](https://github.com/flxk1/loomground-governance/commit/47c7848d6592ccba67a359c4949f464c2359117e))
+* Language section and .lg reference card ([ff78be4](https://github.com/flxk1/loomground-governance/commit/ff78be427511b30e6ad7570c5735830026fed5c0))
+* Problem and Example sections ([43cdc5a](https://github.com/flxk1/loomground-governance/commit/43cdc5ad8b8cdbf837db20378e67fdba8601dffa))
+* README to canon (299 words), description, Family ([3d016d0](https://github.com/flxk1/loomground-governance/commit/3d016d04515721cacf512d0d4b77b57d5d3f5346))
+* **roadmap:** language gaps for agentic oversight ([0f1268c](https://github.com/flxk1/loomground-governance/commit/0f1268cd1401d190e542d6b8ff93b06b5420aa26))
+* **roadmap:** language gaps for agentic oversight ([84cf03b](https://github.com/flxk1/loomground-governance/commit/84cf03bc4939de36baf0504a69057ef6e4bad667))
+* **roadmap:** mark the closed language gaps and record the blocked one ([f50256e](https://github.com/flxk1/loomground-governance/commit/f50256e7f10836aa6086b5c905b6ec63e41ce9be))
+* **spec:** name where the language locates correctability ([eb8f441](https://github.com/flxk1/loomground-governance/commit/eb8f441221f90e97a25b595be2830538e68cd509))
+
 ## 0.12.0 (2026-10-10)
 
 ### Features
