@@ -2,10 +2,11 @@
 <!-- Copyright 2026 flxk1 -->
 # claim-axes reference adapter
 
-An independent implementation of the claim-axes companion contract
-(`../COMPANION.md`), proving the contract is implementable by a third party
-from the published artifacts alone: `../claim-axes.schema.json`,
-`../profile-inert-0.1.0.json`, and `../vectors/`.
+A second implementation of the claim-axes companion contract
+(`../COMPANION.md`), written in this project from the published artifacts
+alone: `../claim-axes.schema.json`, `../profile-inert-0.1.0.json`, and
+`../vectors/`. It shows the contract can be implemented without importing
+any product; a clean-room implementation by a third party is still open.
 
 It imports only the Python standard library plus `jsonschema` -- nothing
 from any product that ships or consumes this companion. That isolation is
