@@ -2,6 +2,14 @@
 <!-- Copyright 2026 flxk1 -->
 # Changelog
 
+## 0.12.0 (2026-10-10)
+
+### Features
+
+* standard/ mirrors loomground v0.11.2: rejection reason codes (closed set of 20), the §7.4 declaration-order log tie-break, §7.5 determinism, record fields, and 75 conformance vectors.
+* The conformance kit checks the rejection reason, the parse stage in both directions, the whole expected observation, and determinism vectors. A stub that raises on every input, or rejects every patch at apply, now scores 0.
+* The bundled engine states a reason code on every rejection and passes all 75 vectors.
+
 ## [0.11.3](https://github.com/flxk1/loomground-governance/compare/loomground-governance-v0.11.2...loomground-governance-v0.11.3) (2026-09-28)
 
 
