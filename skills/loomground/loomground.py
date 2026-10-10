@@ -57,9 +57,16 @@ GUARD_OPS = {"kind": {"="}, "party": {"="}, "risk": {">=", "="},
 
 
 class Reject(Exception):
-    def __init__(self, stage, msg):
+    """`reason` is a code from the closed set in vocabulary/reject-reasons.json
+    (conformance/README.md, rule 1: "Reason, not only stage"). Every generic
+    grammar failure at parse defaults to PARSE_ERROR; a well-formedness check
+    at apply names its own code explicitly, or leaves `reason` unset where no
+    conformance vector exercises that particular cause."""
+
+    def __init__(self, stage, msg, reason=None):
         super().__init__(f"{stage}: {msg}")
         self.stage = stage
+        self.reason = reason if reason is not None else ("PARSE_ERROR" if stage == "parse" else None)
 
 
 # ---------------------------------------------------------------- rack pre-pass
@@ -84,7 +91,7 @@ def expand_racks(lines):
             prog.append(ln); continue
         name = m.group(1)
         if name not in racks:
-            raise Reject("parse", f"unknown rack {name}")
+            raise Reject("parse", f"unknown rack {name}", reason="RACK_UNKNOWN")
         params, body = racks[name]
         binds = {}
         for b in m.group(2).split(","):
@@ -92,7 +99,8 @@ def expand_racks(lines):
                 raise Reject("parse", f"bad binding {b!r}")
             k, v = b.split("=", 1); binds[k.strip()] = v.strip()
         if set(binds) != set(params):
-            raise Reject("parse", f"rack {name} args {set(binds)} != params {set(params)}")
+            raise Reject("parse", f"rack {name} args {set(binds)} != params {set(params)}",
+                         reason="RACK_ARITY")
         n = inst.get(name, 0); inst[name] = n + 1
         for bl in body:
             s = bl
@@ -302,19 +310,28 @@ def _statement(p, line):
 def cord_type(p, frm, to):
     if to == "master":
         if p.nodes.get(frm, {}).get("class") != "gate":
-            raise Reject("apply", f"only a gate may egress to master ({frm})")
+            raise Reject("apply", f"only a gate may egress to master ({frm})",
+                         reason="NON_CONFORMING_CORD")
         return "egress"
     cf = p.nodes.get(frm, {}).get("class")
     ct = p.nodes.get(to, {}).get("class")
     if cf is None or ct is None:
-        raise Reject("apply", f"cord into undeclared node {frm}->{to}")
+        raise Reject("apply", f"cord into undeclared node {frm}->{to}",
+                     reason="UNDECLARED_NODE")
     if cf == "human" or ct == "human":
-        raise Reject("apply", "a human may not be a cord endpoint")
+        raise Reject("apply", "a human may not be a cord endpoint",
+                     reason="NON_CONFORMING_CORD")
     if cf == "actor" and ct == "gate":
         return "authority"
     if cf == "gate" and ct == "gate":
         return "pipe"
-    raise Reject("apply", f"illegal cord {cf}->{ct}")
+    raise Reject("apply", f"illegal cord {cf}->{ct}", reason="NON_CONFORMING_CORD")
+
+
+# the out-of-domain reason for an ordered guard field; only risk and
+# reversibility have a dedicated closed-set code (vocabulary/reject-reasons.json)
+_ORDERED_OUT_OF_DOMAIN_REASON = {"risk": "RISK_OUT_OF_DOMAIN",
+                                 "reversibility": "REVERSIBILITY_OUT_OF_DOMAIN"}
 
 
 def _check_guard(g):
@@ -324,13 +341,16 @@ def _check_guard(g):
         raise Reject(
             "apply",
             f"guard over {g['field']!r} "
-            "(domain is kind/risk/reversibility/uncertainty/party/tags)")
+            "(domain is kind/risk/reversibility/uncertainty/party/tags)",
+            reason="GUARD_DOMAIN_VIOLATION")
     if g["op"] not in GUARD_OPS[g["field"]]:
-        raise Reject("apply", f"guard pairing {g['field']} {g['op']} is invalid")
+        raise Reject("apply", f"guard pairing {g['field']} {g['op']} is invalid",
+                     reason="GUARD_PAIRING_INVALID")
     scale = ORDERED.get(g["field"])
     if scale is not None and g["val"] not in scale:
         raise Reject(
-            "apply", f"guard {g['field']} {g['val']!r} outside the domain")
+            "apply", f"guard {g['field']} {g['val']!r} outside the domain",
+            reason=_ORDERED_OUT_OF_DOMAIN_REASON.get(g["field"]))
 
 
 def _risk_set(spec, kind):
@@ -348,18 +368,22 @@ def check(p):
     # declared values in their domains
     for nid, n in p.nodes.items():
         if "risk_floor" in n and n["risk_floor"] not in RISK:
-            raise Reject("apply", f"unknown risk {n['risk_floor']}")
+            raise Reject("apply", f"unknown risk {n['risk_floor']}",
+                         reason="RISK_OUT_OF_DOMAIN")
         for attr in ("grade", "grade_required"):
             if attr in n and n[attr] not in GRADES:
-                raise Reject("apply", f"grade {n[attr]!r} is not a level of the active ladder")
+                raise Reject("apply", f"grade {n[attr]!r} is not a level of the active ladder",
+                             reason="GRADE_OUT_OF_DOMAIN")
     for gate, gr in p.grants.items():
         for spec in gr.values():
             if spec["risks"] is not None and not spec["risks"] <= set(RISK):
-                raise Reject("apply", f"grant risk set outside the domain at {gate}")
+                raise Reject("apply", f"grant risk set outside the domain at {gate}",
+                             reason="RISK_OUT_OF_DOMAIN")
     # an obligation attaches to a declared gate (SYNTAX §3; spec v0.8)
     for ob in p.obligations:
         if p.nodes.get(ob["on"], {}).get("class") != "gate":
-            raise Reject("apply", f"obligation on undeclared gate {ob['on']}")
+            raise Reject("apply", f"obligation on undeclared gate {ob['on']}",
+                         reason="UNDECLARED_NODE")
     # guards range over {kind, risk, party, tags} only — never id/provenance
     for r in p.reservations:
         _check_guard(r["when"])
@@ -392,7 +416,7 @@ def check(p):
         col[u] = GREY
         for v in succ.get(u, []):
             if col.get(v, WHITE) == GREY:
-                raise Reject("apply", "pipe cycle")
+                raise Reject("apply", "pipe cycle", reason="PIPE_CYCLE")
             if col.get(v, WHITE) == WHITE:
                 dfs(v)
         col[u] = BLACK
@@ -418,19 +442,23 @@ def check(p):
     # on-behalf-of: at most one delegator, declared actor-or-human targets, acyclic
     for aid, ms in p.mandates.items():
         if len(ms) > 1:
-            raise Reject("apply", f"{aid} declares more than one mandate")
+            raise Reject("apply", f"{aid} declares more than one mandate",
+                         reason="MANDATE_DUPLICATE")
     for delegate, delegators in p.obo.items():
         if len(delegators) > 1:
-            raise Reject("apply", f"{delegate} declares more than one delegator")
+            raise Reject("apply", f"{delegate} declares more than one delegator",
+                         reason="OBO_DUPLICATE_DELEGATOR")
         cls = p.nodes.get(delegators[0], {}).get("class")
         if cls not in ("actor", "human"):
-            raise Reject("apply", f"on-behalf-of names {delegators[0]!r}, not a declared actor or human")
+            raise Reject("apply",
+                         f"on-behalf-of names {delegators[0]!r}, not a declared actor or human",
+                         reason="UNDECLARED_NODE")
     p.delegations = {d: ds[0] for d, ds in p.obo.items()}
     for start in p.delegations:
         seen, cur = set(), start
         while cur in p.delegations:
             if cur in seen:
-                raise Reject("apply", "cycle in the on-behalf-of relation")
+                raise Reject("apply", "cycle in the on-behalf-of relation", reason="OBO_CYCLE")
             seen.add(cur)
             cur = p.delegations[cur]
     # a consignee names where a gate's release goes; only a terminal gate
@@ -442,14 +470,17 @@ def check(p):
         if c is None:
             continue
         if gid not in terminal:
-            raise Reject("apply", f"consignee on non-terminal gate {gid}")
+            raise Reject("apply", f"consignee on non-terminal gate {gid}",
+                         reason="CONSIGNEE_NOT_TERMINAL")
         consigning.setdefault(c, set()).add(gid)
     for tr in p.transfers:
         if not tr["within"]:
-            raise Reject("apply", f"transfer of {tr['kind']!r} declares no purpose")
+            raise Reject("apply", f"transfer of {tr['kind']!r} declares no purpose",
+                         reason="TRANSFER_WIDENING")
         gates = consigning.get(tr["to"])
         if not gates:
-            raise Reject("apply", f"transfer to {tr['to']!r}, which no gate consigns to")
+            raise Reject("apply", f"transfer to {tr['to']!r}, which no gate consigns to",
+                         reason="TRANSFER_DANGLING_CONSIGNEE")
         # transfer attenuation: an actor cannot license onward a purpose it was
         # not itself given. Lateral, not a delegation - no principal chain here.
         for gate in sorted(gates):
@@ -460,7 +491,8 @@ def check(p):
                 if m is None or not tr["within"] <= m:
                     raise Reject(
                         "apply",
-                        f"transfer widens beyond {actor}'s mandate at {gate}")
+                        f"transfer widens beyond {actor}'s mandate at {gate}",
+                        reason="TRANSFER_WIDENING")
 
     # no-amplification, pairwise over actor→actor links only (a human delegator
     # anchors answerability and constrains no grant)
@@ -469,13 +501,15 @@ def check(p):
             continue
         dg, lg = p.nodes[delegate].get("grade"), p.nodes[delegator].get("grade")
         if dg is not None and (lg is None or GRADES[dg] > GRADES[lg]):
-            raise Reject("apply", f"delegation grade amplifies: {delegate} above {delegator}")
+            raise Reject("apply", f"delegation grade amplifies: {delegate} above {delegator}",
+                         reason="GRADE_AMPLIFICATION")
         # mandate attenuation: a delegate's mandate is a subset of its delegator's,
         # and a delegator declaring none holds the empty set, so its delegate must
         # declare none either — an actor cannot confer a purpose it was not given.
         dm, lm = p.mandate_of(delegate), p.mandate_of(delegator)
         if dm is not None and (lm is None or not dm <= lm):
-            raise Reject("apply", f"delegation widens mandate: {delegate} beyond {delegator}")
+            raise Reject("apply", f"delegation widens mandate: {delegate} beyond {delegator}",
+                         reason="MANDATE_WIDENING")
         for gate, gr in p.grants.items():
             ds = gr.get(delegate)
             if ds is None:
@@ -484,7 +518,8 @@ def check(p):
             kinds = ds["kinds"]
             if kinds is None:              # granted over all kinds
                 if ls is None or ls["kinds"] is not None:
-                    raise Reject("apply", f"delegate {delegate} granted at {gate} beyond {delegator}")
+                    raise Reject("apply", f"delegate {delegate} granted at {gate} beyond {delegator}",
+                                 reason="RISK_AMPLIFICATION")
                 kinds = {None}             # compare unnarrowed risk sets directly
             for k in kinds:
                 if k is None:   # both grants unnarrowed over kind
@@ -493,7 +528,8 @@ def check(p):
                 else:
                     dset, lset = _risk_set(ds, k), _risk_set(ls, k)
                 if not dset <= lset:
-                    raise Reject("apply", f"delegation amplifies risk over {k or 'any kind'} at {gate}")
+                    raise Reject("apply", f"delegation amplifies risk over {k or 'any kind'} at {gate}",
+                                 reason="RISK_AMPLIFICATION")
     return p
 
 
@@ -696,7 +732,21 @@ def evaluate(p, activations):
             ready.sort(key=decl_pos.get)
         for g in ordered:
             verdict = effective(g)
-            log.append({"gate": g, "verdict": verdict})
+            record = {"gate": g, "verdict": verdict}
+            # SPEC §7.4: the log entry carries both the declared token and the
+            # host-observed facts that produced the verdict, so redress weighs
+            # what was claimed against what was observed. Most activations
+            # have nothing to add here (the gate's floor does not raise the
+            # declared risk, and this engine observes no other kind than the
+            # declared one), so the distinction is moot and both fields are
+            # omitted (conformance/README.md, Record); only a gate whose floor
+            # raises the effective risk above the declared value states it.
+            gate_floor = max(RISK[token["risk"]], RISK.get(p.nodes[g].get("risk_floor"), -1))
+            observed_risk = [k for k, v in RISK.items() if v == gate_floor][0]
+            if observed_risk != token["risk"]:
+                record["token"] = token
+                record["observed"] = {"kind": token["kind"], "risk": observed_risk}
+            log.append(record)
             entry = results.setdefault(g, {})
             entry["verdict"] = verdict
             if g in egress:

@@ -54,6 +54,24 @@ def _load_engine():
     return mod
 
 
+def _check_transport(L, patch, transport, expected, log, label, fail):
+    # `log` is required on every transport run (schema/transport.schema.json:
+    # `required: [activations, expected, log]`, on a top-level transport.json
+    # and each permutations entry alike) -- a vector missing it fails here
+    # rather than silently skipping the ordered-log check.
+    results, got_log = L.evaluate(patch, transport["activations"])
+    for gate, exp in expected.items():
+        got = results.get(gate, {})
+        if got.get("verdict") != exp["verdict"]:
+            fail.append(f"engine: {label}: {gate} verdict "
+                        f"{got.get('verdict')} != {exp['verdict']}")
+        if "master" in exp and got.get("master") != exp["master"]:
+            fail.append(f"engine: {label}: {gate} master "
+                        f"{got.get('master')} != {exp['master']}")
+    if got_log != log:
+        fail.append(f"engine: {label}: ordered log trace mismatch")
+
+
 def check_engine(fail):
     L = _load_engine()
     n = 0
@@ -68,30 +86,53 @@ def check_engine(fail):
         except L.Reject as e:
             if not reject.exists():
                 fail.append(f"engine: {d.name}: unexpected reject: {e}")
-            elif e.stage != json.loads(reject.read_text())["stage"]:
-                fail.append(f"engine: {d.name}: rejected at {e.stage}, "
-                            f"expected {json.loads(reject.read_text())['stage']}")
+            else:
+                want = json.loads(reject.read_text())
+                if e.stage != want["stage"]:
+                    fail.append(f"engine: {d.name}: rejected at {e.stage}, "
+                                f"expected {want['stage']}")
+                # conformance/README.md rule 1: reason, not only stage -- a
+                # rejection at the right stage for the wrong cause still fails.
+                elif e.reason != want.get("reason"):
+                    fail.append(f"engine: {d.name}: rejected with reason {e.reason!r}, "
+                                f"expected {want.get('reason')!r}")
             continue
         if reject.exists():
             fail.append(f"engine: {d.name}: expected reject, got well-formed")
             continue
-        expected = json.loads((d / "expected.json").read_text())
-        if L.project(patch) != expected:
-            fail.append(f"engine: {d.name}: projection mismatch")
-        transport = d / "transport.json"
-        if transport.exists():
-            t = json.loads(transport.read_text())
-            results, log = L.evaluate(patch, t["activations"])
-            for gate, exp in t["expected"].items():
-                got = results.get(gate, {})
-                if got.get("verdict") != exp["verdict"]:
-                    fail.append(f"engine: {d.name}: {gate} verdict "
-                                f"{got.get('verdict')} != {exp['verdict']}")
-                if "master" in exp and got.get("master") != exp["master"]:
-                    fail.append(f"engine: {d.name}: {gate} master "
-                                f"{got.get('master')} != {exp['master']}")
-            if log != t["log"]:
-                fail.append(f"engine: {d.name}: ordered log trace mismatch")
+        transport_path = d / "transport.json"
+        expected_path = d / "expected.json"
+        if expected_path.exists():
+            expected = json.loads(expected_path.read_text())
+            if L.project(patch) != expected:
+                fail.append(f"engine: {d.name}: projection mismatch")
+            if transport_path.exists():
+                t = json.loads(transport_path.read_text())
+                _check_transport(L, patch, t, t["expected"], t["log"], d.name, fail)
+        elif transport_path.exists():
+            # determinism vector (conformance/README.md, Determinism vectors):
+            # no expected.json -- only the dynamic result is pinned. `repeat`
+            # reruns of input.lg MUST reproduce the same verdicts/decisions and
+            # log (SPEC §7.5 rule 1); each declaration-order `permutations`
+            # entry MUST reproduce the same verdicts/decisions (rule 2) against
+            # its own ordered log (rule 3).
+            t = json.loads(transport_path.read_text())
+            dyn_expected, top_log = t.get("expected", {}), t["log"]
+            for i in range(t.get("repeat", 1)):
+                _check_transport(L, patch, t, dyn_expected, top_log,
+                                 f"{d.name} repeat {i + 1}", fail)
+            for perm in t.get("permutations", []):
+                perm_lg = d / perm["file"]
+                try:
+                    perm_patch = L.check(L.parse(perm_lg.read_text()))
+                except L.Reject as e:
+                    fail.append(f"engine: {d.name}: permutation {perm['file']} "
+                                f"unexpectedly rejected: {e}")
+                    continue
+                _check_transport(L, perm_patch, t, dyn_expected, perm["log"],
+                                 f"{d.name} permutation {perm['file']}", fail)
+        else:
+            fail.append(f"engine: {d.name}: neither expected.json nor transport.json present")
     for rec in json.loads((VECTORS / "token-validation" / "tokens.json").read_text()):
         if L.validate_token(rec["token"]) != rec["valid"]:
             fail.append(f"engine: token-validation: {rec['token'].get('id', '?')} "
