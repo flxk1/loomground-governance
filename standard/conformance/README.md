@@ -58,8 +58,9 @@ claims to, not only what a lenient runner happens to check:
    specifically at the well-formedness check named by its `reason` — a runner
    that cannot parse the input at all, or that rejects every input
    indiscriminately, MUST fail an apply-stage vector even though it "rejects".
-   This closes the gap the paper names: a stub that raises on every input, or
-   that rejects every patch at apply, must not score as conformant.
+   This closes the exact gap a weak runner leaves open: a stub that raises on
+   every input, or that rejects every patch at apply, must not score as
+   conformant.
 3. **Whole-observation equality.** A patch vector's `expected.json` is
    compared to an implementation's observation by the equality the
    specification defines (specification, Conformance §9, Equality): the full
