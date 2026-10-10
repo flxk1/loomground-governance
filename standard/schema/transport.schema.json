@@ -8,6 +8,24 @@
   "additionalProperties": false,
   "properties": {
     "comment": {"type": "string"},
+    "repeat": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "determinism vectors only (conformance/README.md, Determinism vectors): the number of times a runner MUST evaluate `activations` against this vector's input.lg and check that every run's per-gate verdicts, master decisions and log equal `expected` and `log` (SPEC §7.5, rule 1)."
+    },
+    "permutations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["file", "log"],
+        "additionalProperties": false,
+        "properties": {
+          "file": {"type": "string", "description": "path, relative to the vector's directory, to an `.lg` file denoting the same policy as input.lg with its declarations reordered (SYNTAX §2)."},
+          "log": {"$ref": "#/properties/log", "description": "the ordered log trace this declaration order fixes (SPEC §7.4). Equal to the top-level `log` wherever the pipes admit a single topological order; where they admit several, the log §7.4 fixes for this file's declaration order (SPEC §7.5, rule 3)."}
+        }
+      },
+      "description": "determinism vectors only: one entry per declaration-order permutation of input.lg. A runner MUST evaluate `activations` against each `file` and check that the per-gate verdicts and master decisions equal the top-level `expected` (SPEC §7.5, rule 2) and that the log equals that entry's `log` (SPEC §7.5, rule 3)."
+    },
     "activations": {
       "type": "array",
       "items": {
@@ -60,7 +78,20 @@
         "additionalProperties": false,
         "properties": {
           "gate": {"type": "string"},
-          "verdict": {"enum": ["auto", "human", "refused", "reserved", "prohibited"]}
+          "verdict": {"enum": ["auto", "human", "refused", "reserved", "prohibited"]},
+          "token": {
+            "type": "object",
+            "description": "optional: the declared token as presented, pinned per SPEC §7.4 where a vector tests that the record carries it alongside the host-observed facts."
+          },
+          "observed": {
+            "type": "object",
+            "additionalProperties": false,
+            "description": "optional: the host-observed facts that produced this entry's effective kind/risk (SPEC §4, §7.4) — present only where a vector pins that the record carries both the declared token and the observation, not a reconciled value.",
+            "properties": {
+              "kind": {"type": "string"},
+              "risk": {"enum": ["low", "medium", "high", "critical"]}
+            }
+          }
         }
       }
     }

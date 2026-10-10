@@ -1,1 +1,4 @@
-{"stage": "parse"}
+{
+  "stage": "parse",
+  "reason": "PARSE_ERROR"
+}

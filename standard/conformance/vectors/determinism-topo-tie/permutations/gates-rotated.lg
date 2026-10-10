@@ -1,0 +1,20 @@
+# The same policy as ../input.lg with the gates declared C, A, E, B, D and
+# the cords shuffled. Verdicts and decision are unchanged (SPEC §7.5,
+# rule 2). The §7.4 tie-break: C is declared first but not eligible until A
+# is logged; A is logged first; then C, E and B are all eligible and are
+# logged in declaration order C, E, B; D last. The log runs A, C, E, B, D
+# (rule 3).
+actor a
+gate  C
+gate  A grant a
+gate  E grant a
+gate  B grant a
+gate  D grant a
+cord C -> D
+cord A -> E
+cord a -> A
+cord E -> D
+cord A -> C
+cord D -> master
+cord B -> D
+cord A -> B

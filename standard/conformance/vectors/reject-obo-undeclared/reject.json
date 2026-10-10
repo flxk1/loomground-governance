@@ -1,1 +1,4 @@
-{"stage": "apply"}
+{
+  "stage": "apply",
+  "reason": "UNDECLARED_NODE"
+}

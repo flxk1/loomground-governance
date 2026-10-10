@@ -1,0 +1,21 @@
+# topo-fanout-fanin-declared-order — A fans out to B and to C; neither B nor C
+# pipes to the other; both fan in to D before D egresses. Unlike pipe-fanout
+# (where a direct A -> C edge forces a unique topological order), B and C are
+# mutually incomparable here: the pipe relation admits both A,B,C,D and
+# A,C,B,D as valid topological orders (SPEC §7.2, §7.4). B is declared before
+# C, so the declaration-order tie-break (SPEC §7.4) fixes the log as A, B, C, D.
+# a holds no grant at C, so C is refused (checked at every gate, §5.1/§7.1);
+# D's effective verdict is the join of its own auto, B's auto, and C's
+# refused -> refused, exercising restrictions composing over a second
+# fan-out/fan-in topology distinct from pipe-fanout's.
+actor a
+gate  A grant a
+gate  B grant a
+gate  C
+gate  D grant a
+cord a -> A
+cord A -> B
+cord A -> C
+cord B -> D
+cord C -> D
+cord D -> master

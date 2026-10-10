@@ -1,3 +1,4 @@
 {
-  "stage": "apply"
+  "stage": "apply",
+  "reason": "REVERSIBILITY_OUT_OF_DOMAIN"
 }

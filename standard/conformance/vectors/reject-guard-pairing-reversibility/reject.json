@@ -1,3 +1,4 @@
 {
-  "stage": "apply"
+  "stage": "apply",
+  "reason": "GUARD_PAIRING_INVALID"
 }

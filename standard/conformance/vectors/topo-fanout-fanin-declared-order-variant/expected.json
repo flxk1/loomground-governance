@@ -1,0 +1,21 @@
+{
+  "nodes": [
+    {"id": "a", "class": "actor"},
+    {"id": "A", "class": "gate"},
+    {"id": "C", "class": "gate"},
+    {"id": "B", "class": "gate"},
+    {"id": "D", "class": "gate"},
+    {"id": "master", "class": "master"}
+  ],
+  "cords": [
+    {"from": "a", "to": "A", "type": "authority"},
+    {"from": "a", "to": "B", "type": "authority"},
+    {"from": "a", "to": "D", "type": "authority"},
+    {"from": "A", "to": "B", "type": "pipe"},
+    {"from": "A", "to": "C", "type": "pipe"},
+    {"from": "B", "to": "D", "type": "pipe"},
+    {"from": "C", "to": "D", "type": "pipe"},
+    {"from": "D", "to": "master", "type": "egress"}
+  ],
+  "reservations": []
+}

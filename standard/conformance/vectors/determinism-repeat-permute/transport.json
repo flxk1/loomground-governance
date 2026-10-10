@@ -1,0 +1,25 @@
+{
+  "comment": "Two source gates, two egress paths, as draft-decide-run. `repeat`: a runner MUST evaluate these activations against input.lg this many times and check that every run's per-gate verdicts, master decisions and log trace equal `expected` and `log` (SPEC §7.5, rule 1). It then evaluates the same activations once against each `file` in `permutations` (relative to this vector's directory) and checks that the per-gate verdicts and master decisions equal `expected` (rule 2) and the log equals that entry's `log` (rule 3). Each activation here reaches one gate, so the pipe relation over the activated gates admits a single topological order and the permutation's log equals the top-level log. A determinism vector has no expected.json.",
+  "repeat": 3,
+  "permutations": [
+    {
+      "file": "permutations/reordered.lg",
+      "log": [
+        {"gate": "draft",  "verdict": "auto"},
+        {"gate": "decide", "verdict": "reserved"}
+      ]
+    }
+  ],
+  "activations": [
+    {"actor": "bot7", "source": "draft",  "token": {"id": "t1", "kind": "routine", "risk": "low", "party": "deployer", "provenance": []}},
+    {"actor": "bot7", "source": "decide", "token": {"id": "t2", "kind": "automated_decision", "risk": "high", "party": "controller", "provenance": []}}
+  ],
+  "expected": {
+    "draft":  {"verdict": "auto",     "master": "act"},
+    "decide": {"verdict": "reserved", "master": "withhold"}
+  },
+  "log": [
+    {"gate": "draft",  "verdict": "auto"},
+    {"gate": "decide", "verdict": "reserved"}
+  ]
+}

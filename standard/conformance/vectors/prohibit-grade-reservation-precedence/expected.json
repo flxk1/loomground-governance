@@ -1,0 +1,15 @@
+{
+  "nodes": [
+    {"id": "bot", "class": "actor", "grade": "L6"},
+    {"id": "legal", "class": "human", "role": "legal"},
+    {"id": "decide", "class": "gate", "risk_floor": "high", "grade_required": "L2"},
+    {"id": "master", "class": "master"}
+  ],
+  "cords": [
+    {"from": "bot", "to": "decide", "type": "authority"},
+    {"from": "decide", "to": "master", "type": "egress"}
+  ],
+  "reservations": [
+    {"kind": "deploy", "by": "legal"}
+  ]
+}

@@ -65,7 +65,7 @@
         "properties": {
           "kind": {"type": "string"},
           "by": {"type": "string", "description": "role, conjunction, or m-of-n target"},
-          "when": {"type": "string", "description": "guard over {kind,risk,party,tags}; never id/provenance"},
+          "when": {"type": "string", "description": "guard over {kind,risk,reversibility,uncertainty,party,tags}; never id/provenance"},
           "duration": {"type": "string"},
           "on_elapse": {"enum": ["halt", "proceed"]}
         }
@@ -79,7 +79,7 @@
         "additionalProperties": false,
         "properties": {
           "kind": {"type": "string"},
-          "when": {"type": "string", "description": "guard over {kind,risk,party,tags}; never id/provenance"}
+          "when": {"type": "string", "description": "guard over {kind,risk,reversibility,uncertainty,party,tags}; never id/provenance"}
         }
       }
     },

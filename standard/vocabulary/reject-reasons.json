@@ -1,0 +1,25 @@
+{
+  "describes": "The closed set of machine-checkable rejection reason codes a negative conformance vector's reject.json MAY carry in its `reason` field, alongside the required `stage` (parse|apply). A runner that checks only `stage` passes an evaluator that rejects for the wrong cause; `reason` lets a runner check why.",
+  "codes": [
+    {"code": "PARSE_ERROR", "meaning": "the input does not conform to the grammar (grammar/loomground.ebnf); rejected at parse"},
+    {"code": "RACK_UNKNOWN", "meaning": "a rack-use names a rack that is not declared; the expansion pre-pass fails at parse"},
+    {"code": "RACK_ARITY", "meaning": "a rack-use omits a binding the rack declares; the expansion pre-pass fails at parse"},
+    {"code": "NON_CONFORMING_CORD", "meaning": "a cord's endpoint pairing is not one of actor→gate, gate→gate, gate→master (SPEC §5.1) — includes a human as a cord endpoint and an actor cording directly to the master"},
+    {"code": "UNDECLARED_NODE", "meaning": "a cord, on-behalf-of binding, or declaration (including an egress obligation's `on <gate>`) names a node that is not declared in the graph"},
+    {"code": "PIPE_CYCLE", "meaning": "the pipe relation is not acyclic (SPEC §5.1)"},
+    {"code": "OBO_CYCLE", "meaning": "the on-behalf-of relation is not acyclic — a cycle in the principal chain (SPEC §6)"},
+    {"code": "OBO_DUPLICATE_DELEGATOR", "meaning": "an actor declares more than one on-behalf-of delegator (SPEC §6)"},
+    {"code": "GUARD_DOMAIN_VIOLATION", "meaning": "a guard ranges outside {kind, risk, reversibility, uncertainty, party, tags} — including a guard over `id` or `provenance` (SPEC §6)"},
+    {"code": "GUARD_PAIRING_INVALID", "meaning": "a guard pairs a field with an operator the guard-domain vocabulary does not permit for it (e.g. `contains` on an ordered field) (vocabulary/guard-domain.json)"},
+    {"code": "GRADE_OUT_OF_DOMAIN", "meaning": "a declared grade (granted or required) is not a member of the active autonomy ladder (SPEC §6)"},
+    {"code": "GRADE_AMPLIFICATION", "meaning": "a delegate's granted grade is above its delegator's on the active ladder, including a graded delegate under an ungraded delegator — the no-amplification invariant applied to grade (SPEC §6)"},
+    {"code": "RISK_AMPLIFICATION", "meaning": "a delegate's granted risk set over a kind at a gate is not a subset of its delegator's there, including a delegate granted where its delegator holds no grant — the no-amplification invariant (SPEC §6)"},
+    {"code": "RISK_OUT_OF_DOMAIN", "meaning": "a declared risk value (gate floor, token hint) is outside low < medium < high < critical (SPEC §4)"},
+    {"code": "REVERSIBILITY_OUT_OF_DOMAIN", "meaning": "a declared or guarded reversibility value is outside the active reversibility scale (vocabulary/reversibility.json)"},
+    {"code": "MANDATE_WIDENING", "meaning": "a delegate's mandate is not a subset of its delegator's, including a delegate with a mandate under a mandate-less delegator — the mandate-attenuation invariant (SPEC §6)"},
+    {"code": "MANDATE_DUPLICATE", "meaning": "an actor declares more than one mandate (SPEC §6)"},
+    {"code": "CONSIGNEE_NOT_TERMINAL", "meaning": "a consignee is declared on a gate that is not terminal (SPEC §6)"},
+    {"code": "TRANSFER_WIDENING", "meaning": "a transfer's purpose set is not a subset of a consigning actor's mandate, including an unmandated consigning actor — the transfer-attenuation invariant (SPEC §6)"},
+    {"code": "TRANSFER_DANGLING_CONSIGNEE", "meaning": "a transfer names a consignee no gate declares (SPEC §6)"}
+  ]
+}
