@@ -45,8 +45,10 @@ files and chokes on it.
 
 A feature change is complete only when the spec, the grammar, the schemas, the
 vocabulary, `llms.txt`, and a conformance vector agree — the lockstep gate
-fails otherwise. A conformance claim is real only when both independent
-implementations reproduce every vector (specification, Conformance §9).
+fails otherwise. A conformance claim is real only when the existing
+implementations reproduce every vector; their independence from each other
+is open (specification, Conformance §9; `standard/conformance/README.md`,
+Status).
 
 ## Versioning
 
