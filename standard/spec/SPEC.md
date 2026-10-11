@@ -4,7 +4,7 @@
 
 ## A declarative language for the governance of AI systems and AI agents
 
-**Specification — Version 0.11.2 (stable).**
+**Specification — Version 0.11.3 (stable).**
 
 ## Abstract
 

@@ -2,6 +2,13 @@
 <!-- Copyright 2026 flxk1 -->
 # Changelog
 
+## 0.12.1 (2026-10-11)
+
+### Documentation
+
+* standard/ mirrors loomground v0.11.3: citations of external works in `spec/SPEC.md` and `vocabulary/grounding.json` corrected against the sources (W3C Process §6.3.2, RFC 9162, AI Act Art. 3(4), XACML App. C.2 and §7.2.2), and the grounder support gold 0.2.1 quotes the AI Act and GDPR as enacted (g01, g07, g14, g23, g29, g36). No language semantics change; `standard/CANONICAL` names loomground v0.11.3.
+* `docs/positioning.md`: OPA/Rego has no combining algorithm and no default deny, and conflicting complete rules are an evaluation error; the verdict lattice parallels XACML deny-overrides and Cedar forbid-overrides-permit.
+
 ## 0.12.0 (2026-10-10)
 
 ### Features

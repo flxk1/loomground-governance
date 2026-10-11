@@ -4,7 +4,7 @@
 
 ## A companion to the Loomground specification: the textual surface
 
-**Companion — Version 0.11.2 (stable).**
+**Companion — Version 0.11.3 (stable).**
 
 ## Abstract
 

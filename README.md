@@ -11,7 +11,7 @@ Programs need the language as data, and copies drift from the spec. The spec as 
 ## Install
 
 ```
-pip install "loomground-governance @ git+https://github.com/flxk1/loomground-governance@loomground-governance-v0.12.0"
+pip install "loomground-governance @ git+https://github.com/flxk1/loomground-governance@loomground-governance-v0.12.1"
 ```
 
 Pin: `loomground-governance>=0.11,<0.12`.
@@ -21,7 +21,7 @@ Pin: `loomground-governance>=0.11,<0.12`.
 
 ```python
 import loomground_governance as lg
-lg.language_version()        # "0.12.0"
+lg.language_version()        # "0.12.1"
 lg.vocabulary("verdicts")    # standard/vocabulary/verdicts.json
 lg.run_conformance(impl)     # impl: a LoomgroundImplementation
 ```
@@ -31,7 +31,7 @@ lg.run_conformance(impl)     # impl: a LoomgroundImplementation
 
 ```
 in : import loomground_governance as lg; lg.language_version(); lg.vocabulary("verdicts")["alphabet"]
-out: language_version: 0.12.0
+out: language_version: 0.12.1
      verdicts: ['auto', 'human', 'refused', 'reserved', 'prohibited']
 ```
 
@@ -78,7 +78,7 @@ Map, versioning, provenance, licensing: `docs/`.
 
 ## Status
 
-0.12.0 (stable) · standard = loomground spec v0.11.2 (mirrored from `loomground` v0.11.2, pinned in `standard/CANONICAL`) · 75 conformance vectors · 14 claim-axes vectors · 36 tests · 12 CI jobs · Python ≥ 3.10. §9 independence criterion open: `standard/conformance/README.md`.
+0.12.1 (stable) · standard = loomground spec v0.11.3 (mirrored from `loomground` v0.11.3, pinned in `standard/CANONICAL`) · 75 conformance vectors · 14 claim-axes vectors · 36 tests · 12 CI jobs · Python ≥ 3.10. §9 independence criterion open: `standard/conformance/README.md`.
 
 ## How this is made
 
