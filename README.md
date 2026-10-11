@@ -14,7 +14,7 @@ Programs need the language as data, and copies drift from the spec. The spec as 
 pip install "loomground-governance @ git+https://github.com/flxk1/loomground-governance@loomground-governance-v0.12.1"
 ```
 
-Pin: `loomground-governance>=0.11,<0.12`.
+Pin: `loomground-governance>=0.12,<0.13`.
 
 ## Usage
 
