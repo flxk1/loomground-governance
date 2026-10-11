@@ -26,7 +26,7 @@ The language card, conformance manifest, and Python package share one PEP 440
 version. Maturity is a separate machine-readable `status`; draft builds use
 alpha releases rather than mutable `.dev` versions. Before 1.0, a minor version
 may change compatibility and a patch version is backward-compatible. Dependent
-tools may now declare `loomground-governance>=0.11,<0.12` (each pre-1.0 minor is its own compatibility band, so pin to the current minor).
+tools may now declare `loomground-governance>=0.12,<0.13` (each pre-1.0 minor is its own compatibility band, so pin to the current minor).
 
 The three version axes (package/release, contract/protocol, plugin/distribution)
 and the release flow: `RELEASING.md`.
