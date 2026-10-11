@@ -227,7 +227,7 @@ contract, above) pinning what MUST be rejected, fail-closed, and why:
 
 ## Status
 
-Aligned to specification v0.11.2 (stable). This repository — `loomground` — carries
+Aligned to specification v0.11.3 (stable). This repository — `loomground` — carries
 only the language: `spec/`, `grammar/`, `schema/`, `vocabulary/`, and this
 `conformance/` directory. It contains no implementation of its own; the
 non-normative companion skill under `skills/loomground/` is a generator that
