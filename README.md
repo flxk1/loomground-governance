@@ -66,9 +66,9 @@ An activation of `decide` at risk high yields `reserved`; the master withholds u
 
 ## Family
 
-The governance-language plane. `standard/` is [`loomground`](https://github.com/flxk1/loomground) **v0.11.2**, pinned in `standard/CANONICAL`; `tools/check_canonical.py` proves content equality against that tag in CI. What only a plane has: the `loomground_governance` kit (`artifacts`, `conformance` runner, `protocol`, `roles`), the companions, `check_language_summary` (one version), `check_lockstep` (every declaration reaches grammar, schema, vector), and the `loomground` authoring skill. No parser, evaluator, or host adapter.
+The governance-language plane. `standard/` is [`loomground`](https://github.com/flxk1/loomground) **v0.11.3**, pinned in `standard/CANONICAL`; `tools/check_canonical.py` proves content equality against that tag in CI. What only a plane has: the `loomground_governance` kit (`artifacts`, `conformance` runner, `protocol`, `roles`), the companions, `check_language_summary` (one version), `check_lockstep` (every declaration reaches grammar, schema, vector), and the `loomground` authoring skill. No parser, evaluator, or host adapter.
 
-- Consumes: `loomground` v0.11.2 (the standard).
+- Consumes: `loomground` v0.11.3 (the standard).
 - Consumed by: `loomground-solver`, `loomground-versum`, implementations via `run_conformance`.
 - Release order: `loomground` first; then re-pin here.
 - Pipeline: `source → loomground-ingest → loomground-versum → loomground-solver → applied or diagnostic planes`; every stage grounds governance here.

@@ -11,7 +11,7 @@ This repository carries three version numbers that look similar but answer diffe
 questions, and none of them should be collapsed into another:
 
 1. **Package/release** — `pyproject.toml`, `standard/language-card.json`, and
-   `standard/conformance/manifest.json` share one number (currently `0.11.2`). This is
+   `standard/conformance/manifest.json` share one number (currently `0.12.1`). This is
    the version this document's release flow manages.
    `tools/check_language_summary.py` gates that the three stay equal, and that
    `standard/grammar/tree-sitter/tree-sitter.json`'s own `metadata.version` matches too.
