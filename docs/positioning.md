@@ -13,9 +13,12 @@ general incumbent:
 
 - **Decision and combining.** The verdict lattice
   (`auto → human → refused → reserved → prohibited`, joined as "most restrictive
-  wins", with `prohibited` overriding any grant) is the deny-overrides combining
-  algorithm of **OASIS XACML 3.0**, **AWS Cedar**, and **OPA/Rego**; `refused` is
-  their deny-biased indeterminate / fail-safe default.
+  wins", with `prohibited` overriding any grant) parallels the deny-overrides
+  combining algorithm of **OASIS XACML 3.0** and the forbid-overrides-permit rule
+  of **AWS Cedar**; `refused` parallels their default deny (in XACML, the
+  deny-biased PEP). **OPA/Rego** has no combining algorithm and no default deny —
+  conflicting complete rules are an evaluation error — so there the same result
+  must be written into the policy (for example `default allow := false`).
 - **Obligations.** `egress-obligation` — the master releases only when a named
   duty is attached — is XACML obligations and **W3C ODRL** duties.
 - **Attenuating delegation.** `on-behalf-of` on an authority cord, bound by a
