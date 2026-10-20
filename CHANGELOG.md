@@ -2,6 +2,12 @@
 <!-- Copyright 2026 flxk1 -->
 # Changelog
 
+## 0.12.2 (2026-10-20)
+
+### Documentation
+
+* standard/ mirrors loomground v0.11.4: the conformance vector `guard-risk-above-threshold` runs a `critical` token against a `risk >= high` reservation (76 vectors), `spec/SPEC.md` §11 cites ISO/IEC 22989 for levels of automation, and the construct is called a grade wherever the prose names it (the keyword `grade` and the identifier `autonomy-grade` are unchanged). `llms.txt` follows. No language semantics change; `standard/CANONICAL` names loomground v0.11.4.
+
 ## 0.12.1 (2026-10-11)
 
 ### Documentation

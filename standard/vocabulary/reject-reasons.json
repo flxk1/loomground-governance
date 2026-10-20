@@ -11,7 +11,7 @@
     {"code": "OBO_DUPLICATE_DELEGATOR", "meaning": "an actor declares more than one on-behalf-of delegator (SPEC §6)"},
     {"code": "GUARD_DOMAIN_VIOLATION", "meaning": "a guard ranges outside {kind, risk, reversibility, uncertainty, party, tags} — including a guard over `id` or `provenance` (SPEC §6)"},
     {"code": "GUARD_PAIRING_INVALID", "meaning": "a guard pairs a field with an operator the guard-domain vocabulary does not permit for it (e.g. `contains` on an ordered field) (vocabulary/guard-domain.json)"},
-    {"code": "GRADE_OUT_OF_DOMAIN", "meaning": "a declared grade (granted or required) is not a member of the active autonomy ladder (SPEC §6)"},
+    {"code": "GRADE_OUT_OF_DOMAIN", "meaning": "a declared grade (granted or required) is not a member of the active grade ladder (SPEC §6)"},
     {"code": "GRADE_AMPLIFICATION", "meaning": "a delegate's granted grade is above its delegator's on the active ladder, including a graded delegate under an ungraded delegator — the no-amplification invariant applied to grade (SPEC §6)"},
     {"code": "RISK_AMPLIFICATION", "meaning": "a delegate's granted risk set over a kind at a gate is not a subset of its delegator's there, including a delegate granted where its delegator holds no grant — the no-amplification invariant (SPEC §6)"},
     {"code": "RISK_OUT_OF_DOMAIN", "meaning": "a declared risk value (gate floor, token hint) is outside low < medium < high < critical (SPEC §4)"},

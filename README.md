@@ -11,7 +11,7 @@ Programs need the language as data, and copies drift from the spec. The spec as 
 ## Install
 
 ```
-pip install "loomground-governance @ git+https://github.com/flxk1/loomground-governance@loomground-governance-v0.12.1"
+pip install "loomground-governance @ git+https://github.com/flxk1/loomground-governance@loomground-governance-v0.12.2"
 ```
 
 Pin: `loomground-governance>=0.12,<0.13`.
@@ -21,7 +21,7 @@ Pin: `loomground-governance>=0.12,<0.13`.
 
 ```python
 import loomground_governance as lg
-lg.language_version()        # "0.12.1"
+lg.language_version()        # "0.12.2"
 lg.vocabulary("verdicts")    # standard/vocabulary/verdicts.json
 lg.run_conformance(impl)     # impl: a LoomgroundImplementation
 ```
@@ -31,7 +31,7 @@ lg.run_conformance(impl)     # impl: a LoomgroundImplementation
 
 ```
 in : import loomground_governance as lg; lg.language_version(); lg.vocabulary("verdicts")["alphabet"]
-out: language_version: 0.12.1
+out: language_version: 0.12.2
      verdicts: ['auto', 'human', 'refused', 'reserved', 'prohibited']
 ```
 
@@ -58,7 +58,7 @@ An activation of `decide` at risk high yields `reserved`; the master withholds u
 | `standard/grammar/` | `loomground.ebnf` (ISO/IEC 14977), `tree-sitter/` |
 | `standard/schema/` | JSON Schemas: token, patch, observation, transport |
 | `standard/vocabulary/` | node classes, cords, verdicts, declarations, guards, grades, roles, grounding |
-| `standard/conformance/` | 75 vectors, `manifest.json` |
+| `standard/conformance/` | 76 vectors, `manifest.json` |
 | `standard/companions/claim-axes/` | 14 vectors |
 | `standard/language-card.json`, `llms.txt` | language as data; agent entry |
 | `src/loomground_governance/` | `LoomgroundImplementation`, `run_conformance`, `canonicalize_role`, loaders |
@@ -66,9 +66,9 @@ An activation of `decide` at risk high yields `reserved`; the master withholds u
 
 ## Family
 
-The governance-language plane. `standard/` is [`loomground`](https://github.com/flxk1/loomground) **v0.11.3**, pinned in `standard/CANONICAL`; `tools/check_canonical.py` proves content equality against that tag in CI. What only a plane has: the `loomground_governance` kit (`artifacts`, `conformance` runner, `protocol`, `roles`), the companions, `check_language_summary` (one version), `check_lockstep` (every declaration reaches grammar, schema, vector), and the `loomground` authoring skill. No parser, evaluator, or host adapter.
+The governance-language plane. `standard/` is [`loomground`](https://github.com/flxk1/loomground) **v0.11.4**, pinned in `standard/CANONICAL`; `tools/check_canonical.py` proves content equality against that tag in CI. What only a plane has: the `loomground_governance` kit (`artifacts`, `conformance` runner, `protocol`, `roles`), the companions, `check_language_summary` (one version), `check_lockstep` (every declaration reaches grammar, schema, vector), and the `loomground` authoring skill. No parser, evaluator, or host adapter.
 
-- Consumes: `loomground` v0.11.3 (the standard).
+- Consumes: `loomground` v0.11.4 (the standard).
 - Consumed by: `loomground-solver`, `loomground-versum`, implementations via `run_conformance`.
 - Release order: `loomground` first; then re-pin here.
 - Pipeline: `source → loomground-ingest → loomground-versum → loomground-solver → applied or diagnostic planes`; every stage grounds governance here.
@@ -78,7 +78,7 @@ Map, versioning, provenance, licensing: `docs/`.
 
 ## Status
 
-0.12.1 (stable) · standard = loomground spec v0.11.3 (mirrored from `loomground` v0.11.3, pinned in `standard/CANONICAL`) · 75 conformance vectors · 14 claim-axes vectors · 36 tests · 12 CI jobs · Python ≥ 3.10. §9 independence criterion open: `standard/conformance/README.md`.
+0.12.2 (stable) · standard = loomground spec v0.11.4 (mirrored from `loomground` v0.11.4, pinned in `standard/CANONICAL`) · 76 conformance vectors · 14 claim-axes vectors · 36 tests · 12 CI jobs · Python ≥ 3.10. §9 independence criterion open: `standard/conformance/README.md`.
 
 ## How this is made
 

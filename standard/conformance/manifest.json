@@ -1,11 +1,11 @@
 {
-  "version": "0.12.1",
+  "version": "0.12.2",
   "describes": "Conformance vectors that define a conforming implementation (specification, Conformance).",
   "kinds": {
     "patch": "input.lg + expected.json [+ transport.json]",
     "token": "tokens.json: a list of {valid, token}",
     "negative": "input.lg + reject.json: {stage: parse|apply}",
-    "determinism": "input.lg + transport.json {repeat, permutations[{file, log}], activations, expected, log}: no expected.json (declaration order affects the static observation by construction); a runner repeats and permutes itself — verdicts and decisions MUST equal expected for every run and permutation, the log MUST equal log on every repeat and each permutation's own log, which follows the SPEC §7.4 tie-break for that declaration order (SPEC §7.5; conformance/README.md, Determinism vectors)"
+    "determinism": "input.lg + transport.json {repeat, permutations[{file, log}], activations, expected, log}: no expected.json (declaration order affects the static observation by construction); a runner repeats and permutes itself \u2014 verdicts and decisions MUST equal expected for every run and permutation, the log MUST equal log on every repeat and each permutation's own log, which follows the SPEC \u00a77.4 tie-break for that declaration order (SPEC \u00a77.5; conformance/README.md, Determinism vectors)"
   },
   "vectors": [
     {
@@ -597,6 +597,15 @@
       "files": [
         "expected.json",
         "input.lg"
+      ]
+    },
+    {
+      "name": "guard-risk-above-threshold",
+      "kind": "patch",
+      "files": [
+        "expected.json",
+        "input.lg",
+        "transport.json"
       ]
     },
     {

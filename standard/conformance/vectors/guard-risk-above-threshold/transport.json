@@ -1,0 +1,18 @@
+{
+  "comment": "above: critical, past the guard's threshold -> reserved. at: high, the threshold itself -> reserved. below: medium -> auto. An evaluator that reads `>=` as `=` releases the critical token and fails here; no other vector distinguishes the two readings.",
+  "activations": [
+    {"actor": "bot7", "source": "above", "token": {"id": "t1", "kind": "automated_decision", "risk": "critical", "party": "controller", "provenance": []}},
+    {"actor": "bot7", "source": "at",    "token": {"id": "t2", "kind": "automated_decision", "risk": "high",     "party": "controller", "provenance": []}},
+    {"actor": "bot7", "source": "below", "token": {"id": "t3", "kind": "automated_decision", "risk": "medium",   "party": "controller", "provenance": []}}
+  ],
+  "expected": {
+    "above": {"verdict": "reserved", "master": "withhold"},
+    "at":    {"verdict": "reserved", "master": "withhold"},
+    "below": {"verdict": "auto",     "master": "act"}
+  },
+  "log": [
+    {"gate": "above", "verdict": "reserved"},
+    {"gate": "at",    "verdict": "reserved"},
+    {"gate": "below", "verdict": "auto"}
+  ]
+}
