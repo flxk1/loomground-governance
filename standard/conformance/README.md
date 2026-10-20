@@ -14,7 +14,7 @@ A patch vector's `expected.json` records the **observation** of a policy graph:
 - `nodes` — `{id, class}` for each node (`class` ∈ `actor` | `human` | `gate` |
   `master`); a `human` carries its `role`, a `gate` its `risk_floor` and, if declared,
   its `grade_required` (a graded gate is a source gate); an `actor` carries its `grade`
-  (the granted autonomy grade) and its `on_behalf_of` (its delegator — one link of the
+  (the granted grade) and its `on_behalf_of` (its delegator — one link of the
   principal chain) if declared; an `actor` or `gate` carries its `party` — on a
   partyless delegate, resolved along the chain. Listed in declaration order, the
   master last.
@@ -227,7 +227,7 @@ contract, above) pinning what MUST be rejected, fail-closed, and why:
 
 ## Status
 
-Aligned to specification v0.11.3 (stable). This repository — `loomground` — carries
+Aligned to specification v0.11.4 (stable). This repository — `loomground` — carries
 only the language: `spec/`, `grammar/`, `schema/`, `vocabulary/`, and this
 `conformance/` directory. It contains no implementation of its own; the
 non-normative companion skill under `skills/loomground/` is a generator that

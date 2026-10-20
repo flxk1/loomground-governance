@@ -1,0 +1,16 @@
+# guard-risk-above-threshold — a `risk >=` guard is an order, not an equality
+# (§4, §6). One gate per case: a token above the threshold, one at it, one
+# below. The first is the load-bearing one: every other run against a `>=`
+# risk guard sits at the threshold value, where `>=` and `=` coincide.
+actor  bot7
+human  alice  role legal
+gate   above  risk low  grant bot7
+gate   at     risk low  grant bot7
+gate   below  risk low  grant bot7
+reserve automated_decision by legal when risk >= high
+cord bot7 -> above
+cord bot7 -> at
+cord bot7 -> below
+cord above -> master
+cord at    -> master
+cord below -> master

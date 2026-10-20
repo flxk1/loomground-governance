@@ -22,7 +22,7 @@ gate g risk high grant bot
         actor: (id)))))
 
 ==================
-autonomy grade on actor (granted) and gate (required)
+grade on actor (granted) and gate (required)
 ==================
 actor bot grade L3
 gate decide risk low grade L2 grant bot

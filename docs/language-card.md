@@ -2,7 +2,7 @@
 <!-- Copyright 2026 flxk1 -->
 # Loomground `.lg` reference card
 
-Rendered from `standard/vocabulary/*.json` and `standard/spec/SYNTAX.md` (loomground spec v0.11.3, mirrored from `loomground` v0.11.3).
+Rendered from `standard/vocabulary/*.json` and `standard/spec/SYNTAX.md` (loomground spec v0.11.4, mirrored from `loomground` v0.11.4).
 
 
 **Nodes**
